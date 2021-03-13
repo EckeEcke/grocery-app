@@ -1,5 +1,5 @@
 <template>
-  <nav class="navbar position-fixed bg-dark" style="width: 100vw; max-width: 500px; min-height: 100%; position: fixed; right: 0; top: 0">
+  <nav class="navbar bg-dark" style="width: 100vw; max-width: 500px; min-height: 100%; position: absolute; right: 0; top: 0">
     <div>
     <ul>
       <li class="px-5 py-3 bg-light mb-1 ml-5">Home</li>
@@ -26,7 +26,7 @@ export default {
     ul {
         width: 99vw;
         max-width: 490px;
-        margin-top: 50px;
+        margin-top: 75px;
         margin-left: 2px;
     }
 

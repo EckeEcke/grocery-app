@@ -29,6 +29,13 @@
     <br />
     <br />
 
+    <div class="bg-white w-75 px-3 py-4 mx-auto rounded" style="max-width: 500px" v-if="groceryList.length == 0 && mealList.length == 0">
+      <p>👩‍🍳 Plan your meals <span style="color: green">✔</span></p>
+      <p>📝 Create a grocery list <span style="color: green">✔</span></p>
+
+    </div>
+
+
     <div class="container">
       <div class="row justify-content-center">
         <Meallist
@@ -66,8 +73,8 @@ export default {
   },
   data: function () {
     return {
-      mealList: [],
-      groceryList: [],
+      mealList: JSON.parse(localStorage.getItem("meallist")) || [],
+      groceryList: JSON.parse(localStorage.getItem("grocerylist")) || [],
       menuShown: false,
       newMeal: "",
       newGroceryItem: "",
@@ -83,6 +90,7 @@ export default {
       this.mealList.push({ name: this.newMeal, id: this.globalID });
       this.globalID += 1;
       localStorage.setItem("globalID", this.globalID);
+      localStorage.setItem("meallist", JSON.stringify(this.mealList));
       this.newMeal = "";
       console.log(this.mealList);
     },
@@ -90,6 +98,7 @@ export default {
       this.groceryList.push({ name: this.newGroceryItem, id: this.globalID });
       this.globalID += 1;
       localStorage.setItem("globalID", this.globalID);
+      localStorage.setItem("grocerylist", JSON.stringify(this.groceryList));
       this.newGroceryItem = "";
       console.log(this.groceryList);
       console.log(this.globalID);
@@ -107,12 +116,14 @@ export default {
       let confirmed = confirm("Do you really want to delete your list?");
       if (confirmed) {
         this.mealList = [];
+        localStorage.removeItem("meallist");
       }
     },
     deleteGrocerylist: function () {
       let confirmed = confirm("Do you really want to delete your list?");
       if (confirmed) {
         this.groceryList = [];
+        localStorage.removeItem("grocerylist");
       }
     },
     deleteSingleItem: function (array, element) {
@@ -122,12 +133,16 @@ export default {
         })
         .indexOf(element);
       array.splice(index, 1);
+      localStorage.setItem("meallist", JSON.stringify(this.mealList));
+      localStorage.setItem("grocerylist", JSON.stringify(this.groceryList));
+
     },
   },
 };
 </script>
 
 <style>
+
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -140,7 +155,7 @@ export default {
 }
 
 #toggle-nav-BTN {
-  position: fixed;
+  position: absolute;
   right: 10px;
   top: 10px;
 }
@@ -152,5 +167,9 @@ li {
 ul {
   /*margin: 0;*/
   padding: 0;
+}
+
+p {
+  font-size: 1.5em;
 }
 </style>

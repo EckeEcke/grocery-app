@@ -29,7 +29,7 @@
     <br />
     <br />
 
-    <div class="bg-white w-75 px-3 py-4 mx-auto rounded" style="max-width: 500px" v-if="groceryList.length == 0 && mealList.length == 0">
+    <div class="bg-white px-3 py-4 mx-auto rounded mb-5" style="width: 500px; max-width: 90vw" v-if="groceryList.length == 0 && mealList.length == 0">
       <p>👩‍🍳 Plan your meals <span style="color: green">✔</span></p>
       <p>📝 Create a grocery list <span style="color: green">✔</span></p>
 

@@ -1,9 +1,16 @@
 <template>
-  <div id="app" class="pt-5">
+  <div id="app">
     <Navbar v-if="menuShown" />
-    <button id="toggle-nav-BTN" class="btn" style="font-size: 2.5em" @click="showMenu">🍔</button>
+    <button
+      id="toggle-nav-BTN"
+      class="btn"
+      style="font-size: 2.5em"
+      @click="showMenu"
+    >
+      🍔
+    </button>
 
-    <h1 class="p-5 text-white pt-5">Meal Planner</h1>
+    <h1 class="p-5 text-white mb-5">Meal Planner</h1>
     <form
       action="post"
       class="d-grid gap-2"
@@ -29,12 +36,14 @@
     <br />
     <br />
 
-    <div class="bg-white px-3 py-4 mx-auto rounded mb-5" style="width: 500px; max-width: 90vw" v-if="groceryList.length == 0 && mealList.length == 0">
+    <div
+      class="bg-white px-3 py-4 mx-auto rounded mb-5"
+      style="width: 500px; max-width: 90vw"
+      v-if="groceryList.length == 0 && mealList.length == 0"
+    >
       <p>👩‍🍳 Plan your meals <span style="color: green">✔</span></p>
       <p>📝 Create a grocery list <span style="color: green">✔</span></p>
-
     </div>
-
 
     <div class="container">
       <div class="row justify-content-center">
@@ -135,13 +144,27 @@ export default {
       array.splice(index, 1);
       localStorage.setItem("meallist", JSON.stringify(this.mealList));
       localStorage.setItem("grocerylist", JSON.stringify(this.groceryList));
-
     },
   },
 };
 </script>
 
 <style>
+@font-face {
+  font-family: "niceFont";
+  src: url("./assets/niceFont.ttf");
+}
+
+h1 {
+  font-family: niceFont;
+
+  background-image: linear-gradient(
+      to bottom,
+      rgba(23, 23, 24, 0.52),
+      rgba(31, 21, 28, 0.73)
+    ),
+    url("./assets/food-header.jpg");
+}
 
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
@@ -156,8 +179,8 @@ export default {
 
 #toggle-nav-BTN {
   position: absolute;
-  right: 10px;
-  top: 10px;
+  right: 2px;
+  top: 2px;
 }
 
 li {

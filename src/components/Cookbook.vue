@@ -10,7 +10,7 @@
         </button>
       </div>
       <div class="col-1">
-        <button class="btn btn-danger align-bottom" @click="function2(listData,dish.id)">X</button>
+        <button class="btn btn-danger align-bottom" @click="function3(listData,dish.id)">X</button>
         </div>
       </div>
     </div>
@@ -38,6 +38,9 @@ export default {
       type: Function,
     },
     function2: {
+        type: Function,
+    },
+    function3: {
         type: Function,
     },
     someFunction: {

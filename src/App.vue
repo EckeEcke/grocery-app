@@ -78,6 +78,7 @@
           :function="showCookbook"
           :someFunction="pushNewMealfromCookbook"
           :function2="deleteCookbook"
+          :function3="deleteSingleItem"
       
         />
       </div>
@@ -121,8 +122,8 @@ export default {
     },
     pushNewMeal: function () {
       this.mealList.push({ name: this.newMeal, id: this.globalID });
+      this.globalID += 1;
       this.cookBook.push({ name: this.newMeal, id: this.globalID });
-      console.log(this.cookBook);
       this.globalID += 1;
       localStorage.setItem("globalID", this.globalID);
       localStorage.setItem("meallist", JSON.stringify(this.mealList));

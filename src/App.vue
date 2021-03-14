@@ -44,7 +44,7 @@
       <p>👩‍🍳 Plan your meals <span style="color: green">✔</span></p>
       <p>📝 Create a grocery list <span style="color: green">✔</span></p>
       <button
-        class="btn btn-primary"
+        class="btn btn-primary my-3"
         v-if="this.cookBook.length > 0"
         @click="showCookbook"
       >

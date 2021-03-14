@@ -1,26 +1,24 @@
 <template>
-  <div class="col-lg-5 bg-light py-4 px-1 rounded mw-90 mb-5" style="max-width: 90vw">
+  <div class="col-sm-12 col-md-10 col-lg-5 bg-white py-4 px-2 rounded mw-90 mb-5" style="max-width: 90vw">
     <h3>Cook Book</h3>
     <p class="mt-4">Click a dish to add it to your meal list</p>
     <div class="container my-5">
-      <div class="row justify-content-center my-1" v-for="dish in this.listData" :key="dish.id">
-      <div class="col-10 col-md-11 bg-light text-nowrap overflow-hidden px-0">
-        <button class="btn btn-outline-success w-100" :key="dish.id" @click="someFunction(listData,dish.id)" >
+      <div class="row my-1 justify-content-center" v-for="dish in this.listData" :key="dish.id">
+      <div class="col-10 col-md-10 text-nowrap overflow-hidden  px-0 mx-0">
+        <button class="btn btn-outline-success w-100 px-0 mx-0" :key="dish.id" @click="someFunction(listData,dish.id)" >
           {{ dish.name }}
         </button>
       </div>
-      <div class="col-1">
-        <button class="btn btn-danger align-bottom" @click="function3(listData,dish.id)">X</button>
+      <div class="col-1 px-0 mx-0">
+        <button class="btn btn-secondary align-bottom" @click="function3(listData,dish.id)">X</button>
         </div>
       </div>
     </div>
-    
-    <button class="btn btn-outline-secondary mb-5" @click="this.function2">
+    <button class="btn btn-primary mb-1" @click="this.function">← Meal Plan</button>
+    <button class="btn btn-secondary mx-2 mb-1" @click="this.function2">
       🗑 Delete all
     </button>
     
-    <br>
-    <button class="btn btn-primary" @click="this.function">Back to Meal Planner</button>
   </div>
 </template>
 

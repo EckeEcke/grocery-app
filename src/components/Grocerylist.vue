@@ -1,16 +1,17 @@
 <template>
-  <div class="col-lg-4 bg-light p-4 rounded mw-90 mb-5" style="max-width: 90vw">
+  <div class="col-sm-12 col-md-10 col-lg-5 px-3 py-4 bg-white rounded mw-90 mb-5" style="max-width: 90vw;">
     <h3>Grocery List</h3>
-    <ul>
-      <li v-for="groceryItem in this.listData" :key="groceryItem.id">
-        <button class="btn btn-outline-success m-2 w-75" :key="groceryItem.id" @click="function2(listData,groceryItem.id)">
-          {{ groceryItem.name }}
-        </button>
-      </li>
-    </ul>
-    <button class="btn btn-outline-secondary mt-4" @click="this.function">
-      🗑 Delete all
-    </button>
+    <div class="container my-4">
+      <div class="row justify-content-center my-1" v-for="groceryItem in this.listData" :key="groceryItem.id">
+      <div class="col-10 col-md-11 bg-light pt-2 px-0 text-nowrap overflow-hidden">
+        <span>{{ groceryItem.name }}</span>
+      </div>
+      <div class="col-1">
+        <button class="btn btn-danger align-bottom" @click="function2(listData,groceryItem.id)">X</button>
+        </div>
+      </div>
+    </div>
+    <button class="btn btn-outline-secondary mt-4" @click="this.function">🗑 Delete list</button>
   </div>
 </template>
 
@@ -36,3 +37,12 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+
+  @media (max-width: 500px){
+    span, button {
+      font-size: 0.9em;
+    }
+  }
+</style>

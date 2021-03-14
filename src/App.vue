@@ -20,7 +20,7 @@
         class="form-control mb-2"
         type="text"
         v-model="newMeal"
-        placeholder="Add new meal"
+        placeholder="Add new dish"
         maxlength="30"
       />
       <input
@@ -39,29 +39,46 @@
     <div
       class="bg-white px-3 py-4 mx-auto rounded mb-5"
       style="width: 500px; max-width: 90vw"
-      v-if="groceryList.length == 0 && mealList.length == 0"
+      v-if="groceryList.length == 0 && mealList.length == 0 && !cookbookShown"
     >
       <p>👩‍🍳 Plan your meals <span style="color: green">✔</span></p>
       <p>📝 Create a grocery list <span style="color: green">✔</span></p>
+      <button
+        class="btn btn-primary"
+        v-if="this.cookBook.length > 0"
+        @click="showCookbook"
+      >
+        Open Cook Book
+      </button>
     </div>
 
     <div class="container">
       <div class="row justify-content-center">
         <Meallist
-          v-if="mealList.length > 0"
+          v-if="mealList.length > 0 && !cookbookShown"
           :mealList="mealList"
           :function="deleteMeallist"
           :function2="deleteSingleItem"
+          :function3="showCookbook"
         />
         <div
-          v-if="mealList.length > 0 && groceryList.length > 0"
+          v-if="mealList.length > 0 && groceryList.length > 0 && !cookbookShown"
           class="col-lg-1"
         ></div>
         <GroceryList
-          v-if="groceryList.length > 0"
+          v-if="groceryList.length > 0 && !cookbookShown"
           :groceryList="groceryList"
           :function="deleteGrocerylist"
           :function2="deleteSingleItem"
+        />
+        <Cookbook
+          v-if="cookbookShown"
+          :cookBook="cookBook"
+          :mealList="mealList"
+          :function="showCookbook"
+          :someFunction="pushNewMealfromCookbook"
+          :function2="deleteCookbook"
+      
         />
       </div>
     </div>
@@ -72,6 +89,7 @@
 import Navbar from "./components/Navigation.vue";
 import GroceryList from "./components/Grocerylist.vue";
 import Meallist from "./components/Meallist.vue";
+import Cookbook from "./components/Cookbook.vue";
 
 export default {
   name: "App",
@@ -79,15 +97,18 @@ export default {
     Navbar,
     GroceryList,
     Meallist,
+    Cookbook,
   },
   data: function () {
     return {
       mealList: JSON.parse(localStorage.getItem("meallist")) || [],
       groceryList: JSON.parse(localStorage.getItem("grocerylist")) || [],
       menuShown: false,
+      cookbookShown: false,
       newMeal: "",
       newGroceryItem: "",
       globalID: parseInt(localStorage.getItem("globalID")) || 0,
+      cookBook: JSON.parse(localStorage.getItem("cookbook")) || [],
     };
   },
 
@@ -95,11 +116,17 @@ export default {
     showMenu: function () {
       this.menuShown = !this.menuShown;
     },
+    showCookbook: function () {
+      this.cookbookShown = !this.cookbookShown;
+    },
     pushNewMeal: function () {
       this.mealList.push({ name: this.newMeal, id: this.globalID });
+      this.cookBook.push({ name: this.newMeal, id: this.globalID });
+      console.log(this.cookBook);
       this.globalID += 1;
       localStorage.setItem("globalID", this.globalID);
       localStorage.setItem("meallist", JSON.stringify(this.mealList));
+      localStorage.setItem("cookbook", JSON.stringify(this.cookBook));
       this.newMeal = "";
       console.log(this.mealList);
     },
@@ -111,6 +138,16 @@ export default {
       this.newGroceryItem = "";
       console.log(this.groceryList);
       console.log(this.globalID);
+    },
+    pushNewMealfromCookbook: function(array,element){
+      console.log("hi");
+      const index = array
+        .map(function (element) {
+          return element.id;
+        })
+        .indexOf(element);
+      this.mealList.push(this.cookBook[index]);
+      localStorage.setItem("meallist", JSON.stringify(this.mealList));    
     },
     formSubmit: function (event) {
       event.preventDefault();
@@ -133,6 +170,14 @@ export default {
       if (confirmed) {
         this.groceryList = [];
         localStorage.removeItem("grocerylist");
+      }
+    },
+    deleteCookbook: function(){
+      let confirmed = confirm("Do you really want to delete your list?");
+      if (confirmed) {
+        this.cookBook = [];
+        localStorage.removeItem("cookbook");
+        this.cookbookShown = false;
       }
     },
     deleteSingleItem: function (array, element) {
@@ -188,7 +233,6 @@ li {
 }
 
 ul {
-  /*margin: 0;*/
   padding: 0;
 }
 

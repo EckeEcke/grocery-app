@@ -2,16 +2,17 @@
   <div class="col-sm-12 col-md-10 col-lg-5 px-3 py-4 bg-white rounded mw-90 mb-5" style="max-width: 90vw;">
     <h3>Grocery List</h3>
     <div class="container my-4">
-      <div class="row my-1 justify-content-center" v-for="groceryItem in this.listData" :key="groceryItem.id">
+      <div v-if="this.plannedItems.length == 0">Add new items or choose from your item list</div>
+      <div class="row my-1 justify-content-center" v-for="groceryItem in this.plannedItems" :key="groceryItem.id">
       <div class="col-10 col-md-11 bg-light pt-2 px-0 mx-0 text-nowrap overflow-hidden">
         <span>{{ groceryItem.name }}</span>
       </div>
       <div class="col-1 px-0 mx-0">
-        <button class="btn btn-secondary align-bottom" @click="function2(listData,groceryItem.id)">X</button>
+        <button class="btn btn-success align-bottom" @click="function2(groceryItem.id)">✔</button>
         </div>
       </div>
     </div>
-    <button class="btn btn-secondary mt-4" @click="this.function">🗑 Delete list</button>
+    <button class="btn btn-primary mt-4" @click="this.function3">📖 Item List</button>
   </div>
 </template>
 
@@ -23,11 +24,11 @@ export default {
     groceryList: {
       type: Array,
     },
-    function: {
-      type: Function,
-    },
     function2: {
         type: Function
+    },
+    function3: {
+      type: Function
     }
   },
   data() {
@@ -35,6 +36,11 @@ export default {
       listData: this.groceryList,
     };
   },
+  computed: {
+    plannedItems: function(){
+      return this.groceryList.filter(item => item.planned == true);
+    }
+ }
 };
 </script>
 

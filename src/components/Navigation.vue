@@ -2,14 +2,13 @@
   <nav class="navbar bg-dark" style="width: 100vw; max-width: 500px; height: 100vh; position: fixed; right: 0; top: 0">
     <div>
     <ul>
-      <li class="p-5 py-3 mb-1"><a href="https://eckeecke.github.io/">Home</a></li>
-      <li class="p-5 py-3 mb-1"><a>React Travel Blog</a></li>
-      <li class="p-5 py-3 mb-1"><a>JS Space Shooter</a></li>
-      <li class="p-5 py-3 mb-1"><a>JS Pong</a></li>
-      <li class="p-5 py-3 mb-1"><a>React Todo App</a></li>
-      <li class="p-5 py-3 mb-1"><a>Drawing App</a></li>
-      <li class="p-5 py-3 mb-1"><a>Temple Looter</a></li>
-      <li class="p-5 py-3 mb-1"><a>Vue Meal Planner</a></li>
+      <li class="py-3"><a href="https://eckeecke.github.io/">Home</a></li>
+      <li class="py-3"><a href="https://nifty-hopper-c1da01.netlify.app/">React Travel Blog</a></li>
+      <li class="py-3"><a href="https://eckeecke.github.io/shooter.html">JS Space Shooter</a></li>
+      <li class="py-3"><a href="https://eckeecke.github.io/pong.html">JS Pong</a></li>
+      <li class="py-3"><a href="https://adoring-galileo-71fde2.netlify.app/">React Todo App</a></li>
+      <li class="py-3"><a href="https://eckeecke.github.io/newgame.html">Drawing App</a></li>
+      <li class="py-3"><a href="https://eckeecke.github.io/templelooter.html">Temple Looter</a></li>
     </ul>
     <button
       id="toggle-nav-BTN"
@@ -52,7 +51,7 @@ export default {
     ul {
         width: 100vw;
         max-width:450px;
-        margin-top: 60px;
+        margin-top: 50px;
         margin-left: 2px;
     }
 
@@ -61,6 +60,7 @@ export default {
       margin: 0 auto;
       color: white;
       border-bottom: 1px solid orange;
+      font-size: 3vh;
     }
 
     li:first-child {

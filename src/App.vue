@@ -1,7 +1,15 @@
 <template>
   <div id="app">
-    <Navbar v-if="menuShown" />
+    <transition name="fade">
+      <Navbar 
+        v-if="menuShown"
+        :menuShown="menuShown"
+        :toggleFunction="showMenu"
+      />
+    </transition>
+
     <button
+      v-if="!menuShown"
       id="toggle-nav-BTN"
       class="btn"
       style="font-size: 2.5em"
@@ -281,5 +289,12 @@ ul {
 
 p {
   font-size: 1.5em;
+}
+
+.fade-enter-active, .fade-leave-active {
+  transition: opacity .5s;
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  opacity: 0;
 }
 </style>

@@ -8,7 +8,7 @@
         <span>{{ groceryItem.name }}</span>
       </div>
       <div class="col-1 px-0 mx-0">
-        <button class="btn btn-success align-bottom" @click="function2(groceryItem.id)">✔</button>
+        <button class="btn btn-success align-bottom" @click="function2(groceryItem.name)">✔</button>
         </div>
       </div>
     </div>

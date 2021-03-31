@@ -3,14 +3,14 @@
     <h3>Supply List</h3>
     <p class="mt-4">Click an item to add it to your grocery list</p>
     <div class="container my-5">
-      <div class="row my-1 justify-content-center" v-for="item in this.sortedItems" :key="item.id">
+      <div class="row my-1 justify-content-center" v-for="item in this.sortedItems" :key="item.name">
       <div class="col-10 col-md-11 text-nowrap overflow-hidden  px-0 mx-0">
-        <button class="btn w-100 px-0 mx-0" :class="item.planned ? 'btn-success' : 'btn-outline-secondary'" :disabled="item.planned" :key="item.id" @click="someFunction(item.id)" >
+        <button class="btn w-100 px-0 mx-0" :class="item.planned ? 'btn-success' : 'btn-outline-secondary'" :key="item.name" @click="someFunction(item.name)" >
           {{ item.name }}
         </button>
       </div>
       <div class="col-1 px-0 mx-0">
-        <button class="btn btn-secondary align-bottom" @click="function3(listData,item.id)">X</button>
+        <button class="btn btn-secondary align-bottom" @click="function3(listData,item.name)">X</button>
         </div>
       </div>
     </div>

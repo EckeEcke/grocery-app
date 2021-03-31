@@ -116,6 +116,7 @@ import GroceryList from "./components/Grocerylist.vue";
 import Meallist from "./components/Meallist.vue";
 import Cookbook from "./components/Cookbook.vue";
 import Supplylist from "./components/Supplylist.vue";
+import supplylist from "./static/supplylist.json"
 
 
 export default {
@@ -129,13 +130,12 @@ export default {
   },
   data: function () {
     return {
-      groceryList: JSON.parse(localStorage.getItem("grocerylist")) || [],
+      groceryList: JSON.parse(localStorage.getItem("grocerylist")) || supplylist,
       menuShown: false,
       cookbookShown: false,
       itemlistShown: false,
       newMeal: "",
       newGroceryItem: "",
-      globalID: parseInt(localStorage.getItem("globalID")) || 0,
       cookBook: JSON.parse(localStorage.getItem("cookbook")) || [],
     };
   },
@@ -154,34 +154,30 @@ export default {
     pushNewMeal: function () {
       let index = this.cookBook.findIndex(item=>item.name===this.newMeal);
       if(index ==-1){
-        this.cookBook.push({ name: this.newMeal, id: this.globalID, planned: true });
-        this.globalID++;
+        this.cookBook.push({ name: this.newMeal, planned: true });
       } else {
         this.cookBook[index].planned = true;
       }
       
-      localStorage.setItem("globalID", this.globalID);
       localStorage.setItem("cookbook", JSON.stringify(this.cookBook));
       this.newMeal = "";
     },
     pushNewGroceryItem: function () {
       let index = this.groceryList.findIndex(item=>item.name===this.newGroceryItem);
       if(index == -1){
-        this.groceryList.push({ name: this.newGroceryItem, id: this.globalID, planned: true });
-        this.globalID++;
+        this.groceryList.push({ name: this.newGroceryItem, planned: true });
       } else {
         
         this.groceryList[index].planned = true;
         }
       
-      localStorage.setItem("globalID", this.globalID);
       localStorage.setItem("grocerylist", JSON.stringify(this.groceryList));
       this.newGroceryItem = "";
     },
     pushNewMealfromCookbook: function(array,element){
       const index = array
         .map(function (element) {
-          return element.id;
+          return element.name;
         })
         .indexOf(element);
       this.cookBook[index].planned = true;
@@ -189,9 +185,15 @@ export default {
     },
     pushNewItemfromList: function(element){
       const index = this.groceryList.map(function(element){
-        return element.id;
+        return element.name;
       }).indexOf(element);
-      this.groceryList[index].planned = true;
+      if(this.groceryList[index].planned == false){
+        this.groceryList[index].planned = true;
+      } else {
+        this.groceryList[index].planned = false;
+      }
+      
+      console.log(this.groceryList);
     },
     formSubmit: function (event) {
       event.preventDefault();
@@ -227,7 +229,7 @@ export default {
     deleteSingleItem: function (array, element) {
       const index = array
         .map(function (element) {
-          return element.id;
+          return element.name;
         })
         .indexOf(element);
       array.splice(index, 1);
@@ -237,7 +239,7 @@ export default {
 
      
       const indexCookbook = this.cookBook.map(function (element){
-        return element.id;
+        return element.name;
       }).indexOf(element);
       if(this.cookBook[indexCookbook]){
         this.cookBook[indexCookbook].planned = false;
@@ -247,7 +249,7 @@ export default {
   
   checkSingleItem: function (element) {
     const indexGrocerylist = this.groceryList.map(function(element){
-      return element.id;}).indexOf(element);
+      return element.name;}).indexOf(element);
     if(this.groceryList[indexGrocerylist]){
       this.groceryList[indexGrocerylist].planned = false;
     }

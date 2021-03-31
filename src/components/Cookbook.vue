@@ -3,14 +3,14 @@
     <h3>Cook Book</h3>
     <p class="mt-4">Click a dish to add it to your meal list</p>
     <div class="container my-5">
-      <div class="row my-1 justify-content-center" v-for="dish in this.listData" :key="dish.id">
+      <div class="row my-1 justify-content-center" v-for="dish in this.listData" :key="dish.name">
       <div class="col-10 col-md-11 text-nowrap overflow-hidden  px-0 mx-0">
-        <button class="btn w-100 px-0 mx-0" :class="dish.planned ? 'btn-success' : 'btn-outline-secondary'" :disabled="dish.planned" :key="dish.id" @click="someFunction(listData,dish.id)" >
+        <button class="btn w-100 px-0 mx-0" :class="dish.planned ? 'btn-success' : 'btn-outline-secondary'" :disabled="dish.planned" :key="dish.name" @click="someFunction(listData,dish.name)" >
           {{ dish.name }}
         </button>
       </div>
       <div class="col-1 px-0 mx-0">
-        <button class="btn btn-secondary align-bottom" @click="function3(listData,dish.id)">X</button>
+        <button class="btn btn-secondary align-bottom" @click="function3(listData,dish.name)">X</button>
         </div>
       </div>
     </div>

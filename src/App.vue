@@ -152,15 +152,28 @@ export default {
       this.itemlistShown = !this.itemlistShown;
     },
     pushNewMeal: function () {
-      this.cookBook.push({ name: this.newMeal, id: this.globalID, planned: true });
-      this.globalID++;
+      let index = this.cookBook.findIndex(item=>item.name===this.newMeal);
+      if(index ==-1){
+        this.cookBook.push({ name: this.newMeal, id: this.globalID, planned: true });
+        this.globalID++;
+      } else {
+        this.cookBook[index].planned = true;
+      }
+      
       localStorage.setItem("globalID", this.globalID);
       localStorage.setItem("cookbook", JSON.stringify(this.cookBook));
       this.newMeal = "";
     },
     pushNewGroceryItem: function () {
-      this.groceryList.push({ name: this.newGroceryItem, id: this.globalID, planned: true });
-      this.globalID++;
+      let index = this.groceryList.findIndex(item=>item.name===this.newGroceryItem);
+      if(index == -1){
+        this.groceryList.push({ name: this.newGroceryItem, id: this.globalID, planned: true });
+        this.globalID++;
+      } else {
+        
+        this.groceryList[index].planned = true;
+        }
+      
       localStorage.setItem("globalID", this.globalID);
       localStorage.setItem("grocerylist", JSON.stringify(this.groceryList));
       this.newGroceryItem = "";
@@ -289,6 +302,11 @@ ul {
 
 p {
   font-size: 1.5em;
+}
+
+.illustration {
+  width: 30%;
+  min-width: 150px;
 }
 
 .fade-enter-active, .fade-leave-active {

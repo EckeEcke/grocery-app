@@ -1,7 +1,7 @@
 <template>
   <div class="col-sm-12 col-md-10 col-lg-5 px-3 py-4 bg-white rounded mw-90 mb-5" style="max-width: 90vw;">
     <h3>Grocery List</h3>
-    <div class="container my-4">
+    <div class="container my-5">
       <div v-if="this.plannedItems.length == 0">Add new items or choose from your item list</div>
       <div class="row my-1 justify-content-center" v-for="groceryItem in this.plannedItems" :key="groceryItem.id">
       <div class="col-10 col-md-11 bg-light pt-2 px-0 mx-0 text-nowrap overflow-hidden">
@@ -12,7 +12,9 @@
         </div>
       </div>
     </div>
-    <button class="btn btn-primary mt-4" @click="this.function3">📖 Item List</button>
+    <img class="illustration mb-5" src="../assets/grocery-illustration.svg">
+      <br>
+    <button class="btn btn-primary" @click="this.function3">📖 Item List</button>
   </div>
 </template>
 

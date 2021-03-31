@@ -14,6 +14,8 @@
         </div>
       </div>
     </div>
+    <img class="illustration mb-5" src="../assets/supplylist-illustration.svg">
+      <br>
     <button class="btn btn-primary mb-1" @click="this.function">← Grocery List</button>
     <button class="btn btn-secondary mx-2 mb-1" @click="this.function2">
       🗑 Delete all

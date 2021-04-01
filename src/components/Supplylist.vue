@@ -16,9 +16,9 @@
     </div>
     <img class="illustration mb-5" src="../assets/supplylist-illustration.svg">
       <br>
-    <button class="btn btn-primary mb-1" @click="this.function">← Grocery List</button>
+    <button class="btn btn-primary mb-1" @click="this.function"><font-awesome-icon :icon="['fas','arrow-circle-left']" />Grocery List</button>
     <button class="btn btn-secondary mx-2 mb-1" @click="this.function2">
-      🗑 Delete all
+      <font-awesome-icon :icon="['fas','trash-alt']" />Delete all
     </button>
     
   </div>

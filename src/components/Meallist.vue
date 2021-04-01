@@ -15,7 +15,7 @@
     <img class="illustration mb-5 mt-3" src="../assets/meal-illustration.svg">
       <br>
 
-      <button class="btn btn-primary mx-1" @click="this.function3">📖 Cook Book</button>
+      <button class="btn btn-primary mx-1" @click="this.function3"><font-awesome-icon :icon="['fas','utensils']" />Cook Book</button>
   </div>
 </template>
 

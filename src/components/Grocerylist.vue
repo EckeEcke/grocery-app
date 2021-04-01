@@ -14,7 +14,7 @@
     </div>
     <img class="illustration mb-5" src="../assets/grocery-illustration.svg">
       <br>
-    <button class="btn btn-primary" @click="this.function3">📖 Item List</button>
+    <button class="btn btn-primary" @click="this.function3"><font-awesome-icon :icon="['fas','shopping-cart']" />Item List</button>
   </div>
 </template>
 

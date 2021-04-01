@@ -46,22 +46,29 @@
 
     <div class="container">
       <div class="row justify-content-center">
+        <transition name="fade">
         <Meallist
           v-if="!cookbookShown && !itemlistShown"
           :cookBook="cookBook"
           :function2="checkSingleMeal"
           :function3="showCookbook"
         />
+        </transition>
+        <transition name="fade">
         <div
           v-if="!cookbookShown && !itemlistShown"
           class="col-lg-1"
         ></div>
+        </transition>
+        <transition name="fade">
         <GroceryList
           v-if="!itemlistShown && !cookbookShown"
           :groceryList="groceryList"
           :function2="checkSingleItem"
           :function3="showItemlist"
         />
+        </transition>
+        <transition name="fade">
         <Cookbook
           v-if="cookbookShown && !itemlistShown"
           :cookBook="cookBook"
@@ -71,6 +78,8 @@
           :function3="deleteSingleItem"
       
         />
+        </transition>
+        <transition name="fade">
         <Supplylist 
           v-if="itemlistShown && !cookbookShown"
           :groceryList="groceryList"
@@ -80,6 +89,7 @@
           :function3="deleteSingleItem"
         
         />
+        </transition>
       </div>
     </div>
   </div>
@@ -92,8 +102,11 @@ import GroceryList from "./components/Grocerylist.vue";
 import Meallist from "./components/Meallist.vue";
 import Cookbook from "./components/Cookbook.vue";
 import Supplylist from "./components/Supplylist.vue";
-import supplylist from "./static/supplylist.json"
-import cookbook from "./static/cookbook.json"
+import supplylist from "./static/supplylist.json";
+import cookbook from "./static/cookbook.json";
+
+
+
 
 
 export default {
@@ -292,9 +305,14 @@ p {
 }
 
 .fade-enter-active, .fade-leave-active {
-  transition: opacity .5s;
+  transition: opacity 0.2s;
 }
 .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
   opacity: 0;
+}
+
+svg {
+  color: white;
+  margin-right: 8px;
 }
 </style>

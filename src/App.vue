@@ -44,44 +44,20 @@
     <br />
     <br />
 
-    <div
-      class="bg-white px-3 py-4 mx-auto rounded mb-5"
-      style="width: 500px; max-width: 90vw"
-      v-if="groceryList.length == 0 && cookBook.length == 0 && !cookbookShown"
-    >
-      <p>👩‍🍳 Plan your meals <span style="color: green">✔</span></p>
-      <p>📝 Create a grocery list <span style="color: green">✔</span></p>
-      <button
-        class="btn btn-primary my-3"
-        v-if="this.cookBook.length > 0"
-        @click="showCookbook"
-      >
-        Open Cook Book
-      </button>
-      <button
-        class="btn btn-primary my-3"
-        v-if="this.cookBook.length > 0"
-        @click="showItemlist"
-      >
-        Open Item List
-      </button>
-    </div>
-
     <div class="container">
       <div class="row justify-content-center">
         <Meallist
-          v-if="cookBook.length > 0 && !cookbookShown && !itemlistShown"
+          v-if="!cookbookShown && !itemlistShown"
           :cookBook="cookBook"
-          :function="deleteMeallist"
           :function2="checkSingleMeal"
           :function3="showCookbook"
         />
         <div
-          v-if="cookBook.length > 0 && groceryList.length > 0 && !cookbookShown && !itemlistShown"
+          v-if="!cookbookShown && !itemlistShown"
           class="col-lg-1"
         ></div>
         <GroceryList
-          v-if="groceryList.length > 0 && !itemlistShown && !cookbookShown"
+          v-if="!itemlistShown && !cookbookShown"
           :groceryList="groceryList"
           :function2="checkSingleItem"
           :function3="showItemlist"
@@ -117,6 +93,7 @@ import Meallist from "./components/Meallist.vue";
 import Cookbook from "./components/Cookbook.vue";
 import Supplylist from "./components/Supplylist.vue";
 import supplylist from "./static/supplylist.json"
+import cookbook from "./static/cookbook.json"
 
 
 export default {
@@ -136,7 +113,7 @@ export default {
       itemlistShown: false,
       newMeal: "",
       newGroceryItem: "",
-      cookBook: JSON.parse(localStorage.getItem("cookbook")) || [],
+      cookBook: JSON.parse(localStorage.getItem("cookbook")) || cookbook,
     };
   },
 
@@ -174,13 +151,18 @@ export default {
       localStorage.setItem("grocerylist", JSON.stringify(this.groceryList));
       this.newGroceryItem = "";
     },
-    pushNewMealfromCookbook: function(array,element){
-      const index = array
+    pushNewMealfromCookbook: function(element){
+      const index = this.cookBook
         .map(function (element) {
           return element.name;
         })
         .indexOf(element);
-      this.cookBook[index].planned = true;
+      if(this.cookBook[index].planned == false){
+        this.cookBook[index].planned = true;
+      } else {
+        this.cookBook[index].planned = false;
+      }
+      
 
     },
     pushNewItemfromList: function(element){
@@ -204,18 +186,12 @@ export default {
         this.pushNewMeal();
       }
     },
-    deleteMeallist: function () {
-      let confirmed = confirm("Do you really want to delete your list?");
-      if (confirmed) {
-        this.cookBook = [];
-        localStorage.removeItem("cookbook");
-      }
-    },
     deleteGrocerylist: function () {
       let confirmed = confirm("Do you really want to delete your list?");
       if (confirmed) {
         this.groceryList = [];
         localStorage.removeItem("grocerylist");
+        this.itemlistShown = false;
       }
     },
     deleteCookbook: function(){
@@ -268,13 +244,17 @@ export default {
 
 h1 {
   font-family: niceFont;
-
+  font-weight: bolder;
   background-image: linear-gradient(
       to bottom,
       rgba(23, 23, 24, 0.52),
       rgba(31, 21, 28, 0.73)
     ),
     url("./assets/food-header.jpg");
+}
+
+h3 {
+  font-weight: bolder;
 }
 
 #app {

@@ -3,9 +3,9 @@
     <h3>Cook Book</h3>
     <p class="mt-4">Click a dish to add it to your meal list</p>
     <div class="container my-5">
-      <div class="row my-1 justify-content-center" v-for="dish in this.listData" :key="dish.name">
+      <div class="row my-1 justify-content-center" v-for="dish in this.sortedItems" :key="dish.name">
       <div class="col-10 col-md-11 text-nowrap overflow-hidden  px-0 mx-0">
-        <button class="btn w-100 px-0 mx-0" :class="dish.planned ? 'btn-success' : 'btn-outline-secondary'" :disabled="dish.planned" :key="dish.name" @click="someFunction(listData,dish.name)" >
+        <button class="btn w-100 px-0 mx-0" :class="dish.planned ? 'btn-success' : 'btn-outline-secondary'" :key="dish.name" @click="someFunction(dish.name)" >
           {{ dish.name }}
         </button>
       </div>
@@ -49,6 +49,14 @@ export default {
       listData: this.cookBook,
     };
   },
+  computed: {
+    sortedItems: function(){
+      let sortedArray = this.listData;
+      return sortedArray.sort((a,b) => 
+        a.name.localeCompare(b.name))
+
+      }
+  }  
 };
 </script>
 

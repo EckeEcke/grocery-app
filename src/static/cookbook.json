@@ -1,0 +1,62 @@
+[
+    {
+        "name": "Pizza",
+        "planned":false
+    },
+    {
+        "name":"Flammkuchen",
+        "planned":false
+    },
+    {
+        "name":"Curry",
+        "planned":false
+    },
+    {
+        "name":"Ofengemüse",
+        "planned":false
+    },
+    {
+        "name":"Mexikanische Bowl",
+        "planned":false
+    },
+    {
+        "name":"Nudeln mit Ei",
+        "planned":false
+    },
+    {
+        "name":"Hawaii-Schnitzel mit Pommes",
+        "planned":false
+    },
+    {
+        "name":"Lachs Kartoffeln Brokkoli",
+        "planned":false
+    },
+    {
+        "name":"Spiegelei Kartoffeln Spinat",
+        "planned":false
+    },
+    {
+        "name":"Nudeln mit Pesto",
+        "planned":false
+    },
+    {
+        "name":"Summer Rolls",
+        "planned":false
+    },
+    {
+        "name":"Spaghetti Bolognese",
+        "planned":false
+    },
+    {
+        "name":"Spaghetti Aglio e Olio",
+        "planned":false
+    },
+    {
+        "name":"Lasagne",
+        "planned":false
+    },
+    {
+        "name":"Suppe",
+        "planned":false
+    }
+]

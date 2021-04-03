@@ -1,5 +1,5 @@
 <template>
-  <div class="col-sm-12 col-md-10 col-lg-5 bg-white py-4 px-2 rounded mw-90 mb-5" style="max-width: 90vw">
+  <div class="col-sm-12 col-md-10 col-lg-5 bg-white py-4 px-2 rounded mb-5" style="max-width: 95vw">
     <h3>Cook Book</h3>
     <p class="mt-4">Click a dish to add it to your meal list</p>
     <div class="container my-5">
@@ -10,7 +10,7 @@
         </button>
       </div>
       <div class="col-1 px-0 mx-0">
-        <button class="btn btn-secondary align-bottom" @click="function3(listData,dish.name)">X</button>
+        <button class="btn btn-outline-secondary align-bottom delete-item-btn" @click="function3(listData,dish.name)"><font-awesome-icon :icon="['fas','trash-alt']" class="trash-icon-item" /></button>
         </div>
       </div>
     </div>
@@ -63,6 +63,23 @@ export default {
 <style scoped>
 p {
     font-size: 1em;
+}
+.delete-item-btn:hover {
+  background-color: grey;
+}
+.trash-icon-item {
+  color: grey;
+  margin: 0;
+}
+button:hover .trash-icon-item {
+  color: white;
+}
+.btn-outline-secondary, .btn-success {
+  border-radius: 0;
+}
+.delete-item-btn {
+  border: 0;
+  padding: 7px 12px;
 }
 
 @media (max-width: 500px){

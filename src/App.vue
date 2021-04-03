@@ -22,7 +22,7 @@
     <form
       action="post"
       class="d-grid gap-2"
-      style="width: 500px; max-width: 90vw; margin: 0 auto"
+      style="width: 400px; max-width: 95vw; margin: 0 auto"
     >
       <input
         class="form-control mb-2"
@@ -309,6 +309,9 @@ p {
 }
 .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
   opacity: 0;
+}
+.btn-success {
+  border-radius: 0;
 }
 
 svg {

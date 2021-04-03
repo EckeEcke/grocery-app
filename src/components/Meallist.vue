@@ -1,5 +1,5 @@
 <template>
-  <div class="col-sm-12 col-md-10 col-lg-5 px-3 py-4 bg-white mw-90 mb-5 rounded" style="max-width: 90vw;">
+  <div class="col-sm-12 col-md-10 col-lg-5 px-2 py-4 bg-white mb-5 rounded" style="max-width: 95vw;">
     <h3>Meal Plan</h3>
     <div class="container my-5">
       <div v-if="this.plannedMeals.length == 0">Add new dishes or choose from your cookbook</div>

@@ -7,7 +7,6 @@
       <li class="py-3"><a href="https://eckeecke.github.io/shooter.html">JS Space Shooter</a></li>
       <li class="py-3"><a href="https://eckeecke.github.io/pong.html">JS Pong</a></li>
       <li class="py-3"><a href="https://adoring-galileo-71fde2.netlify.app/">React Todo App</a></li>
-      <li class="py-3"><a href="https://eckeecke.github.io/newgame.html">Drawing App</a></li>
       <li class="py-3"><a href="https://eckeecke.github.io/templelooter.html">Temple Looter</a></li>
     </ul>
     <button

@@ -3,16 +3,18 @@
     <h3>Supply List</h3>
     <p class="mt-4">Click an item to add it to your grocery list</p>
     <div class="container my-5">
-      <div class="row my-1 justify-content-center" v-for="item in this.sortedItems" :key="item.name">
+      <transition-group name="slide-fade">
+          <div class="row my-1 justify-content-center" v-for="item in this.sortedItems" :key="item.id">
       <div class="col-10 col-md-11 text-nowrap overflow-hidden  px-0 mx-0">
-        <button class="btn w-100 px-0 mx-0" :class="item.planned ? 'btn-success' : 'btn-outline-secondary'" :key="item.name" @click="someFunction(item.name)" >
+        <button class="btn w-100 px-0 mx-0" :class="item.planned ? 'btn-success' : 'btn-outline-secondary'" :key="item.id" @click="someFunction(item.name)" >
           {{ item.name }}
         </button>
       </div>
       <div class="col-1 px-0 mx-0">
         <button class="btn btn-outline-secondary align-bottom delete-item-btn" @click="function3(listData,item.name)"><font-awesome-icon :icon="['fas','trash-alt']" class="trash-icon-item" /></button>
         </div>
-      </div>
+          </div>
+      </transition-group>
     </div>
     <img class="illustration mb-5" src="../assets/supplylist-illustration.svg">
       <br>

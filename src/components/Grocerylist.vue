@@ -3,14 +3,16 @@
     <h3>Grocery List</h3>
     <div class="container my-5">
       <div v-if="this.plannedItems.length == 0">Add new items or choose from your item list</div>
-      <div class="row my-1 justify-content-center" v-for="groceryItem in this.plannedItems" :key="groceryItem.id">
-      <div class="col-10 col-md-11 bg-light pt-2 px-0 mx-0 text-nowrap overflow-hidden">
-        <span>{{ groceryItem.name }}</span>
-      </div>
-      <div class="col-1 px-0 mx-0">
-        <button class="btn btn-success align-bottom" @click="function2(groceryItem.name)">✔</button>
+      <transition-group name="slide-fade">
+        <div class="row my-1 justify-content-center" v-for="groceryItem in this.plannedItems" :key="groceryItem.id">
+          <div class="col-10 col-md-11 bg-light pt-2 px-0 mx-0 text-nowrap overflow-hidden">
+            <span>{{ groceryItem.name }}</span>
+          </div>
+          <div class="col-1 px-0 mx-0">
+            <button class="btn btn-success align-bottom" @click="function2(groceryItem.name)">✔</button>
+          </div>
         </div>
-      </div>
+      </transition-group>
     </div>
     <img class="illustration mb-5" src="../assets/grocery-illustration.svg">
       <br>

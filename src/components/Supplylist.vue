@@ -1,11 +1,22 @@
 <template>
   <div class="col-sm-12 col-md-10 col-lg-5 bg-white py-4 px-2 rounded mb-5" style="max-width: 95vw">
     <h3>Supply List</h3>
-    <p class="mt-4">Click an item to add it to your grocery list</p>
-    <div class="container my-5">
+    <p class="mt-4">Click an item to add it to your <a class="link" @click="this.function">grocery list</a></p>
+    <div class="container mt-3 mb-5">
+      <div class="row no-gutters mb-4">
+        <div class="col-11 px-0">
+<input v-model="search" type="search" ref="search" class="form-control" placeholder="Search item" />
+        </div>
+        <div class="col-1 px-0 mx-0">
+<button class="btn btn-primary search-btn" @click="focusInput">
+            <font-awesome-icon :icon="['fas', 'search']" class="search-icon" />
+          </button>
+        </div>
+          
+      </div>
       <transition-group name="slide-fade">
-          <div class="row my-1 justify-content-center" v-for="item in this.sortedItems" :key="item.id">
-      <div class="col-10 col-md-11 text-nowrap overflow-hidden  px-0 mx-0">
+          <div class="row my-1 justify-content-center" v-for="item in this.filteredItems" :key="item.id">
+      <div class="col-11 text-nowrap overflow-hidden  px-0 mx-0">
         <button class="btn w-100 px-0 mx-0" :class="item.planned ? 'btn-success' : 'btn-outline-secondary'" :key="item.id" @click="someFunction(item.name)" >
           {{ item.name }}
         </button>
@@ -13,13 +24,14 @@
       <div class="col-1 px-0 mx-0">
         <button class="btn btn-outline-secondary align-bottom delete-item-btn" @click="function3(listData,item.name)"><font-awesome-icon :icon="['fas','trash-alt']" class="trash-icon-item" /></button>
         </div>
-          </div>
+        <hr>
+          </div>>
       </transition-group>
     </div>
     <img class="illustration mb-5" src="../assets/supplylist-illustration.svg">
       <br>
     <button class="btn btn-primary mb-1" @click="this.function"><font-awesome-icon :icon="['fas','arrow-circle-left']" />Grocery List</button>
-    <button class="btn btn-secondary mx-2 mb-1" @click="this.function2">
+    <button class="btn btn-secondary mx-2 mb-1" @click="function2">
       <font-awesome-icon :icon="['fas','trash-alt']" />Delete all
     </button>
     
@@ -49,6 +61,7 @@ export default {
   data() {
     return {
       listData: this.groceryList,
+      search: ''
     };
   },
   computed: {
@@ -57,8 +70,20 @@ export default {
       return sortedArray.sort((a,b) => 
         a.name.localeCompare(b.name))
 
+      },
+      filteredItems: function() {
+        return this.sortedItems.filter(item => {
+          return item.name.toLowerCase().includes(this.search.toLowerCase())
+        })
       }
-  }  
+  },
+  methods: {
+    focusInput(){
+        setTimeout(() => {
+               this.$refs.search.focus();
+            }, 10);
+    }
+  }
 
 };
 </script>
@@ -73,13 +98,6 @@ p {
 }
 button:hover .trash-icon-item {
   color: white;
-}
-.btn-outline-secondary, .btn-success {
-  border-radius: 0;
-}
-.delete-item-btn {
-  border: 0;
-  padding: 7px 12px;
 }
 @media (max-width: 500px){
     button {

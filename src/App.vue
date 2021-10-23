@@ -27,7 +27,7 @@
                     <div v-if="!cookbookShown && !itemlistShown" class="col-lg-1"></div>
                 </transition>
                 <transition name="fade">
-                    <GroceryList v-if="!itemlistShown && !cookbookShown" :groceryList="groceryList" :function2="checkSingleItem" :function3="showItemlist" />
+                    <GroceryList v-if="!itemlistShown && !cookbookShown" :groceryList="groceryList" :check-item="checkSingleItem" :function3="showItemlist" />
                 </transition>
                 <transition name="fade">
                     <Cookbook v-if="cookbookShown && !itemlistShown" :cookBook="cookBook" :function="showCookbook" :pushMealFromCookbook="pushNewMealfromCookbook" :function2="deleteCookbook" :function3="deleteSingleItem" />
@@ -73,6 +73,13 @@ export default {
             cookBook: JSON.parse(localStorage.getItem("cookbook")) || cookbook,
         };
     },
+    computed: {
+      newGroceryItemId() {
+        if(this.groceryList.length) {
+          return Math.max.apply(Math, this.groceryList.map(function(item) { return item.id; })) + 1
+        } else return 0
+      }
+    },
     methods: {
 
         showMenu: function() {
@@ -98,7 +105,7 @@ export default {
         pushNewGroceryItem: function() {
             let index = this.groceryList.findIndex(item => item.name === this.newGroceryItem);
             if (index == -1) {
-                this.groceryList.push({ name: this.newGroceryItem, planned: true, id: Math.random() });
+                this.groceryList.push({ name: this.newGroceryItem, planned: true, id: this.newGroceryItemId });
             } else {
 
                 this.groceryList[index].planned = true;
@@ -238,9 +245,19 @@ p {
     font-size: 1.5em;
 }
 
+hr {
+  margin: 0;
+}
+
 .illustration {
     width: 30%;
     min-width: 150px;
+}
+
+.link {
+  cursor: pointer;
+  color: blue;
+  text-decoration: none;
 }
 
 .fade-enter-active,
@@ -273,10 +290,18 @@ p {
     opacity: 0;
 }
 
-.btn-success {
-    border-radius: 0;
+.btn-outline-secondary, .btn-success {
+  border-radius: 0;
+  border: 0;
 }
 
+.delete-item-btn, .search-btn {
+  border: 0;
+  padding: 7px 12px;
+}
+.search-icon {
+  margin: 0 auto;
+}
 svg {
     color: white;
     margin-right: 8px;

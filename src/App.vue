@@ -21,13 +21,13 @@
         <div class="container">
             <div class="row justify-content-center">
                 <transition name="fade">
-                    <Meallist v-if="!cookbookShown && !itemlistShown" :cookBook="cookBook" :function2="checkSingleMeal" :function3="showCookbook" />
+                    <Meallist v-if="!cookbookShown && !itemlistShown" :cookBook="cookBook" :function2="checkSingleMeal" :function3="showCookbook" :delete-item="deleteSingleItem" />
                 </transition>
                 <transition name="fade">
                     <div v-if="!cookbookShown && !itemlistShown" class="col-lg-1"></div>
                 </transition>
                 <transition name="fade">
-                    <GroceryList v-if="!itemlistShown && !cookbookShown" :groceryList="groceryList" :check-item="checkSingleItem" :function3="showItemlist" />
+                    <GroceryList v-if="!itemlistShown && !cookbookShown" :groceryList="groceryList" :check-item="checkSingleItem" :function3="showItemlist" :delete-item="deleteSingleItem" />
                 </transition>
                 <transition name="fade">
                     <Cookbook v-if="cookbookShown && !itemlistShown" :cookBook="cookBook" :function="showCookbook" :pushMealFromCookbook="pushNewMealfromCookbook" :function2="deleteCookbook" :function3="deleteSingleItem" />
@@ -137,8 +137,6 @@ export default {
             } else {
                 this.groceryList[index].planned = false;
             }
-
-            console.log(this.groceryList);
         },
         formSubmit: function(event) {
             event.preventDefault();
@@ -292,15 +290,44 @@ hr {
 
 .btn-outline-secondary, .btn-success {
   border-radius: 0;
+}
+
+.btn-outline-secondary {
   border: 0;
 }
 
-.delete-item-btn, .search-btn {
+.delete-item-btn {
   border: 0;
-  padding: 7px 12px;
+  padding: 6px;
+}
+
+.delete-item-btn:hover {
+  background-color: grey;
+}
+.trash-icon-item {
+  color: grey;
+  margin: 0;
+}
+button:hover .trash-icon-item {
+  color: white;
+}
+
+.search-btn {
+  padding: 6px;
 }
 .search-icon {
   margin: 0 auto;
+}
+.trash-icon-item {
+  color: grey;
+  margin: 0;
+}
+
+  .centered-icon {
+    margin: 0 auto;
+  }
+.check-btn {
+  padding: 6px;
 }
 svg {
     color: white;

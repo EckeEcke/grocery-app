@@ -21,7 +21,7 @@
         
       <transition-group name="slide-fade">
       <div
-        class="row no-gutters my-1 justify-content-center"
+        class="row no-gutters justify-content-center"
         v-for="dish in this.filteredItems"
         :key="dish.name"
       >
@@ -116,22 +116,9 @@ export default {
 p {
   font-size: 1em;
 }
-.delete-item-btn:hover {
-  background-color: grey;
-}
-.trash-icon-item {
-  color: grey;
-  margin: 0;
-}
-button:hover .trash-icon-item {
-  color: white;
-}
 .btn-outline-secondary,
 .btn-success {
   border-radius: 0;
-}
-.delete-item-btn {
-  padding: 6px 12px;
 }
 
 @media (max-width: 500px) {

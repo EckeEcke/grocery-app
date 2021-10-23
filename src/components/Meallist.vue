@@ -4,16 +4,32 @@
     <div class="container my-5">
       <div v-if="this.plannedMeals.length == 0">Add new dishes or choose from your <a class="link" @click="this.function3">cookbook</a></div>
       <transition-group name="slide-fade">
-<div class="row my-1 justify-content-center" v-for="mealItem in this.plannedMeals" :key="mealItem.name" :planned="mealItem.planned">
-      <div class="col-11 bg-light pt-2 px-0 mx-0 text-nowrap overflow-hidden">
-        <span>{{ mealItem.name }}</span>
-      </div>
-      <div class="col-1 px-0 mx-0">
-        <button class="btn btn-success align-bottom" @click="function2(mealItem.name)">✔</button>
+<div class="row justify-content-center" v-for="mealItem in this.plannedMeals" :key="mealItem.name" :planned="mealItem.planned">
+      <div class="col-11 px-0 mx-0 text-nowrap overflow-hidden">
+        
+            
+            <button
+              v-if="mealItem"
+              class="btn w-100 px-0 mx-0"
+              :key="mealItem.name"
+              @click="function2(mealItem.name)"
+            >
+              {{ mealItem.name }}
+            </button>
+        </div>
+        <div class="col-1 px-0 mx-0">
+          <button
+            class="btn btn-outline-secondary align-bottom delete-item-btn"
+            @click="deleteItem(listData, mealItem.name)"
+          >
+            <font-awesome-icon
+              :icon="['fas', 'trash-alt']"
+              class="trash-icon-item"
+            />
+          </button>
         </div>
         <hr>
-      </div>
-
+  </div>
       </transition-group>
       
     </div>
@@ -38,6 +54,9 @@ export default {
     function3: {
       type: Function,
     },
+    deleteItem: {
+      type: Function
+    }
   },
  data() {
    return {

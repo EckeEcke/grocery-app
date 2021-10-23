@@ -15,7 +15,7 @@
           
       </div>
       <transition-group name="slide-fade">
-          <div class="row my-1 justify-content-center" v-for="item in this.filteredItems" :key="item.id">
+          <div class="row justify-content-center" v-for="item in this.filteredItems" :key="item.id">
       <div class="col-11 text-nowrap overflow-hidden  px-0 mx-0">
         <button class="btn w-100 px-0 mx-0" :class="item.planned ? 'btn-success' : 'btn-outline-secondary'" :key="item.id" @click="someFunction(item.name)" >
           {{ item.name }}
@@ -91,10 +91,6 @@ export default {
 <style scoped>
 p {
     font-size: 1em;
-}
-.trash-icon-item {
-  color: grey;
-  margin: 0;
 }
 button:hover .trash-icon-item {
   color: white;

@@ -1,62 +1,77 @@
 [
     {
         "name": "Pizza",
-        "planned":false
+        "planned":false,
+        "id": 0
     },
     {
         "name":"Flammkuchen",
-        "planned":false
+        "planned":false,
+        "id": 1
     },
     {
         "name":"Curry",
-        "planned":false
+        "planned":false,
+        "id": 2
     },
     {
         "name":"Ofengemüse",
-        "planned":false
+        "planned":false,
+        "id": 3
     },
     {
         "name":"Mexikanische Bowl",
-        "planned":false
+        "planned":false,
+        "id": 4
     },
     {
         "name":"Nudeln mit Ei",
-        "planned":false
+        "planned":false,
+        "id": 5
     },
     {
         "name":"Hawaii-Schnitzel mit Pommes",
-        "planned":false
+        "planned":false,
+        "id": 6
     },
     {
         "name":"Lachs Kartoffeln Brokkoli",
-        "planned":false
+        "planned":false,
+        "id": 7
     },
     {
         "name":"Spiegelei Kartoffeln Spinat",
-        "planned":false
+        "planned":false,
+        "id": 8
     },
     {
         "name":"Nudeln mit Pesto",
-        "planned":false
+        "planned":false,
+        "id": 9
     },
     {
         "name":"Summer Rolls",
-        "planned":false
+        "planned":false,
+        "id": 10
     },
     {
         "name":"Spaghetti Bolognese",
-        "planned":false
+        "planned":false,
+        "id": 11
     },
     {
         "name":"Spaghetti Aglio e Olio",
-        "planned":false
+        "planned":false,
+        "id": 12
     },
     {
         "name":"Lasagne",
-        "planned":false
+        "planned":false,
+        "id": 13
     },
     {
         "name":"Suppe",
-        "planned":false
+        "planned":false,
+        "id": 14
     }
 ]

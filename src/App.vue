@@ -9,32 +9,21 @@
                                             </button>
     
         <h1 class="p-5 text-white mb-5">Meal Planner</h1>
-        <form action="post" class="d-grid gap-2" style="width: 400px; max-width: 95vw; margin: 0 auto">
-            <input class="form-control mb-2" type="text" v-model="newMeal" placeholder="Add new dish" maxlength="30" />
-            <input class="form-control mb-2" type="text" v-model="newGroceryItem" placeholder="Add new grocery item" maxlength="30" />
-            <button class="btn btn-primary mb-2" @click="formSubmit">Add</button>
-        </form>
-    
         <br />
         <br />
     
         <div class="container">
+            <div class="row">
+                <button class="btn btn-primary mb-4 toggle-btn" @click="cookbookShown = !cookbookShown">
+                    <span v-if="cookbookShown">Grocery List</span>
+                    <span v-else>Meal Plan</span>
+                </button>
+            </div>
             <div class="row justify-content-center">
-                <transition name="fade">
-                    <Meallist v-if="!cookbookShown && !itemlistShown" :cookBook="cookBook" :function2="checkSingleMeal" :function3="showCookbook" :delete-item="deleteSingleItem" />
-                </transition>
-                <transition name="fade">
-                    <div v-if="!cookbookShown && !itemlistShown" class="col-lg-1"></div>
-                </transition>
-                <transition name="fade">
-                    <GroceryList v-if="!itemlistShown && !cookbookShown" :groceryList="groceryList" :check-item="checkSingleItem" :function3="showItemlist" :delete-item="deleteSingleItem" />
-                </transition>
-                <transition name="fade">
-                    <Cookbook v-if="cookbookShown && !itemlistShown" :cookBook="cookBook" :function="showCookbook" :pushMealFromCookbook="pushNewMealfromCookbook" :function2="deleteCookbook" :function3="deleteSingleItem" />
-                </transition>
-                <transition name="fade">
-                    <Supplylist v-if="itemlistShown && !cookbookShown" :groceryList="groceryList" :function="showItemlist" :someFunction="pushNewItemfromList" :function2="deleteGrocerylist" :function3="deleteSingleItem" />
-                </transition>
+                <transition-group name="fade">
+                    <Cookbook v-if="cookbookShown" key="component" :cookBook="cookBook" :function="showCookbook" :push="pushNewMealfromCookbook" :function2="deleteCookbook" :function3="deleteSingleItem" :checkItem="checkSingleMeal" @submit="addNewMeal"/>
+                    <Supplylist v-if="!cookbookShown" key="component" :groceryList="groceryList" :function="showItemlist" :someFunction="pushNewItemfromList" :function2="deleteGrocerylist" :deleteItem="deleteSingleItem" :checkItem="checkSingleItem" @submit="addNewItem" />
+                </transition-group>
             </div>
         </div>
     </div>
@@ -42,8 +31,6 @@
 
 <script>
 import Navbar from "./components/Navigation.vue";
-import GroceryList from "./components/Grocerylist.vue";
-import Meallist from "./components/Meallist.vue";
 import Cookbook from "./components/Cookbook.vue";
 import Supplylist from "./components/Supplylist.vue";
 import supplylist from "./static/supplylist.json";
@@ -57,8 +44,6 @@ export default {
     name: "App",
     components: {
         Navbar,
-        GroceryList,
-        Meallist,
         Cookbook,
         Supplylist,
     },
@@ -77,6 +62,11 @@ export default {
       newGroceryItemId() {
         if(this.groceryList.length) {
           return Math.max.apply(Math, this.groceryList.map(function(item) { return item.id; })) + 1
+        } else return 0
+      },
+      newDishId() {
+        if(this.cookBook.length) {
+          return Math.max.apply(Math, this.cookBook.map(function(item) { return item.id; })) + 1
         } else return 0
       }
     },
@@ -115,11 +105,9 @@ export default {
             this.newGroceryItem = "";
         },
         pushNewMealfromCookbook: function(element) {
-            const index = this.cookBook
-                .map(function(element) {
+            const index = this.cookBook.map(function(element) {
                     return element.name;
-                })
-                .indexOf(element);
+                }).indexOf(element);
             if (this.cookBook[index].planned == false) {
                 this.cookBook[index].planned = true;
             } else {
@@ -146,6 +134,27 @@ export default {
             if (this.newMeal.length > 0) {
                 this.pushNewMeal();
             }
+        },
+        addNewItem: function(item) {
+            let index = this.groceryList.findIndex(listItem => listItem.name === item);
+            if (index == -1) {
+                this.groceryList.push({ name: item, planned: true, id: this.newGroceryItemId });
+            } else {
+
+                this.groceryList[index].planned = true;
+            }
+
+            localStorage.setItem("grocerylist", JSON.stringify(this.groceryList));
+        },
+        addNewMeal: function(item) {
+            let index = this.cookBook.findIndex(listItem => listItem.name === item);
+            if (index == -1) {
+                this.cookBook.push({ name: item, planned: true, id: this.newDishId });
+            } else {
+                this.cookBook[index].planned = true;
+            }
+
+            localStorage.setItem("cookbook", JSON.stringify(this.cookBook));
         },
         deleteGrocerylist: function() {
             let confirmed = confirm("Do you really want to delete your list?");
@@ -231,6 +240,18 @@ h3 {
     top: 2px;
 }
 
+.toggle-btn {
+    width: 160px;
+    position: fixed;
+    bottom: 0;
+    right: calc(50vw - 80px);
+    opacity: 0.6
+}
+
+.toggle-btn:hover {
+    opacity: 1;
+}
+
 li {
     list-style-type: none;
 }
@@ -308,12 +329,16 @@ hr {
   color: grey;
   margin: 0;
 }
+button {
+  font-size: 1em;
+}
 button:hover .trash-icon-item {
   color: white;
 }
 
 .search-btn {
   padding: 6px;
+  font-size: 1em !important;
 }
 .search-icon {
   margin: 0 auto;

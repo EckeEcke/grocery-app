@@ -1,8 +1,46 @@
 <template>
-  <div class="col-sm-12 col-md-10 col-lg-5 bg-white py-4 px-2 rounded mb-5" style="max-width: 95vw">
-    <h3>Supply List</h3>
-    <p class="mt-4">Click an item to add it to your <a class="link" @click="this.function">grocery list</a></p>
+  <div class="col-sm-12 col-md-10 col-lg-5 bg-white py-4 px-2 rounded mb-5 mx-auto" style="max-width: 95vw">
+  
     <div class="container mt-3 mb-5">
+      <h3 class="mb-3">Grocery List</h3>
+      <p v-if="this.plannedItems.length == 0">Add new items or choose from your item list</p>
+      <form action="post" class="d-grid gap-2 row mb-5">
+            <input class="form-control mb-2" type="text" v-model="newGroceryItem" placeholder="Add new grocery item" maxlength="30" />
+            <button class="btn btn-primary mb-2" @click="formSubmit">Add</button>
+        </form>
+      <transition-group name="slide-fade">
+        <div class="row justify-content-center" v-for="groceryItem in this.plannedItems" :key="groceryItem.id">
+          
+          <div class="col-11 col-md-11 px-0 mx-0 text-nowrap overflow-hidden">
+          <button
+              v-if="groceryItem"
+              class="btn w-100 px-0 mx-0"
+              :key="groceryItem.name"
+              @click="checkItem(groceryItem.name)"
+            >
+              {{ groceryItem.name }}
+            </button>
+        </div>
+        <div class="col-1 px-0 mx-0">
+          <button
+            class="btn btn-outline-secondary align-bottom delete-item-btn"
+            @click="checkItem(groceryItem.name)"
+          >
+            <font-awesome-icon
+              :icon="['fas', 'check']"
+              class="trash-icon-item"
+            />
+          </button>
+        </div>
+         <hr>
+        </div>
+      </transition-group>
+
+      <div class="row mt-5 mb-3">
+        <h3 style="position: relative" @click="hideItemlist = !hideItemlist">Item List<span><font-awesome-icon :icon="['fas', 'chevron-up']" class="accordion-icon" :class="{'flipped': hideItemlist }" /></span></h3>
+      </div>
+    <transition name="slide-fade">
+      <div v-if="!hideItemlist">
       <div class="row no-gutters mb-4">
         <div class="col-11 px-0">
 <input v-model="search" type="search" ref="search" class="form-control" placeholder="Search item" />
@@ -14,7 +52,8 @@
         </div>
           
       </div>
-      <transition-group name="slide-fade">
+
+<transition-group name="slide-fade">
           <div class="row justify-content-center" v-for="item in this.filteredItems" :key="item.id">
       <div class="col-11 text-nowrap overflow-hidden  px-0 mx-0">
         <button class="btn w-100 px-0 mx-0" :class="item.planned ? 'btn-success' : 'btn-outline-secondary'" :key="item.id" @click="someFunction(item.name)" >
@@ -22,11 +61,15 @@
         </button>
       </div>
       <div class="col-1 px-0 mx-0">
-        <button class="btn btn-outline-secondary align-bottom delete-item-btn" @click="function3(listData,item.name)"><font-awesome-icon :icon="['fas','trash-alt']" class="trash-icon-item" /></button>
+        <button class="btn btn-outline-secondary align-bottom delete-item-btn" @click="deleteItem(listData,item.name)"><font-awesome-icon :icon="['fas','trash-alt']" class="trash-icon-item" /></button>
         </div>
         <hr>
-          </div>>
+          </div>
       </transition-group>
+      </div>
+
+    </transition>
+      
     </div>
     <img class="illustration mb-5" src="../assets/supplylist-illustration.svg">
       <br>
@@ -51,17 +94,22 @@ export default {
     function2: {
         type: Function,
     },
-    function3: {
+    deleteItem: {
         type: Function,
     },
     someFunction: {
         type: Function
+    },
+    checkItem: {
+      type: Function
     }
   },
   data() {
     return {
       listData: this.groceryList,
-      search: ''
+      search: '',
+      hideItemlist: false,
+      newGroceryItem: ''
     };
   },
   computed: {
@@ -75,9 +123,19 @@ export default {
         return this.sortedItems.filter(item => {
           return item.name.toLowerCase().includes(this.search.toLowerCase())
         })
+      },
+      plannedItems: function(){
+        return this.groceryList.filter(item => item.planned == true);
       }
   },
   methods: {
+    formSubmit(event){
+        event.preventDefault();
+            if (this.newGroceryItem.length > 0) {
+                this.$emit('submit', this.newGroceryItem)
+                this.newGroceryItem = ''
+            }
+    },
     focusInput(){
         setTimeout(() => {
                this.$refs.search.focus();
@@ -95,6 +153,16 @@ p {
 button:hover .trash-icon-item {
   color: white;
 }
+.accordion-icon {
+  color: black;
+  position: absolute;
+  right: 0;
+  transition: 0.3s;
+}
+.flipped {
+  transform: rotate(180deg);
+}
+
 @media (max-width: 500px){
     button {
       font-size: 0.9em;

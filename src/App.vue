@@ -208,6 +208,7 @@ export default {
 </script>
 
 <style>
+@import url('https://fonts.googleapis.com/css?family=Nunito');
 @font-face {
     font-family: "niceFont";
     src: url("./assets/niceFont.ttf");
@@ -221,10 +222,12 @@ h1 {
 
 h3 {
     font-weight: bolder;
+    padding: 12px;
 }
 
 #app {
     font-family: Avenir, Helvetica, Arial, sans-serif;
+    font-family: 'Nunito', sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-align: center;
@@ -353,6 +356,22 @@ button:hover .trash-icon-item {
   }
 .check-btn {
   padding: 6px;
+}
+.accordion-icon {
+  color: black;
+  transition: 0.3s;
+  display: block;
+  margin: 0 auto;
+}
+.flipped {
+  transform: rotate(180deg);
+}
+
+p {
+    font-size: 1em;
+}
+button:hover .trash-icon-item {
+  color: white;
 }
 svg {
     color: white;

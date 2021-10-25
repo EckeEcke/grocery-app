@@ -2,12 +2,24 @@
   <div class="col-sm-12 col-md-10 col-lg-5 bg-white py-4 px-2 rounded mb-5 mx-auto" style="max-width: 95vw">
   
     <div class="container mt-3 mb-5">
-      <h3 class="mb-3">Grocery List</h3>
+      <div class="row">
+<h3 class="mb-3 col-11">Grocery List</h3>
+      </div>
+      
+      <form action="post" class="row mb-5">
+        <div class="col-11 px-0">
+<input class="form-control" type="text" v-model="newGroceryItem" placeholder="Add new grocery item" maxlength="30" />
+        </div>
+        <div class="col-1 px-0 mx-0">
+            <button class="btn btn-primary search-btn" @click="formSubmit">
+              <font-awesome-icon :icon="['fas', 'plus']" class="search-icon" />
+            </button>
+
+        </div>
+            
+      </form>
+      <img v-if="this.plannedItems.length == 0" class="illustration my-3" src="../assets/grocery-illustration.svg">
       <p v-if="this.plannedItems.length == 0">Add new items or choose from your item list</p>
-      <form action="post" class="d-grid gap-2 row mb-5">
-            <input class="form-control mb-2" type="text" v-model="newGroceryItem" placeholder="Add new grocery item" maxlength="30" />
-            <button class="btn btn-primary mb-2" @click="formSubmit">Add</button>
-        </form>
       <transition-group name="slide-fade">
         <div class="row justify-content-center" v-for="groceryItem in this.plannedItems" :key="groceryItem.id">
           
@@ -35,9 +47,9 @@
          <hr>
         </div>
       </transition-group>
-
       <div class="row mt-5 mb-3">
-        <h3 style="position: relative" @click="hideItemlist = !hideItemlist">Item List<span><font-awesome-icon :icon="['fas', 'chevron-up']" class="accordion-icon" :class="{'flipped': hideItemlist }" /></span></h3>
+        <h3 class="col-11" @click="hideItemlist = !hideItemlist">Item List</h3>
+        <h3 class="col-1 px-0" @click="hideItemlist = !hideItemlist"><font-awesome-icon :icon="['fas', 'chevron-up']" class="accordion-icon" :class="{'flipped': hideItemlist }" /></h3>
       </div>
     <transition name="slide-fade">
       <div v-if="!hideItemlist">
@@ -56,7 +68,7 @@
 <transition-group name="slide-fade">
           <div class="row justify-content-center" v-for="item in this.filteredItems" :key="item.id">
       <div class="col-11 text-nowrap overflow-hidden  px-0 mx-0">
-        <button class="btn w-100 px-0 mx-0" :class="item.planned ? 'btn-success' : 'btn-outline-secondary'" :key="item.id" @click="someFunction(item.name)" >
+        <button class="btn w-100 px-0 mx-0 list-btn" :class="item.planned ? 'btn-success' : 'btn-outline-secondary'" :key="item.id" @click="someFunction(item.name)" >
           {{ item.name }}
         </button>
       </div>
@@ -73,7 +85,6 @@
     </div>
     <img class="illustration mb-5" src="../assets/supplylist-illustration.svg">
       <br>
-    <button class="btn btn-primary mb-1" @click="this.function"><font-awesome-icon :icon="['fas','arrow-circle-left']" />Grocery List</button>
     <button class="btn btn-secondary mx-2 mb-1" @click="function2">
       <font-awesome-icon :icon="['fas','trash-alt']" />Delete all
     </button>
@@ -145,27 +156,3 @@ export default {
 
 };
 </script>
-
-<style scoped>
-p {
-    font-size: 1em;
-}
-button:hover .trash-icon-item {
-  color: white;
-}
-.accordion-icon {
-  color: black;
-  position: absolute;
-  right: 0;
-  transition: 0.3s;
-}
-.flipped {
-  transform: rotate(180deg);
-}
-
-@media (max-width: 500px){
-    button {
-      font-size: 0.9em;
-    }
-  }
-</style>

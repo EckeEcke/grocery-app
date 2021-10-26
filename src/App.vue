@@ -13,17 +13,24 @@
         <br />
     
         <div class="container">
-            <div class="row">
-                <button class="btn btn-primary mb-4 toggle-btn" @click="cookbookShown = !cookbookShown">
-                    <span v-if="cookbookShown">Grocery List</span>
-                    <span v-else>Meal Plan</span>
-                </button>
-            </div>
             <div class="row justify-content-center">
+                <div class="col-sm-12 col-md-10 col-lg-5 bg-white py-4 px-2 rounded mb-5 mx-auto" style="max-width: 95vw">
+                    <div class="btn-toolbar my-5 justify-content-center">
+                        <div class="btn-group" role="group">
+                            <button class="btn btn-primary toggle-btn" :class="{'inactive': !cookbookShown}" @click="cookbookShown = true">
+                                <span>Meal Plan</span>
+                            </button>
+                            <button class="btn btn-primary toggle-btn" :class="{'inactive': cookbookShown}" @click="cookbookShown = false">
+                                <span>Grocery List</span>
+                            </button>
+                        </div>
+                    </div>
+               
                 <transition-group name="fade">
-                    <Cookbook v-if="cookbookShown" key="component" :cookBook="cookBook" :function="showCookbook" :push="pushNewMealfromCookbook" :function2="deleteCookbook" :function3="deleteSingleItem" :checkItem="checkSingleMeal" @submit="addNewMeal"/>
+                    <Cookbook v-if="cookbookShown" key="component" :cookBook="cookBook" :function="showCookbook" :push="pushNewMealfromCookbook" :function2="deleteCookbook" :deleteItem="deleteSingleItem" :checkItem="checkSingleMeal" @submit="addNewMeal"/>
                     <Supplylist v-if="!cookbookShown" key="component" :groceryList="groceryList" :function="showItemlist" :someFunction="pushNewItemfromList" :function2="deleteGrocerylist" :deleteItem="deleteSingleItem" :checkItem="checkSingleItem" @submit="addNewItem" />
                 </transition-group>
+                </div>
             </div>
         </div>
     </div>
@@ -244,11 +251,14 @@ h3 {
 }
 
 .toggle-btn {
-    width: 160px;
-    position: fixed;
-    bottom: 0;
-    right: calc(50vw - 80px);
-    opacity: 0.6
+    width: 150px;
+    transition: 0.3s;
+}
+
+.toggle-btn.inactive {
+    opacity: 0.4;
+    background: gray;
+    border-color: gray;
 }
 
 .toggle-btn:hover {

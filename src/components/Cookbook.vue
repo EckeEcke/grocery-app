@@ -1,5 +1,5 @@
 <template>
-  <div class="col-sm-12 col-md-10 col-lg-5 bg-white py-4 px-2 rounded mb-5 mx-auto" style="max-width: 95vw">
+  <div>
   
     <div class="container mt-3 mb-5">
       <div class="row">
@@ -104,14 +104,14 @@ export default {
     function2: {
       type: Function,
     },
-    function3: {
-      type: Function,
-    },
     push: {
       type: Function,
     },
     checkItem: {
       type: Function
+    },
+    deleteItem: {
+        type: Function,
     }
   },
   data() {

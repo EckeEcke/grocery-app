@@ -79,5 +79,7 @@ export default {
       transition: 500ms;
       background-color: orange;
     }
-
+.navbar {
+  z-index: 1;
+}
 </style>

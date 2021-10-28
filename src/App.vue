@@ -8,19 +8,19 @@
                                               🍔
                                             </button>
     
-        <h1 class="p-5 text-white mb-5">Meal Planner</h1>
+        <h1 class="p-5 text-white mb-0">Meal Planner</h1>
         <br />
         <br />
     
-        <div class="container">
+        <div class="container pb-5">
             <div class="row justify-content-center">
-                <div class="col-sm-12 col-md-10 col-lg-5 bg-white py-4 px-2 rounded mb-5 mx-auto" style="max-width: 95vw">
-                    <div class="btn-toolbar my-5 justify-content-center">
+                <div class="col-sm-12 col-md-10 col-lg-5 bg-white pb-4 px-0 rounded mb-3 mx-auto border-0 card" style="max-width: 95vw">
+                    <div class="btn-toolbar mb-3 p-4 justify-content-center card-header bg-dark">
                         <div class="btn-group" role="group">
-                            <button class="btn btn-primary toggle-btn" :class="{'inactive': !cookbookShown}" @click="cookbookShown = true">
+                            <button class="btn btn-warning toggle-btn" :class="{'inactive': !cookbookShown}" @click="cookbookShown = true">
                                 <span>Meal Plan</span>
                             </button>
-                            <button class="btn btn-primary toggle-btn" :class="{'inactive': cookbookShown}" @click="cookbookShown = false">
+                            <button class="btn btn-warning toggle-btn" :class="{'inactive': cookbookShown}" @click="cookbookShown = false">
                                 <span>Grocery List</span>
                             </button>
                         </div>
@@ -257,8 +257,8 @@ h3 {
 
 .toggle-btn.inactive {
     opacity: 0.4;
-    background: gray;
-    border-color: gray;
+    background: orange;
+    border-color: orange;
 }
 
 .toggle-btn:hover {

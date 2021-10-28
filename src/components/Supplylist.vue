@@ -19,7 +19,7 @@
             
       </form>
       <img v-if="this.plannedItems.length == 0" class="illustration my-3" src="../assets/grocery-illustration.svg">
-      <p v-if="this.plannedItems.length == 0">Add new items or choose from your item list</p>
+      <p v-if="this.plannedItems.length == 0" class="mb-3">Add new items or choose from your item list</p>
       <transition-group name="slide-fade">
         <div class="row justify-content-center" v-for="groceryItem in this.plannedItems" :key="groceryItem.id">
           

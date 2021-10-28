@@ -17,7 +17,7 @@
         </div>      
       </form>
       <img v-if="this.plannedItems.length == 0" class="illustration my-3" src="../assets/meal-illustration.svg">
-      <p v-if="this.plannedItems.length == 0">Add new meals or choose from your cookbook</p>
+      <p v-if="this.plannedItems.length == 0" class="mb-3">Add new meals or choose from your cookbook</p>
       <transition-group name="slide-fade">
         <div class="row justify-content-center" v-for="meal in this.plannedItems" :key="meal.id">
           

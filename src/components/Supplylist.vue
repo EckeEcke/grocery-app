@@ -3,10 +3,11 @@
   
     <div class="container mt-3 mb-5">
       <div class="row">
-<h3 class="mb-3 col-11">Grocery List</h3>
+        <div class="col-1"></div>
+<h3 class="mb-3 col-10">Grocery List</h3>
       </div>
       
-      <form action="post" class="row mb-5">
+      <form action="post" class="row">
         <div class="col-11 px-0">
 <input class="form-control" type="text" v-model="newGroceryItem" placeholder="Add new grocery item" maxlength="30" />
         </div>
@@ -18,8 +19,11 @@
         </div>
             
       </form>
-      <img v-if="this.plannedItems.length == 0" class="illustration my-3" src="../assets/grocery-illustration.svg">
+      <img v-if="this.plannedItems.length == 0" class="illustration mt-5 mb-3" src="../assets/grocery-illustration.svg">
       <p v-if="this.plannedItems.length == 0" class="mb-3">Add new items or choose from your item list</p>
+      <div class="row">
+      <p v-if="this.plannedItems.length >= 1" class="px-2 my-4 font-small"><transition name="fade" mode="out-in"> <span :key="plannedItems.length">{{ plannedItems.length}}</span></transition> item(s) left</p>
+      </div>
       <transition-group name="slide-fade">
         <div class="row justify-content-center" v-for="groceryItem in this.plannedItems" :key="groceryItem.id">
           
@@ -48,7 +52,8 @@
         </div>
       </transition-group>
       <div class="row mt-5 mb-3">
-        <h3 class="col-11" @click="hideItemlist = !hideItemlist">Item List</h3>
+        <div class="col-1"></div>
+        <h3 class="col-10" @click="hideItemlist = !hideItemlist">Item List</h3>
         <h3 class="col-1 px-0" @click="hideItemlist = !hideItemlist"><font-awesome-icon :icon="['fas', 'chevron-up']" class="accordion-icon" :class="{'flipped': hideItemlist }" /></h3>
       </div>
     <transition name="slide-fade">
@@ -68,7 +73,7 @@
 <transition-group name="slide-fade">
           <div class="row justify-content-center" v-for="item in this.filteredItems" :key="item.id">
       <div class="col-11 text-nowrap overflow-hidden  px-0 mx-0">
-        <button class="btn w-100 px-0 mx-0 list-btn" :class="item.planned ? 'btn-success' : 'btn-outline-secondary'" :key="item.id" @click="someFunction(item.name)" >
+        <button class="btn w-100 mx-0 list-btn" :class="item.planned ? 'btn-success' : 'btn-outline-secondary'" :key="item.id" @click="someFunction(item.name)" >
           {{ item.name }}
         </button>
       </div>

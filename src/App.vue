@@ -1,14 +1,11 @@
 <template>
     <div id="app">
-        <transition name="fade">
-            <Navbar v-if="menuShown" :menuShown="menuShown" :toggleFunction="showMenu" />
-        </transition>
     
-        <button v-if="!menuShown" id="toggle-nav-BTN" class="btn" style="font-size: 2.5em" @click="showMenu">
+        <button v-if="!menuShown" id="toggle-nav-BTN" class="btn" style="font-size: 2em" @click="showMenu">
                                               🍔
                                             </button>
     
-        <h1 class="p-5 text-white mb-0">Meal Planner</h1>
+        <h1 class="text-white mb-0">Meal Planner</h1>
         <br />
         <br />
     
@@ -33,6 +30,9 @@
                 </div>
             </div>
         </div>
+        <transition name="fade">
+            <Navbar v-if="menuShown" :menuShown="menuShown" @close="hideMenu" />
+        </transition>
     </div>
 </template>
 
@@ -80,7 +80,12 @@ export default {
     methods: {
 
         showMenu: function() {
-            this.menuShown = !this.menuShown;
+            this.menuShown = true
+            document.documentElement.style.overflow = 'hidden'
+        },
+        hideMenu: function() {
+            this.menuShown = false;
+            document.documentElement.style.overflow = 'auto'
         },
         showCookbook: function() {
             this.cookbookShown = !this.cookbookShown;
@@ -225,6 +230,14 @@ h1 {
     font-family: niceFont;
     font-weight: bolder;
     background-image: linear-gradient( to bottom, rgba(23, 23, 24, 0.52), rgba(31, 21, 28, 0.73)), url("./assets/food-header.jpg");
+    padding: 2rem;
+}
+
+@media (max-width: 500px) {
+    h1 {
+        padding: 1rem;
+        text-align: left;
+    }
 }
 
 h3 {
@@ -279,6 +292,7 @@ p {
 
 hr {
   margin: 0;
+  width: 100%;
 }
 
 .illustration {
@@ -290,6 +304,11 @@ hr {
   cursor: pointer;
   color: blue;
   text-decoration: none;
+}
+
+.font-small {
+    font-size: 0.8rem;
+    text-align: right;
 }
 
 .fade-enter-active,
@@ -387,4 +406,5 @@ svg {
     color: white;
     margin-right: 8px;
 }
+
 </style>

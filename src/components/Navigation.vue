@@ -1,5 +1,7 @@
 <template>
-  <nav class="navbar bg-dark" style="width: 100vw; max-width: 500px; height: 100vh; position: fixed; right: 0; top: 0">
+<div>
+  <div class="backdrop" @click="() => this.$emit('close')"></div>
+    <nav class="navbar bg-dark" style="width: 100vw; max-width: 500px; height: 100vh; position: fixed; right: 0; top: 0">
     <div>
     <ul>
       <li class="py-3"><a href="https://eckeecke.github.io/">Home</a></li>
@@ -11,33 +13,22 @@
     </ul>
     <button
       id="toggle-nav-BTN"
-      class="btn"
+      class="btn text-white"
       style="font-size: 2.5em"
-      @click="toggleFunction"
+      @click="() => this.$emit('close')"
     >
-      🍔
+      <font-awesome-icon :icon="['fas', 'times']" />
     </button>
-    </div>
+    </div> 
   </nav>
+</div>
+
 </template>
 
 
 <script>
 export default {
   name: "Navbar",
-  props: {
-    menuShown: {
-      type: Boolean
-    },
-    toggleFunction: {
-      type: Function
-    }
-  },
-  data() {
-    return {
-      burgermenuShown: this.menuShown
-    }
-  }
 };
 </script>
 
@@ -81,5 +72,14 @@ export default {
     }
 .navbar {
   z-index: 1;
+}
+.backdrop {
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0,0,0,0.4);
+    top: 0;
+    left: 0;
+    z-index: 1;
 }
 </style>

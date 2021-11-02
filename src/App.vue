@@ -110,8 +110,7 @@ export default {
       groceryList:
         JSON.parse(localStorage.getItem("grocerylist")) || supplylist,
       menuShown: false,
-      cookbookShown: false,
-      itemlistShown: false,
+      cookbookShown: true,
       newMeal: "",
       newGroceryItem: "",
       cookBook: JSON.parse(localStorage.getItem("cookbook")) || cookbook,
@@ -154,9 +153,6 @@ export default {
     },
     showCookbook: function () {
       this.cookbookShown = !this.cookbookShown;
-    },
-    showItemlist: function () {
-      this.itemlistShown = !this.itemlistShown;
     },
     pushNewMeal: function () {
       let index = this.cookBook.findIndex((item) => item.name === this.newMeal);
@@ -250,7 +246,6 @@ export default {
       if (confirmed) {
         this.groceryList = [];
         localStorage.removeItem("grocerylist");
-        this.itemlistShown = false;
       }
     },
     deleteCookbook: function () {

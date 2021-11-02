@@ -1,9 +1,9 @@
 <template>
   <div>
     <div class="container mt-3 mb-5">
-      <div class="row">
+      <div class="row mb-3">
         <div class="col-1 mb-2 bg-light"></div>
-        <h3 class="mb-3 col-10 bg-light">Grocery List</h3>
+        <h3 class="col-10 bg-light">Grocery List</h3>
         <div class="col-1 mb-2 bg-light"></div>
       </div>
 
@@ -144,7 +144,7 @@
       src="../assets/supplylist-illustration.svg"
     />
     <br />
-    <button class="btn btn-secondary mx-2 mb-1" @click="function2">
+    <button v-if="!hideItemlist" class="btn btn-secondary mx-2 mb-1" @click="function2">
       <font-awesome-icon :icon="['fas', 'trash-alt']" />Delete all
     </button>
   </div>

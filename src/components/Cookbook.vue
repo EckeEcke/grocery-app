@@ -141,7 +141,7 @@
     </div>
     <img class="illustration mb-5" src="../assets/cooking-illustration.svg" />
     <br />
-    <button class="btn btn-secondary mx-2 mb-1" @click="function2">
+    <button v-if="!hideItemlist" class="btn btn-secondary mx-2 mb-1" @click="function2">
       <font-awesome-icon :icon="['fas', 'trash-alt']" />Delete all
     </button>
   </div>

@@ -154,9 +154,6 @@ export default {
     cookBook: {
       type: Array,
     },
-    function: {
-      type: Function,
-    },
     function2: {
       type: Function,
     },

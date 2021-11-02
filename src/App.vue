@@ -1,39 +1,94 @@
 <template>
-    <div id="app">
-    
-        <button v-if="!menuShown" id="toggle-nav-BTN" class="btn" style="font-size: 2em" @click="showMenu">
-                                              🍔
-                                            </button>
-    
-        <h1 class="text-white mb-0">Meal Planner</h1>
-        <br />
-        <br />
-    
-        <div class="container pb-5">
-            <div class="row justify-content-center">
-                <div class="col-sm-12 col-md-10 col-lg-5 bg-white pb-4 px-0 rounded mb-3 mx-auto border-0 card" style="max-width: 95vw">
-                    <div class="btn-toolbar mb-3 p-4 justify-content-center card-header bg-dark">
-                        <div class="btn-group" role="group">
-                            <button class="btn btn-warning toggle-btn" :class="{'inactive': !cookbookShown}" @click="cookbookShown = true">
-                                <span>Meal Plan</span>
-                            </button>
-                            <button class="btn btn-warning toggle-btn" :class="{'inactive': cookbookShown}" @click="cookbookShown = false">
-                                <span>Grocery List</span>
-                            </button>
-                        </div>
-                    </div>
-               
-                <transition-group name="fade">
-                    <Cookbook v-if="cookbookShown" key="component" :cookBook="cookBook" :function="showCookbook" :push="pushNewMealfromCookbook" :function2="deleteCookbook" :deleteItem="deleteSingleItem" :checkItem="checkSingleMeal" @submit="addNewMeal"/>
-                    <Supplylist v-if="!cookbookShown" key="component" :groceryList="groceryList" :function="showItemlist" :someFunction="pushNewItemfromList" :function2="deleteGrocerylist" :deleteItem="deleteSingleItem" :checkItem="checkSingleItem" @submit="addNewItem" />
-                </transition-group>
-                </div>
+  <div id="app">
+    <button
+      v-if="!menuShown"
+      id="toggle-nav-BTN"
+      class="btn"
+      style="font-size: 2em"
+      @click="showMenu"
+    >
+      🍔
+    </button>
+
+    <h1 class="text-white mb-0">Meal Planner</h1>
+    <br />
+    <br />
+
+    <div class="container pb-5">
+      <div class="row justify-content-center">
+        <div
+          class="
+            col-sm-12 col-md-10 col-lg-5
+            bg-white
+            pb-4
+            px-0
+            rounded
+            mb-3
+            mx-auto
+            border-0
+            card
+          "
+          style="max-width: 95vw"
+        >
+          <div
+            class="
+              btn-toolbar
+              mb-3
+              p-4
+              justify-content-center
+              card-header
+              bg-dark
+            "
+          >
+            <div class="btn-group" role="group">
+              <button
+                class="btn btn-warning toggle-btn"
+                :class="{ inactive: !cookbookShown }"
+                @click="cookbookShown = true"
+              >
+                <span>Meal Plan</span>
+              </button>
+              <button
+                class="btn btn-warning toggle-btn"
+                :class="{ inactive: cookbookShown }"
+                @click="cookbookShown = false"
+              >
+                <span>Grocery List</span>
+              </button>
             </div>
+          </div>
+
+          <transition-group name="fade">
+            <Cookbook
+              v-if="cookbookShown"
+              key="component"
+              :cookBook="cookBook"
+              :function="showCookbook"
+              :push="pushNewMealfromCookbook"
+              :function2="deleteCookbook"
+              :deleteItem="deleteSingleItem"
+              :checkItem="checkSingleMeal"
+              @submit="addNewMeal"
+            />
+            <Supplylist
+              v-if="!cookbookShown"
+              key="component"
+              :groceryList="groceryList"
+              :function="showItemlist"
+              :someFunction="pushNewItemfromList"
+              :function2="deleteGrocerylist"
+              :deleteItem="deleteSingleItem"
+              :checkItem="checkSingleItem"
+              @submit="addNewItem"
+            />
+          </transition-group>
         </div>
-        <transition name="fade">
-            <Navbar v-if="menuShown" :menuShown="menuShown" @close="hideMenu" />
-        </transition>
+      </div>
     </div>
+    <transition name="fade">
+      <Navbar v-if="menuShown" :menuShown="menuShown" @close="hideMenu" />
+    </transition>
+  </div>
 </template>
 
 <script>
@@ -43,251 +98,279 @@ import Supplylist from "./components/Supplylist.vue";
 import supplylist from "./static/supplylist.json";
 import cookbook from "./static/cookbook.json";
 
-
-
-
-
 export default {
-    name: "App",
-    components: {
-        Navbar,
-        Cookbook,
-        Supplylist,
+  name: "App",
+  components: {
+    Navbar,
+    Cookbook,
+    Supplylist,
+  },
+  data: function () {
+    return {
+      groceryList:
+        JSON.parse(localStorage.getItem("grocerylist")) || supplylist,
+      menuShown: false,
+      cookbookShown: false,
+      itemlistShown: false,
+      newMeal: "",
+      newGroceryItem: "",
+      cookBook: JSON.parse(localStorage.getItem("cookbook")) || cookbook,
+    };
+  },
+  computed: {
+    newGroceryItemId() {
+      if (this.groceryList.length) {
+        return (
+          Math.max.apply(
+            Math,
+            this.groceryList.map(function (item) {
+              return item.id;
+            })
+          ) + 1
+        );
+      } else return 0;
     },
-    data: function() {
-        return {
-            groceryList: JSON.parse(localStorage.getItem("grocerylist")) || supplylist,
-            menuShown: false,
-            cookbookShown: false,
-            itemlistShown: false,
-            newMeal: "",
-            newGroceryItem: "",
-            cookBook: JSON.parse(localStorage.getItem("cookbook")) || cookbook,
-        };
+    newDishId() {
+      if (this.cookBook.length) {
+        return (
+          Math.max.apply(
+            Math,
+            this.cookBook.map(function (item) {
+              return item.id;
+            })
+          ) + 1
+        );
+      } else return 0;
     },
-    computed: {
-      newGroceryItemId() {
-        if(this.groceryList.length) {
-          return Math.max.apply(Math, this.groceryList.map(function(item) { return item.id; })) + 1
-        } else return 0
-      },
-      newDishId() {
-        if(this.cookBook.length) {
-          return Math.max.apply(Math, this.cookBook.map(function(item) { return item.id; })) + 1
-        } else return 0
+  },
+  methods: {
+    showMenu: function () {
+      this.menuShown = true;
+      document.documentElement.style.overflow = "hidden";
+    },
+    hideMenu: function () {
+      this.menuShown = false;
+      document.documentElement.style.overflow = "auto";
+    },
+    showCookbook: function () {
+      this.cookbookShown = !this.cookbookShown;
+    },
+    showItemlist: function () {
+      this.itemlistShown = !this.itemlistShown;
+    },
+    pushNewMeal: function () {
+      let index = this.cookBook.findIndex((item) => item.name === this.newMeal);
+      if (index == -1) {
+        this.cookBook.push({ name: this.newMeal, planned: true });
+      } else {
+        this.cookBook[index].planned = true;
+      }
+
+      localStorage.setItem("cookbook", JSON.stringify(this.cookBook));
+      this.newMeal = "";
+    },
+    pushNewGroceryItem: function () {
+      let index = this.groceryList.findIndex(
+        (item) => item.name === this.newGroceryItem
+      );
+      if (index == -1) {
+        this.groceryList.push({
+          name: this.newGroceryItem,
+          planned: true,
+          id: this.newGroceryItemId,
+        });
+      } else {
+        this.groceryList[index].planned = true;
+      }
+
+      localStorage.setItem("grocerylist", JSON.stringify(this.groceryList));
+      this.newGroceryItem = "";
+    },
+    pushNewMealfromCookbook: function (element) {
+      const index = this.cookBook
+        .map(function (element) {
+          return element.name;
+        })
+        .indexOf(element);
+      if (this.cookBook[index].planned == false) {
+        this.cookBook[index].planned = true;
+      } else {
+        this.cookBook[index].planned = false;
       }
     },
-    methods: {
+    pushNewItemfromList: function (element) {
+      const index = this.groceryList
+        .map(function (element) {
+          return element.name;
+        })
+        .indexOf(element);
+      if (this.groceryList[index].planned == false) {
+        this.groceryList[index].planned = true;
+      } else {
+        this.groceryList[index].planned = false;
+      }
+    },
+    formSubmit: function (event) {
+      event.preventDefault();
+      if (this.newGroceryItem.length > 0) {
+        this.pushNewGroceryItem();
+      }
+      if (this.newMeal.length > 0) {
+        this.pushNewMeal();
+      }
+    },
+    addNewItem: function (item) {
+      let index = this.groceryList.findIndex(
+        (listItem) => listItem.name === item
+      );
+      if (index == -1) {
+        this.groceryList.push({
+          name: item,
+          planned: true,
+          id: this.newGroceryItemId,
+        });
+      } else {
+        this.groceryList[index].planned = true;
+      }
 
-        showMenu: function() {
-            this.menuShown = true
-            document.documentElement.style.overflow = 'hidden'
-        },
-        hideMenu: function() {
-            this.menuShown = false;
-            document.documentElement.style.overflow = 'auto'
-        },
-        showCookbook: function() {
-            this.cookbookShown = !this.cookbookShown;
-        },
-        showItemlist: function() {
-            this.itemlistShown = !this.itemlistShown;
-        },
-        pushNewMeal: function() {
-            let index = this.cookBook.findIndex(item => item.name === this.newMeal);
-            if (index == -1) {
-                this.cookBook.push({ name: this.newMeal, planned: true });
-            } else {
-                this.cookBook[index].planned = true;
-            }
+      localStorage.setItem("grocerylist", JSON.stringify(this.groceryList));
+    },
+    addNewMeal: function (item) {
+      let index = this.cookBook.findIndex((listItem) => listItem.name === item);
+      if (index == -1) {
+        this.cookBook.push({ name: item, planned: true, id: this.newDishId });
+      } else {
+        this.cookBook[index].planned = true;
+      }
 
-            localStorage.setItem("cookbook", JSON.stringify(this.cookBook));
-            this.newMeal = "";
-        },
-        pushNewGroceryItem: function() {
-            let index = this.groceryList.findIndex(item => item.name === this.newGroceryItem);
-            if (index == -1) {
-                this.groceryList.push({ name: this.newGroceryItem, planned: true, id: this.newGroceryItemId });
-            } else {
-
-                this.groceryList[index].planned = true;
-            }
-
-            localStorage.setItem("grocerylist", JSON.stringify(this.groceryList));
-            this.newGroceryItem = "";
-        },
-        pushNewMealfromCookbook: function(element) {
-            const index = this.cookBook.map(function(element) {
-                    return element.name;
-                }).indexOf(element);
-            if (this.cookBook[index].planned == false) {
-                this.cookBook[index].planned = true;
-            } else {
-                this.cookBook[index].planned = false;
-            }
-
-
-        },
-        pushNewItemfromList: function(element) {
-            const index = this.groceryList.map(function(element) {
-                return element.name;
-            }).indexOf(element);
-            if (this.groceryList[index].planned == false) {
-                this.groceryList[index].planned = true;
-            } else {
-                this.groceryList[index].planned = false;
-            }
-        },
-        formSubmit: function(event) {
-            event.preventDefault();
-            if (this.newGroceryItem.length > 0) {
-                this.pushNewGroceryItem();
-            }
-            if (this.newMeal.length > 0) {
-                this.pushNewMeal();
-            }
-        },
-        addNewItem: function(item) {
-            let index = this.groceryList.findIndex(listItem => listItem.name === item);
-            if (index == -1) {
-                this.groceryList.push({ name: item, planned: true, id: this.newGroceryItemId });
-            } else {
-
-                this.groceryList[index].planned = true;
-            }
-
-            localStorage.setItem("grocerylist", JSON.stringify(this.groceryList));
-        },
-        addNewMeal: function(item) {
-            let index = this.cookBook.findIndex(listItem => listItem.name === item);
-            if (index == -1) {
-                this.cookBook.push({ name: item, planned: true, id: this.newDishId });
-            } else {
-                this.cookBook[index].planned = true;
-            }
-
-            localStorage.setItem("cookbook", JSON.stringify(this.cookBook));
-        },
-        deleteGrocerylist: function() {
-            let confirmed = confirm("Do you really want to delete your list?");
-            if (confirmed) {
-                this.groceryList = [];
-                localStorage.removeItem("grocerylist");
-                this.itemlistShown = false;
-            }
-        },
-        deleteCookbook: function() {
-            let confirmed = confirm("Do you really want to delete your list?");
-            if (confirmed) {
-                this.cookBook = [];
-                localStorage.removeItem("cookbook");
-                this.cookbookShown = false;
-            }
-        },
-        deleteSingleItem: function(array, element) {
-            const index = array
-                .map(function(element) {
-                    return element.name;
-                })
-                .indexOf(element);
-            array.splice(index, 1);
-            localStorage.setItem("grocerylist", JSON.stringify(this.groceryList));
-        },
-        checkSingleMeal: function(element) {
-
-
-            const indexCookbook = this.cookBook.map(function(element) {
-                return element.name;
-            }).indexOf(element);
-            if (this.cookBook[indexCookbook]) {
-                this.cookBook[indexCookbook].planned = false;
-            }
-            localStorage.setItem("cookbook", JSON.stringify(this.cookBook));
-        },
-
-        checkSingleItem: function(element) {
-            const indexGrocerylist = this.groceryList.map(function(element) {
-                return element.name;
-            }).indexOf(element);
-            if (this.groceryList[indexGrocerylist]) {
-                this.groceryList[indexGrocerylist].planned = false;
-            }
-            localStorage.setItem("grocerylist", JSON.stringify(this.groceryList));
-        }
+      localStorage.setItem("cookbook", JSON.stringify(this.cookBook));
+    },
+    deleteGrocerylist: function () {
+      let confirmed = confirm("Do you really want to delete your list?");
+      if (confirmed) {
+        this.groceryList = [];
+        localStorage.removeItem("grocerylist");
+        this.itemlistShown = false;
+      }
+    },
+    deleteCookbook: function () {
+      let confirmed = confirm("Do you really want to delete your list?");
+      if (confirmed) {
+        this.cookBook = [];
+        localStorage.removeItem("cookbook");
+        this.cookbookShown = false;
+      }
+    },
+    deleteSingleItem: function (array, element) {
+      const index = array
+        .map(function (element) {
+          return element.name;
+        })
+        .indexOf(element);
+      array.splice(index, 1);
+      localStorage.setItem("grocerylist", JSON.stringify(this.groceryList));
+    },
+    checkSingleMeal: function (element) {
+      const indexCookbook = this.cookBook
+        .map(function (element) {
+          return element.name;
+        })
+        .indexOf(element);
+      if (this.cookBook[indexCookbook]) {
+        this.cookBook[indexCookbook].planned = false;
+      }
+      localStorage.setItem("cookbook", JSON.stringify(this.cookBook));
     },
 
+    checkSingleItem: function (element) {
+      const indexGrocerylist = this.groceryList
+        .map(function (element) {
+          return element.name;
+        })
+        .indexOf(element);
+      if (this.groceryList[indexGrocerylist]) {
+        this.groceryList[indexGrocerylist].planned = false;
+      }
+      localStorage.setItem("grocerylist", JSON.stringify(this.groceryList));
+    },
+  },
 };
 </script>
 
 <style>
-@import url('https://fonts.googleapis.com/css?family=Nunito');
+@import url("https://fonts.googleapis.com/css?family=Nunito");
 @font-face {
-    font-family: "niceFont";
-    src: url("./assets/niceFont.ttf");
+  font-family: "niceFont";
+  src: url("./assets/niceFont.ttf");
 }
 
 h1 {
-    font-family: niceFont;
-    font-weight: bolder;
-    background-image: linear-gradient( to bottom, rgba(23, 23, 24, 0.52), rgba(31, 21, 28, 0.73)), url("./assets/food-header.jpg");
-    padding: 2rem;
+  font-family: niceFont;
+  font-weight: bolder;
+  background-image: linear-gradient(
+      to bottom,
+      rgba(23, 23, 24, 0.52),
+      rgba(31, 21, 28, 0.73)
+    ),
+    url("./assets/food-header.jpg");
+  padding: 2rem;
 }
 
 @media (max-width: 500px) {
-    h1 {
-        padding: 1rem;
-        text-align: left;
-    }
+  h1 {
+    padding: 1rem;
+    text-align: left;
+  }
 }
 
 h3 {
-    font-weight: bolder;
-    padding: 12px;
+  font-weight: bolder;
+  padding: 12px;
 }
 
 #app {
-    font-family: Avenir, Helvetica, Arial, sans-serif;
-    font-family: 'Nunito', sans-serif;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    text-align: center;
-    color: #2c3e50;
-    height: 100%;
-    min-height: 100vh;
-    background-image: linear-gradient(to right, #ff8008, #ffc837);
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  font-family: "Nunito", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
+  height: 100%;
+  min-height: 100vh;
+  background-image: linear-gradient(to right, #ff8008, #ffc837);
 }
 
 #toggle-nav-BTN {
-    position: absolute;
-    right: 2px;
-    top: 2px;
+  position: absolute;
+  right: 2px;
+  top: 2px;
 }
 
 .toggle-btn {
-    width: 150px;
-    transition: 0.3s;
+  width: 150px;
+  transition: 0.3s;
 }
 
 .toggle-btn.inactive {
-    opacity: 0.4;
-    background: orange;
-    border-color: orange;
+  opacity: 0.4;
+  background: orange;
+  border-color: orange;
 }
 
 .toggle-btn:hover {
-    opacity: 1;
+  opacity: 1;
 }
 
 li {
-    list-style-type: none;
+  list-style-type: none;
 }
 
 ul {
-    padding: 0;
+  padding: 0;
 }
 
 p {
-    font-size: 1.5em;
+  font-size: 1.5em;
 }
 
 hr {
@@ -296,8 +379,8 @@ hr {
 }
 
 .illustration {
-    width: 30%;
-    min-width: 150px;
+  width: 30%;
+  min-width: 150px;
 }
 
 .link {
@@ -307,41 +390,38 @@ hr {
 }
 
 .font-small {
-    font-size: 0.8rem;
-    text-align: right;
+  font-size: 0.8rem;
+  text-align: right;
 }
 
 .fade-enter-active,
 .fade-leave-active {
-    transition: opacity 0.2s;
+  transition: opacity 0.2s;
 }
 
 .fade-enter,
 .fade-leave-to
-/* .fade-leave-active below version 2.1.8 */
-
-    {
-    opacity: 0;
+/* .fade-leave-active below version 2.1.8 */ {
+  opacity: 0;
 }
 
 .slide-fade-enter-active {
-    transition: all .3s ease;
+  transition: all 0.3s ease;
 }
 
 .slide-fade-leave-active {
-    transition: all .3s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+  transition: all 0.3s cubic-bezier(1, 0.5, 0.8, 1);
 }
 
 .slide-fade-enter,
 .slide-fade-leave-to
-/* .slide-fade-leave-active below version 2.1.8 */
-
-    {
-    transform: translateX(20px) translateY(5px) scale(0.5);
-    opacity: 0;
+/* .slide-fade-leave-active below version 2.1.8 */ {
+  transform: translateX(20px) translateY(5px) scale(0.5);
+  opacity: 0;
 }
 
-.btn-outline-secondary, .btn-success {
+.btn-outline-secondary,
+.btn-success {
   border-radius: 0;
 }
 
@@ -380,9 +460,9 @@ button:hover .trash-icon-item {
   margin: 0;
 }
 
-  .centered-icon {
-    margin: 0 auto;
-  }
+.centered-icon {
+  margin: 0 auto;
+}
 .check-btn {
   padding: 6px;
 }
@@ -397,14 +477,13 @@ button:hover .trash-icon-item {
 }
 
 p {
-    font-size: 1em;
+  font-size: 1em;
 }
 button:hover .trash-icon-item {
   color: white;
 }
 svg {
-    color: white;
-    margin-right: 8px;
+  color: white;
+  margin-right: 8px;
 }
-
 </style>

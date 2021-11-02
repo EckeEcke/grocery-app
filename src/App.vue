@@ -86,6 +86,11 @@
     <transition name="fade">
       <Navbar v-if="menuShown" :menuShown="menuShown" @close="hideMenu" />
     </transition>
+    <transition name="fade">
+      <button v-if="showScrollBtn" class="scroll-btn btn bg-primary" @click="scrollToTop"><font-awesome-icon
+            :icon="['fas', 'chevron-up']"
+          /></button>
+    </transition>
   </div>
 </template>
 
@@ -109,6 +114,7 @@ export default {
         JSON.parse(localStorage.getItem("grocerylist")) || supplylist,
       menuShown: false,
       cookbookShown: true,
+      showScrollBtn: false,
       newMeal: "",
       newGroceryItem: "",
       cookBook: JSON.parse(localStorage.getItem("cookbook")) || cookbook,
@@ -140,6 +146,12 @@ export default {
       } else return 0;
     },
   },
+  created () {
+    window.addEventListener('scroll', this.toggleScrollbutton);
+  },
+  destroyed () {
+    window.removeEventListener('scroll', this.toggleScrollbutton);
+  },
   methods: {
     showMenu: function () {
       this.menuShown = true;
@@ -148,6 +160,16 @@ export default {
     hideMenu: function () {
       this.menuShown = false;
       document.documentElement.style.overflow = "auto";
+    },
+    toggleScrollbutton: function () {
+      if ( window.scrollY > window.innerHeight*0.75) {
+        this.showScrollBtn = true
+      } else {
+        this.showScrollBtn = false
+      }
+    },
+    scrollToTop: function() {
+      window.scrollTo(0,0)
     },
     showCookbook: function () {
       this.cookbookShown = !this.cookbookShown;
@@ -380,6 +402,17 @@ hr {
   cursor: pointer;
   color: blue;
   text-decoration: none;
+}
+
+.scroll-btn {
+  position: fixed;
+  right: 12px;
+  bottom: 12px;
+  background: white;
+}
+
+.scroll-btn svg {
+  margin: 0;
 }
 
 .font-small {

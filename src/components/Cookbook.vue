@@ -189,6 +189,12 @@ export default {
       return this.cookBook.filter((item) => item.planned == true);
     },
   },
+   watch: {
+    cookBook() {
+      this.listData = this.cookBook
+    }
+
+  },
   methods: {
     formSubmit(event) {
       event.preventDefault();

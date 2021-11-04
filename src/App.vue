@@ -23,12 +23,11 @@
             pb-4
             px-0
             rounded
-            mb-3
             mx-auto
             border-0
             card
+            mb-5
           "
-          style="max-width: 95vw"
         >
           <div
             class="
@@ -81,6 +80,7 @@
             />
           </transition-group>
         </div>
+        <Random :randomMeal="recipe" />
       </div>
     </div>
     <transition name="fade">
@@ -90,16 +90,18 @@
       <button v-if="showScrollBtn" class="scroll-btn btn bg-primary" @click="scrollToTop"><font-awesome-icon
             :icon="['fas', 'chevron-up']"
           /></button>
-    </transition>
+    </transition> 
   </div>
 </template>
 
 <script>
+import Random from "./components/Random.vue";
 import Navbar from "./components/Navigation.vue";
 import Cookbook from "./components/Cookbook.vue";
 import Supplylist from "./components/Supplylist.vue";
 import supplylist from "./static/supplylist.json";
 import cookbook from "./static/cookbook.json";
+import axios from 'axios';
 
 export default {
   name: "App",
@@ -107,6 +109,7 @@ export default {
     Navbar,
     Cookbook,
     Supplylist,
+    Random
   },
   data: function () {
     return {
@@ -118,6 +121,7 @@ export default {
       newMeal: "",
       newGroceryItem: "",
       cookBook: JSON.parse(localStorage.getItem("cookbook")) || cookbook,
+      recipe: null
     };
   },
   computed: {
@@ -145,6 +149,12 @@ export default {
         );
       } else return 0;
     },
+  },
+  mounted() {
+     axios
+      .get('https://www.themealdb.com/api/json/v1/1/random.php')
+      .then(response => (this.recipe = response))
+      .then(console.log(this.recipe))
   },
   created () {
     window.addEventListener('scroll', this.toggleScrollbutton);
@@ -273,7 +283,6 @@ export default {
       if (confirmed) {
         this.cookBook = [];
         localStorage.removeItem("cookbook");
-        this.cookbookShown = false;
       }
     },
     deleteSingleItem: function (array, element) {
@@ -511,5 +520,18 @@ button:hover .trash-icon-item {
 svg {
   color: white;
   margin-right: 8px;
+}
+
+.dish-image {
+  width: 90%; 
+  margin-left: 0;
+}
+
+.dish-text {
+  text-align: left;
+}
+
+.card-header {
+  min-height: 87px;
 }
 </style>

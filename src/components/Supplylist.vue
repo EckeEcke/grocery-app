@@ -195,6 +195,12 @@ export default {
       return this.groceryList.filter((item) => item.planned == true);
     },
   },
+  watch: {
+    groceryList() {
+      this.listData = this.groceryList
+    }
+
+  },
   methods: {
     formSubmit(event) {
       event.preventDefault();

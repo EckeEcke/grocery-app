@@ -10,9 +10,7 @@
       🍔
     </button>
 
-    <h1 class="text-white mb-0">Meal Planner</h1>
-    <br />
-    <br />
+    <h1 class="text-white mb-0 mb-sm-5">Meal Planner</h1>
 
     <div class="container pb-5">
       <div class="row justify-content-center">
@@ -26,7 +24,8 @@
             mx-auto
             border-0
             card
-            mb-5
+            mb-0
+            mb-sm-5
           "
         >
           <div

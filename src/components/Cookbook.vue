@@ -266,8 +266,7 @@ export default {
       this.ingredients.push(this.newIngredient);
       this.newIngredient = "";
     },
-    deleteIngredient(event, ingredient) {
-      event.preventDefault()
+    deleteIngredient(ingredient) {
       let index = this.ingredients.indexOf(ingredient);
       this.ingredients.splice(index, 1);
     },

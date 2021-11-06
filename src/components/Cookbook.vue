@@ -4,7 +4,7 @@
       <div class="bg-warning rounded">
         <div class="container pt-1 pb-4">
           <h3 class="text-white">Meal Plan</h3>
-          <form action="post">
+          <form>
             <div class="row">
               <div class="col-12">
                 <div class="col-12 py-0 rounded">

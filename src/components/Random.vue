@@ -2,12 +2,14 @@
   <div
     class="col-12 col-md-10 col-lg-5 px-0 rounded border-0 mx-auto mb-5"
   >
-    <div class="card bg-white border-0">
+    <div class="card bg-white border-0 pb-4">
       <div class="card-header bg-dark">
         <h3 class="text-warning m-2 p-2">Random recipe</h3>
       </div>
-
-      <div class="card-body">
+      <div v-if="isLoading" class="card-body">
+        <div class="spinner-3 mx-auto my-5"></div>
+      </div>
+      <div v-if="!isLoading" class="card-body">
         <div class="row bg-light p-1">
           <div class="col-4 rounded">
             <img class="dish-image" :src="randomMeal.data.meals[0].strMealThumb" />
@@ -37,16 +39,16 @@
         
         </div>
         
-        <div class="row mt-5 mb-3">
-          <div class="col-1 mb-2 bg-light"></div>
-          <h3
-            class="col-10 bg-light"
+        <div class="row mt-5">
+          <div class="col-1 mb-2"></div>
+          <h5
+            class="col-10"
             @click="() => (showInstructions = !showInstructions)"
           >
             Instructions
-          </h3>
-          <h3
-            class="col-1 px-0 bg-light"
+          </h5>
+          <h5
+            class="col-1 px-0"
             @click="showInstructions = !showInstructions"
           >
             <font-awesome-icon
@@ -54,23 +56,24 @@
               class="accordion-icon"
               :class="{ flipped: !showInstructions }"
             />
-          </h3>
+          </h5>
         </div>
         <transition name="slide-fade">
           <p v-if="showInstructions" class="dish-text px-4">
             {{ randomMeal.data.meals[0].strInstructions }}
           </p>
         </transition>
-        <div class="row mb-3">
-          <div class="col-1 mb-2 bg-light"></div>
-          <h3
-            class="col-10 bg-light"
+        <hr class="mb-2">
+        <div class="row">
+          <div class="col-1 mb-2"></div>
+          <h5
+            class="col-10"
             @click="() => (showIngredients = !showIngredients)"
           >
             Ingredients
-          </h3>
-          <h3
-            class="col-1 px-0 bg-light"
+          </h5>
+          <h5
+            class="col-1 px-0"
             @click="showIngredients = !showIngredients"
           >
             <font-awesome-icon
@@ -78,10 +81,11 @@
               class="accordion-icon"
               :class="{ flipped: !showIngredients }"
             />
-          </h3>
+          </h5>
         </div>
         <transition name="slide-fade">
           <div v-if="showIngredients">
+            <br>
             <p
               v-for="(ingredient, index) in ingredients"
               :key="ingredient + index"
@@ -91,23 +95,22 @@
             </p>
           </div>
         </transition>
+        <hr>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import axios from 'axios';
 export default {
   name: "Random",
-  props: {
-    randomMeal: {
-      type: Object,
-    },
-  },
   data() {
     return {
       showInstructions: false,
       showIngredients: false,
+      randomMeal: null,
+      isLoading: true
     };
   },
   computed: {
@@ -129,6 +132,12 @@ export default {
       }
       return list;
     },
+  },
+  mounted() {
+     axios
+      .get('https://www.themealdb.com/api/json/v1/1/random.php')
+      .then(response => (this.randomMeal = response))
+      .then(this.isLoading = false)
   },
 };
 </script>

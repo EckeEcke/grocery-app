@@ -1,35 +1,86 @@
 <template>
   <div>
     <div class="container mt-3 mb-5">
-      <div class="row mb-3">
-        <div class="col-1 mb-2 bg-light"></div>
-        <h3 class="col-10 bg-light">Meal Plan</h3>
-        <div class="col-1 mb-2 bg-light"></div>
+      <div class="bg-warning rounded">
+        <div class="container pt-1 pb-4">
+          <h3 class="text-white">Meal Plan</h3>
+          <form action="post">
+            <div class="row">
+              <div class="col-12">
+                <div class="col-12 py-0 rounded">
+                  <div class="row">
+                    <div class="col-12">
+                      <input
+                        class="form-control"
+                        type="text"
+                        v-model="newMeal"
+                        placeholder="Add new meal"
+                        maxlength="30"
+                      />
+                    </div>
+                    <transition name="fade">
+                      <div v-if="newMeal.length > 0" class="input-group my-3">
+                        <input
+                          class="form-control"
+                          type="text"
+                          v-model="newIngredient"
+                          placeholder="Add ingredient (optional)"
+                          maxlength="30"
+                        />
+                        <div class="input-group-append">
+                          <button
+                            class="btn btn-primary col-12"
+                            @click="pushIngredient"
+                          >
+                            <font-awesome-icon
+                              :icon="['fas', 'plus']"
+                              class="search-icon"
+                            />
+                          </button>
+                        </div>
+                      </div>
+                    </transition>
+                  </div>
+
+                  <transition name="fade">
+                    <div
+                      v-if="
+                        this.ingredients.length > 0 && this.newMeal.length > 0
+                      "
+                    >
+                      <p style="text-align: left" class="mt-3">Ingredients:</p>
+                      <ul style="text-align: left">
+                        <button class="btn btn-secondary mx-1 mb-1" v-for="ingredient in ingredients" :key="ingredient" @click="deleteIngredient(ingredient)">
+                          {{ ingredient }} X
+                        </button>
+                      </ul>
+                    </div>
+                  </transition>
+                  <button
+                    v-if="newMeal.length > 0"
+                    class="btn col-12 btn-primary search-btn"
+                    @click="formSubmit"
+                  >
+                    <font-awesome-icon
+                      :icon="['fas', 'plus']"
+                      class="search-icon"
+                    />
+                    Add meal
+                  </button>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
       </div>
-      <form action="post" class="row">
-        <div class="col-11 px-0">
-          <input
-            class="form-control"
-            type="text"
-            v-model="newMeal"
-            placeholder="Add new meal"
-            maxlength="30"
-          />
-        </div>
-        <div class="col-1 px-0 mx-0">
-          <button class="btn btn-primary search-btn" @click="formSubmit">
-            <font-awesome-icon :icon="['fas', 'plus']" class="search-icon" />
-          </button>
-        </div>
-      </form>
-      <img
-        v-if="this.plannedItems.length == 0"
-        class="illustration mt-5 mb-3"
-        src="../assets/meal-illustration.svg"
-      />
-      <p v-if="this.plannedItems.length == 0" class="mb-3">
-        Add new meals or choose from your cookbook
-      </p>
+      <div v-if="this.plannedItems.length == 0" class="my-5">
+        <img
+          class="illustration mt-5 mb-3"
+          src="../assets/meal-illustration.svg"
+        />
+        <p class="mb-3">Add new meals or choose from your cookbook</p>
+      </div>
+
       <div class="row">
         <p v-if="this.plannedItems.length >= 1" class="px-2 my-4 font-small">
           <transition name="fade" mode="out-in"
@@ -40,79 +91,72 @@
           meal(s) planned
         </p>
       </div>
-
-      <transition-group name="slide-fade">
-        <div
-          class="row justify-content-center"
-          v-for="meal in this.plannedItems"
-          :key="meal.id"
-        >
-          <div class="col-11 col-md-11 px-0 mx-0 text-nowrap overflow-hidden">
-            <button
-              v-if="meal"
-              class="btn w-100 px-0 mx-0"
-              :key="meal.id"
-              @click="checkItem(meal.name)"
-            >
-              {{ meal.name }}
-            </button>
-          </div>
-          <div class="col-1 px-0 mx-0">
-            <button
-              class="btn btn-outline-secondary align-bottom delete-item-btn"
-              @click="checkItem(meal.name)"
-            >
-              <font-awesome-icon
-                :icon="['fas', 'check']"
-                class="trash-icon-item"
-              />
-            </button>
-          </div>
-          <hr />
-        </div>
-      </transition-group>
-
-      <div class="row mt-5 mb-3">
-        <div class="col-1 mb-2 bg-light"></div>
-        <h3 class="col-10 bg-light" @click="hideItemlist = !hideItemlist">Cook Book</h3>
-        <h3 class="col-1 px-0 bg-light" @click="hideItemlist = !hideItemlist">
-          <font-awesome-icon
-            :icon="['fas', 'chevron-up']"
-            class="accordion-icon"
-            :class="{ flipped: hideItemlist }"
-          />
-        </h3>
-      </div>
-      <transition name="slide-fade">
-        <div v-if="!hideItemlist">
-          <div class="row no-gutters mb-4">
-            <div class="col-11 px-0">
-              <input
-                v-model="search"
-                type="search"
-                ref="search"
-                class="form-control"
-                placeholder="Search dish"
-              />
+      <div v-if="this.plannedItems.length >= 1" class="pb-5">
+        <transition-group name="slide-fade">
+          <div
+            class="row px-3"
+            v-for="meal in this.plannedItems"
+            :key="meal.id"
+          >
+            <div class="col-8 col-md-10 px-0 mx-0 text-nowrap overflow-hidden">
+              <button
+                v-if="meal"
+                class="btn w-100 px-0 mx-0"
+                style="text-align: left"
+                :key="meal.id"
+                @click="checkItem(meal.name)"
+              >
+                {{ meal.name }}
+              </button>
             </div>
-            <div class="col-1 px-0 mx-0">
-              <button class="btn btn-primary search-btn" @click="focusInput">
+            <div class="col-2 col-md-1 px-0">
+              <button class="btn btn-outline-secondary delete-item-btn px-0 mx-0 w-100" @click="$emit('show-details', meal)">
                 <font-awesome-icon
                   :icon="['fas', 'search']"
-                  class="search-icon"
+                  class="trash-icon-item"
                 />
               </button>
             </div>
+            <div class="col-2 col-md-1 px-0 mx-0">
+              <button
+                class="btn btn-outline-secondary align-bottom delete-item-btn"
+                @click="checkItem(meal.name)"
+              >
+                <font-awesome-icon
+                  :icon="['fas', 'check']"
+                  class="trash-icon-item"
+                />
+              </button>
+            </div>
+            <hr />
           </div>
+        </transition-group>
+      </div>
+
+      <div class="my-5">
+        <div class="bg-warning rounded pt-1 pb-4 px-4">
+          <h3 class="text-white">Cook Book</h3>
+          <input
+            v-model="search"
+            type="search"
+            ref="search"
+            class="form-control"
+            placeholder="Search dish"
+          />
+        </div>
+      </div>
+      <transition name="slide-fade">
+        <div>
           <transition-group name="slide-fade">
             <div
-              class="row justify-content-center"
+              class="row px-3"
               v-for="meal in this.filteredItems"
               :key="meal.id"
             >
-              <div class="col-11 text-nowrap overflow-hidden px-0 mx-0">
+              <div class="col-8 col-md-10 text-nowrap overflow-hidden px-0 mx-0">
                 <button
                   class="btn w-100 px-0 mx-0"
+                  style="text-align: left"
                   :class="
                     meal.planned ? 'btn-success' : 'btn-outline-secondary'
                   "
@@ -122,9 +166,17 @@
                   {{ meal.name }}
                 </button>
               </div>
-              <div class="col-1 px-0 mx-0">
+               <div class="col-2 col-md-1 p-0">
+              <button class="btn btn-outline-secondary delete-item-btn px-0 mx-0 w-100" @click="$emit('show-details', meal)">
+                <font-awesome-icon
+                  :icon="['fas', 'search']"
+                  class="trash-icon-item"
+                />
+              </button>
+            </div>
+              <div class="col-2 col-md-1 px-0 mx-0">
                 <button
-                  class="btn btn-outline-secondary align-bottom delete-item-btn"
+                  class="btn w-100 btn-outline-secondary align-bottom delete-item-btn"
                   @click="deleteItem(listData, meal.name)"
                 >
                   <font-awesome-icon
@@ -141,7 +193,7 @@
     </div>
     <img class="illustration mb-5" src="../assets/cooking-illustration.svg" />
     <br />
-    <button v-if="!hideItemlist" class="btn btn-secondary mx-2 mb-1" @click="function2">
+    <button class="btn btn-secondary mx-2 mb-1" @click="function2">
       <font-awesome-icon :icon="['fas', 'trash-alt']" />Delete all
     </button>
   </div>
@@ -171,8 +223,9 @@ export default {
     return {
       listData: this.cookBook,
       search: "",
-      hideItemlist: false,
       newMeal: "",
+      newIngredient: "",
+      ingredients: [],
     };
   },
   computed: {
@@ -189,24 +242,33 @@ export default {
       return this.cookBook.filter((item) => item.planned == true);
     },
   },
-   watch: {
+  watch: {
     cookBook() {
-      this.listData = this.cookBook
-    }
-
+      this.listData = this.cookBook;
+    },
   },
   methods: {
     formSubmit(event) {
       event.preventDefault();
       if (this.newMeal.length > 0) {
-        this.$emit("submit", this.newMeal);
+        this.$emit("submit", this.newMeal, this.ingredients);
         this.newMeal = "";
+        this.ingredients = []
       }
     },
     focusInput() {
       setTimeout(() => {
         this.$refs.search.focus();
       }, 10);
+    },
+    pushIngredient(event) {
+      event.preventDefault();
+      this.ingredients.push(this.newIngredient);
+      this.newIngredient = "";
+    },
+    deleteIngredient(ingredient) {
+      let index = this.ingredients.indexOf(ingredient);
+      this.ingredients.splice(index, 1);
     },
   },
 };

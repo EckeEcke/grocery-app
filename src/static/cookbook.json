@@ -2,76 +2,91 @@
     {
         "name": "Pizza",
         "planned":false,
-        "id": 0
+        "id": 0,
+        "ingredients": ["passierte Tomaten", "Käse (gerieben)", "Piizabelag", "Knoblauch", "Zwiebeln", "Mehl", "Hefe"]
     },
     {
         "name":"Flammkuchen",
         "planned":false,
-        "id": 1
+        "id": 1,
+        "ingredients": ["Speck", "Saure Sahne", "Zwiebeln", "Mehl", "Hefe"]
     },
     {
         "name":"Curry",
         "planned":false,
-        "id": 2
+        "id": 2,
+        "ingredients": ["Curry", "Kokosmilch", "Gemüsebrühe", "Gemüse"]
     },
     {
         "name":"Ofengemüse",
         "planned":false,
-        "id": 3
+        "id": 3,
+        "ingredients": ["Gemüse", "Kräuterquark"]
     },
     {
         "name":"Mexikanische Bowl",
         "planned":false,
-        "id": 4
+        "id": 4,
+        "ingredients": ["Avocado", "Tomaten", "Paprika", "Limette", "Mais", "Reis", "Nachos", "Cheddar (gerieben)"]
     },
     {
         "name":"Nudeln mit Ei",
         "planned":false,
-        "id": 5
+        "id": 5,
+        "ingredients": ["Nudeln", "Eier"]
     },
     {
         "name":"Hawaii-Schnitzel mit Pommes",
         "planned":false,
-        "id": 6
+        "id": 6,
+        "ingredients": ["Schnitzel", "Pommes", "Ananas", "Sandwichkäse"]
     },
     {
         "name":"Lachs Kartoffeln Brokkoli",
         "planned":false,
-        "id": 7
+        "id": 7,
+        "ingredients": ["Lachs", "Kartoffeln", "Brokkoli", "Frischkäse"]
     },
     {
         "name":"Spiegelei Kartoffeln Spinat",
         "planned":false,
-        "id": 8
+        "id": 8,
+        "ingredients": ["Eier", "Kartoffeln", "Spinat"]
     },
     {
         "name":"Nudeln mit Pesto",
         "planned":false,
-        "id": 9
+        "id": 9,
+        "ingredients": ["Nudeln", "Pesto"]
     },
     {
         "name":"Summer Rolls",
         "planned":false,
-        "id": 10
+        "id": 10,
+        "ingredients": ["Reispapier", "Möhren", "Eisbergsalat", "Erdnüsse", "Röstzwiebeln", "Gurke", "Chilisauce"]
     },
     {
         "name":"Spaghetti Bolognese",
         "planned":false,
-        "id": 11
+        "id": 11,
+        "ingredients": ["Spaghetti", "Hackfleisch", "Tomaten (passiert", "Tomatenmark", "Gemüsebrühe", "Parmesan", "italienische Kräuter"]
     },
     {
         "name":"Spaghetti Aglio e Olio",
         "planned":false,
-        "id": 12
+        "id": 12,
+        "ingredients": ["Spaghetti", "Knoblauch", "Olivenöl"]
     },
     {
         "name":"Lasagne",
         "planned":false,
-        "id": 13
+        "id": 13,
+        "ingredients": ["Lasagneplatten", "Hackfleisch", "Tomaten (passiert)", "Tomatenmark", "Zwiebeln"]
     },
     {
         "name":"Suppe",
         "planned":false,
-        "id": 14
+        "id": 14,
+        "ingredients": ["Gemüse", "Milch", "Sahne", "Gemüsebrühe", "Speck", "Zwiebeln", "Petersilie"]
     }
 ]

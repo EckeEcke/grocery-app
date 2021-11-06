@@ -66,6 +66,7 @@
               :deleteItem="deleteSingleItem"
               :checkItem="checkSingleMeal"
               @submit="addNewMeal"
+              @show-details="showDetailpage"
             />
             <Supplylist
               v-if="!cookbookShown"
@@ -79,9 +80,10 @@
             />
           </transition-group>
         </div>
-        <Random :randomMeal="recipe" />
+        <Random />
       </div>
     </div>
+    <Detailpage v-if="!hiddenDetailpage" :meal="detailedMeal" @hide="hideDetailpage" />
     <transition name="fade">
       <Navbar v-if="menuShown" :menuShown="menuShown" @close="hideMenu" />
     </transition>
@@ -98,9 +100,10 @@ import Random from "./components/Random.vue";
 import Navbar from "./components/Navigation.vue";
 import Cookbook from "./components/Cookbook.vue";
 import Supplylist from "./components/Supplylist.vue";
+import Detailpage from "./components/Detailpage.vue";
 import supplylist from "./static/supplylist.json";
 import cookbook from "./static/cookbook.json";
-import axios from 'axios';
+
 
 export default {
   name: "App",
@@ -108,7 +111,8 @@ export default {
     Navbar,
     Cookbook,
     Supplylist,
-    Random
+    Random,
+    Detailpage
   },
   data: function () {
     return {
@@ -120,7 +124,8 @@ export default {
       newMeal: "",
       newGroceryItem: "",
       cookBook: JSON.parse(localStorage.getItem("cookbook")) || cookbook,
-      recipe: null
+      hiddenDetailpage: true,
+      detailedMeal: null
     };
   },
   computed: {
@@ -148,12 +153,6 @@ export default {
         );
       } else return 0;
     },
-  },
-  mounted() {
-     axios
-      .get('https://www.themealdb.com/api/json/v1/1/random.php')
-      .then(response => (this.recipe = response))
-      .then(console.log(this.recipe))
   },
   created () {
     window.addEventListener('scroll', this.toggleScrollbutton);
@@ -260,10 +259,10 @@ export default {
 
       localStorage.setItem("grocerylist", JSON.stringify(this.groceryList));
     },
-    addNewMeal: function (item) {
+    addNewMeal: function (item, ingredients) {
       let index = this.cookBook.findIndex((listItem) => listItem.name === item);
       if (index == -1) {
-        this.cookBook.push({ name: item, planned: true, id: this.newDishId });
+        this.cookBook.push({ name: item, planned: true, id: this.newDishId, ingredients: ingredients });
       } else {
         this.cookBook[index].planned = true;
       }
@@ -316,6 +315,15 @@ export default {
       }
       localStorage.setItem("grocerylist", JSON.stringify(this.groceryList));
     },
+    showDetailpage(meal) {
+      this.detailedMeal = meal
+      this.hiddenDetailpage = false
+      document.documentElement.style.overflow = "hidden";
+    },
+    hideDetailpage() {
+      this.hiddenDetailpage = true
+      document.documentElement.style.overflow = "auto";
+    }
   },
 };
 </script>
@@ -530,7 +538,34 @@ svg {
   text-align: left;
 }
 
-.card-header {
-  min-height: 87px;
+.backdrop {
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0,0,0,0.4);
+    top: 0;
+    left: 0;
+    z-index: 1;
 }
+
+.modal-detailpage {
+  position: fixed;
+  width: 500px;
+  max-width: 95vw;
+  top: 50%;
+  left: 50%;
+  z-index: 2;
+  transform: translateX(-50%) translateY(-50%)
+}
+
+.spinner-3 {
+  width:50px;
+  height:50px;
+  border-radius:50%;
+  background:conic-gradient(#0000 10%,#25b09b);
+  -webkit-mask:radial-gradient(farthest-side,#0000 calc(100% - 8px),#000 0);
+  animation:s3 1s infinite linear;
+}
+@keyframes s3 {to{transform: rotate(1turn)}}
+
 </style>

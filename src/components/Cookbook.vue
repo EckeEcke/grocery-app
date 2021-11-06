@@ -4,7 +4,7 @@
       <div class="bg-warning rounded">
         <div class="container pt-1 pb-4">
           <h3 class="text-white">Meal Plan</h3>
-          <form>
+          <div>
             <div class="row">
               <div class="col-12">
                 <div class="col-12 py-0 rounded">
@@ -70,7 +70,7 @@
                 </div>
               </div>
             </div>
-          </form>
+          </div>
         </div>
       </div>
       <div v-if="this.plannedItems.length == 0" class="my-5">
@@ -266,7 +266,8 @@ export default {
       this.ingredients.push(this.newIngredient);
       this.newIngredient = "";
     },
-    deleteIngredient(ingredient) {
+    deleteIngredient(event, ingredient) {
+      event.preventDefault()
       let index = this.ingredients.indexOf(ingredient);
       this.ingredients.splice(index, 1);
     },

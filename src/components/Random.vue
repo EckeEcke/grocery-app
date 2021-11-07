@@ -1,5 +1,5 @@
 <template>
-  <div class="col-12 col-md-10 col-lg-5 px-2 rounded border-0 mx-auto mb-5">
+  <div class="col-12 col-md-10 col-lg-5 px-0 rounded border-0 mx-auto mb-5">
     <div class="card bg-white border-0">
       <div class="card-header bg-dark">
         <h3 class="text-warning m-2 p-2">Random recipe</h3>

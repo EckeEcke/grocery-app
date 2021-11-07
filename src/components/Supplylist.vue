@@ -23,15 +23,16 @@
           </div>
         </div>
       </div>
-
-      <img
-        v-if="this.plannedItems.length == 0"
+      <div v-if="this.plannedItems.length == 0" class="my-5">
+        <img
         class="illustration mt-5 mb-3"
         src="../assets/grocery-illustration.svg"
       />
-      <p v-if="this.plannedItems.length == 0" class="mb-3">
+      <p class="mb-3">
         Add new items or choose from your item list
       </p>
+      </div>
+      
       <div class="row">
         <p v-if="this.plannedItems.length >= 1" class="px-2 my-4 font-small">
           <transition name="fade" mode="out-in">
@@ -42,7 +43,7 @@
           item(s) left
         </p>
       </div>
-      <div class="pb-5">
+      <div v-if="plannedItems.length >= 1" class="pb-5">
         <transition-group name="slide-fade">
           <div
             class="row px-3"

@@ -608,6 +608,9 @@ svg {
 }
 
 @media (max-width: 500px) {
+  #app {
+    background-image: initial;
+  }
   .no-br-top-mobile,
   .no-br-mobile {
     border-top-left-radius: 0!important;

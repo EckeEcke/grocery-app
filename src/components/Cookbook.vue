@@ -6,7 +6,7 @@
           <h3 class="text-white">Meal Plan</h3>
           <div>
             <div class="row">
-              <div class="col-12">
+
                 <div class="col-12 py-0 rounded">
                   <div class="row">
                     <div class="col-12">
@@ -48,9 +48,16 @@
                         this.ingredients.length > 0 && this.newMeal.length > 0
                       "
                     >
-                      <p style="text-align: left" class="mt-3">Ingredients:</p>
+                      <h5 style="text-align: left" class="mt-3 text-white">
+                        Ingredients:
+                      </h5>
                       <ul style="text-align: left">
-                        <button class="btn btn-secondary mx-1 mb-1" v-for="ingredient in ingredients" :key="ingredient" @click="deleteIngredient(ingredient)">
+                        <button
+                          class="btn btn-secondary mx-1 mb-1"
+                          v-for="ingredient in ingredients"
+                          :key="ingredient"
+                          @click="deleteIngredient(ingredient)"
+                        >
                           {{ ingredient }} X
                         </button>
                       </ul>
@@ -68,7 +75,7 @@
                     Add meal
                   </button>
                 </div>
-              </div>
+
             </div>
           </div>
         </div>
@@ -98,10 +105,10 @@
             v-for="meal in this.plannedItems"
             :key="meal.id"
           >
-            <div class="col-8 col-md-10 px-0 mx-0 text-nowrap overflow-hidden">
+            <div class="col-10 px-0 mx-0 text-nowrap overflow-hidden">
               <button
                 v-if="meal"
-                class="btn w-100 px-0 mx-0"
+                class="btn w-100 mx-0"
                 style="text-align: left"
                 :key="meal.id"
                 @click="checkItem(meal.name)"
@@ -109,15 +116,24 @@
                 {{ meal.name }}
               </button>
             </div>
-            <div class="col-2 col-md-1 px-0">
-              <button class="btn btn-outline-secondary delete-item-btn px-0 mx-0 w-100" @click="$emit('show-details', meal)">
+            <div class="col-1 px-0">
+              <button
+                class="
+                  btn btn-outline-secondary
+                  delete-item-btn
+                  px-0
+                  mx-0
+                  w-100
+                "
+                @click="$emit('show-details', meal)"
+              >
                 <font-awesome-icon
                   :icon="['fas', 'search']"
                   class="trash-icon-item"
                 />
               </button>
             </div>
-            <div class="col-2 col-md-1 px-0 mx-0">
+            <div class="col-1 px-0 mx-0">
               <button
                 class="btn btn-outline-secondary align-bottom delete-item-btn"
                 @click="checkItem(meal.name)"
@@ -153,9 +169,9 @@
               v-for="meal in this.filteredItems"
               :key="meal.id"
             >
-              <div class="col-8 col-md-10 text-nowrap overflow-hidden px-0 mx-0">
+              <div class="col-10 text-nowrap overflow-hidden px-0 mx-0">
                 <button
-                  class="btn w-100 px-0 mx-0"
+                  class="btn w-100 mx-0"
                   style="text-align: left"
                   :class="
                     meal.planned ? 'btn-success' : 'btn-outline-secondary'
@@ -166,18 +182,33 @@
                   {{ meal.name }}
                 </button>
               </div>
-               <div class="col-2 col-md-1 p-0">
-              <button class="btn btn-outline-secondary delete-item-btn px-0 mx-0 w-100" @click="$emit('show-details', meal)">
-                <font-awesome-icon
-                  :icon="['fas', 'search']"
-                  class="trash-icon-item"
-                />
-              </button>
-            </div>
-              <div class="col-2 col-md-1 px-0 mx-0">
+              <div class="col-1 p-0">
                 <button
-                  class="btn w-100 btn-outline-secondary align-bottom delete-item-btn"
-                  @click="deleteItem(listData, meal.name)"
+                  class="
+                    btn btn-outline-secondary
+                    delete-item-btn
+                    px-0
+                    mx-0
+                    w-100
+                  "
+                  @click="$emit('show-details', meal)"
+                >
+                  <font-awesome-icon
+                    :icon="['fas', 'search']"
+                    class="trash-icon-item"
+                  />
+                </button>
+              </div>
+              <div class="col-1 px-0 mx-0">
+                <button
+                  class="
+                    btn
+                    w-100
+                    btn-outline-secondary
+                    align-bottom
+                    delete-item-btn
+                  "
+                  @click="deleteItem({ array: listData, element: meal.name })"
                 >
                   <font-awesome-icon
                     :icon="['fas', 'trash-alt']"
@@ -253,7 +284,7 @@ export default {
       if (this.newMeal.length > 0) {
         this.$emit("submit", this.newMeal, this.ingredients);
         this.newMeal = "";
-        this.ingredients = []
+        this.ingredients = [];
       }
     },
     focusInput() {

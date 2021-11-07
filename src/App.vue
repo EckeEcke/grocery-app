@@ -83,7 +83,7 @@
         <Random />
       </div>
     </div>
-    <Detailpage v-if="!hiddenDetailpage" :meal="detailedMeal" @hide="hideDetailpage" />
+    <Detailpage v-if="!hiddenDetailpage" :meal="detailedMeal" :cookBook="cookBook" :groceryList="groceryList" @hide="hideDetailpage" @submit="addNewItem" @toggle="togglePlanned" @delete="deleteSingleItem" />
     <transition name="fade">
       <Navbar v-if="menuShown" :menuShown="menuShown" @close="hideMenu" />
     </transition>
@@ -210,6 +210,14 @@ export default {
       localStorage.setItem("grocerylist", JSON.stringify(this.groceryList));
       this.newGroceryItem = "";
     },
+    togglePlanned: function (item) {
+      let index = this.groceryList.findIndex(
+        (listItem) => listItem.name === item
+      );
+      if (index >= 0) {
+        this.groceryList[index].planned = !this.groceryList[index].planned
+      }
+    },
     pushNewMealfromCookbook: function (element) {
       const index = this.cookBook
         .map(function (element) {
@@ -283,7 +291,9 @@ export default {
         localStorage.removeItem("cookbook");
       }
     },
-    deleteSingleItem: function (array, element) {
+    deleteSingleItem: function (payload) {
+      const array = payload.array
+      const element = payload.element
       const index = array
         .map(function (element) {
           return element.name;
@@ -556,6 +566,15 @@ svg {
   left: 50%;
   z-index: 2;
   transform: translateX(-50%) translateY(-50%)
+}
+
+.card-footer {
+  text-align: right;
+}
+
+.input-group-append button {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
 }
 
 .spinner-3 {

@@ -9,8 +9,8 @@
             </button>
         </div>
         <div class="card-footer">
-            <button class="btn btn-outline-secondary text-right mx-3" @click="deleteItem({array: listData, element: meal.name})">Delete</button>
-            <button class="btn btn-warning text-right" @click="$emit('hide')">Close</button>
+            <button class="btn btn-outline-secondary mx-3" @click="deleteItem({array: listData, element: meal.name})">Delete</button>
+            <button class="btn btn-warning" @click="$emit('hide')">Close</button>
         </div>
        
     </div>

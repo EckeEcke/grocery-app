@@ -23,7 +23,7 @@
           </div>
         </div>
       </div>
-      <div v-if="this.plannedItems.length == 0" class="my-5">
+      <div v-if="this.plannedItems.length == 0">
         <img
         class="illustration mt-5 mb-3"
         src="../assets/grocery-illustration.svg"

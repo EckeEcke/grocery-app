@@ -42,39 +42,40 @@
           item(s) left
         </p>
       </div>
-      <transition-group name="slide-fade">
-        <div
-          class="row px-3"
-          v-for="groceryItem in this.plannedItems"
-          :key="groceryItem.id"
-        >
-          <div class="col-11 col-md-11 px-0 mx-0 text-nowrap overflow-hidden">
-            <button
-              v-if="groceryItem"
-              class="btn w-100 mx-0"
-              :key="groceryItem.name"
-              style="text-align: left"
-              @click="checkItem(groceryItem.name)"
-            >
-              {{ groceryItem.name }}
-            </button>
+      <div class="pb-5">
+        <transition-group name="slide-fade">
+          <div
+            class="row px-3"
+            v-for="groceryItem in this.plannedItems"
+            :key="groceryItem.id"
+          >
+            <div class="col-11 col-md-11 px-0 mx-0 text-nowrap overflow-hidden">
+              <button
+                v-if="groceryItem"
+                class="btn w-100 mx-0"
+                :key="groceryItem.name"
+                style="text-align: left"
+                @click="checkItem(groceryItem.name)"
+              >
+                {{ groceryItem.name }}
+              </button>
+            </div>
+            <div class="col-1 px-0 mx-0">
+              <button
+                class="btn btn-outline-secondary align-bottom delete-item-btn"
+                @click="checkItem(groceryItem.name)"
+              >
+                <font-awesome-icon
+                  :icon="['fas', 'check']"
+                  class="trash-icon-item"
+                />
+              </button>
+            </div>
+            <hr />
           </div>
-          <div class="col-1 px-0 mx-0">
-            <button
-              class="btn btn-outline-secondary align-bottom delete-item-btn"
-              @click="checkItem(groceryItem.name)"
-            >
-              <font-awesome-icon
-                :icon="['fas', 'check']"
-                class="trash-icon-item"
-              />
-            </button>
-          </div>
-          <hr />
-        </div>
-      </transition-group>
-
-      <div class="container mt-5 mb-3 pt-1 pb-4 bg-warning rounded">
+        </transition-group>
+      </div>
+      <div class="container my-5 pt-1 pb-4 bg-warning rounded">
         <h3 class="text-white">Item List</h3>
         <div>
           <input

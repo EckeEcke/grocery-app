@@ -9,7 +9,7 @@
             </button>
         </div>
         <div class="card-footer">
-            <button class="btn btn-outline-secondary text-right mx-3" @click="$emit('delete', {array: listData, element: meal.name})">Delete</button>
+            <button class="btn btn-outline-secondary text-right mx-3" @click="deleteItem({array: listData, element: meal.name})">Delete</button>
             <button class="btn btn-warning text-right" @click="$emit('hide')">Close</button>
         </div>
        
@@ -55,6 +55,10 @@ export default {
             if (this.isItemPlanned(ingredient)) {
                 this.$emit('toggle', ingredient)
             } else this.$emit('submit', ingredient)
+        },
+        deleteItem(payload) {
+            this.$emit('delete', payload)
+            this.$emit('hide')
         }
   }
 };

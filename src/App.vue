@@ -1,19 +1,17 @@
 <template>
   <div id="app">
-    
     <div style="position: relative">
       <h1 class="text-white mb-0 mb-sm-5">Meal Planner</h1>
       <button
-      v-if="!menuShown"
-      id="toggle-nav-BTN"
-      class="btn"
-      style="font-size: 2em"
-      @click="showMenu"
-    >
-      <font-awesome-icon :icon="['fas', 'bars']" />
-    </button>
+        v-if="!menuShown"
+        id="toggle-nav-BTN"
+        class="btn"
+        style="font-size: 2em"
+        @click="showMenu"
+      >
+        <font-awesome-icon :icon="['fas', 'bars']" />
+      </button>
     </div>
-    
 
     <div class="container pb-5">
       <div class="row justify-content-center">
@@ -24,16 +22,17 @@
             pb-4
             px-0
             rounded
+            no-br-mobile
             mx-auto
             border-0
             card
-            mb-0
-            mb-sm-5
+            mb-0 mb-sm-5
           "
         >
           <div
             class="
               btn-toolbar
+              no-br-top-mobile
               mb-3
               p-4
               justify-content-center
@@ -86,15 +85,28 @@
         <Random @submit="addNewMeal" />
       </div>
     </div>
-    <Detailpage v-if="!hiddenDetailpage" :meal="detailedMeal" :cookBook="cookBook" :groceryList="groceryList" @hide="hideDetailpage" @submit="addNewItem" @toggle="togglePlanned" @delete="deleteSingleItem" />
+    <Detailpage
+      v-if="!hiddenDetailpage"
+      :meal="detailedMeal"
+      :cookBook="cookBook"
+      :groceryList="groceryList"
+      @hide="hideDetailpage"
+      @submit="addNewItem"
+      @toggle="togglePlanned"
+      @delete="deleteSingleItem"
+    />
     <transition name="fade">
       <Navbar v-if="menuShown" :menuShown="menuShown" @close="hideMenu" />
     </transition>
     <transition name="fade">
-      <button v-if="showScrollBtn" class="scroll-btn btn bg-primary" @click="scrollToTop"><font-awesome-icon
-            :icon="['fas', 'chevron-up']"
-          /></button>
-    </transition> 
+      <button
+        v-if="showScrollBtn"
+        class="scroll-btn btn bg-primary"
+        @click="scrollToTop"
+      >
+        <font-awesome-icon :icon="['fas', 'chevron-up']" />
+      </button>
+    </transition>
   </div>
 </template>
 
@@ -107,7 +119,6 @@ import Detailpage from "./components/Detailpage.vue";
 import supplylist from "./static/supplylist.json";
 import cookbook from "./static/cookbook.json";
 
-
 export default {
   name: "App",
   components: {
@@ -115,7 +126,7 @@ export default {
     Cookbook,
     Supplylist,
     Random,
-    Detailpage
+    Detailpage,
   },
   data: function () {
     return {
@@ -128,7 +139,7 @@ export default {
       newGroceryItem: "",
       cookBook: JSON.parse(localStorage.getItem("cookbook")) || cookbook,
       hiddenDetailpage: true,
-      detailedMeal: null
+      detailedMeal: null,
     };
   },
   computed: {
@@ -157,11 +168,11 @@ export default {
       } else return 0;
     },
   },
-  created () {
-    window.addEventListener('scroll', this.toggleScrollbutton);
+  created() {
+    window.addEventListener("scroll", this.toggleScrollbutton);
   },
-  destroyed () {
-    window.removeEventListener('scroll', this.toggleScrollbutton);
+  destroyed() {
+    window.removeEventListener("scroll", this.toggleScrollbutton);
   },
   methods: {
     showMenu: function () {
@@ -173,14 +184,14 @@ export default {
       document.documentElement.style.overflow = "auto";
     },
     toggleScrollbutton: function () {
-      if ( window.scrollY > window.innerHeight*0.75) {
-        this.showScrollBtn = true
+      if (window.scrollY > window.innerHeight * 0.75) {
+        this.showScrollBtn = true;
       } else {
-        this.showScrollBtn = false
+        this.showScrollBtn = false;
       }
     },
-    scrollToTop: function() {
-      window.scrollTo(0,0)
+    scrollToTop: function () {
+      window.scrollTo(0, 0);
     },
     showCookbook: function () {
       this.cookbookShown = !this.cookbookShown;
@@ -218,7 +229,7 @@ export default {
         (listItem) => listItem.name === item
       );
       if (index >= 0) {
-        this.groceryList[index].planned = !this.groceryList[index].planned
+        this.groceryList[index].planned = !this.groceryList[index].planned;
       }
     },
     pushNewMealfromCookbook: function (element) {
@@ -273,7 +284,12 @@ export default {
     addNewMeal: function (item, ingredients) {
       let index = this.cookBook.findIndex((listItem) => listItem.name === item);
       if (index == -1) {
-        this.cookBook.push({ name: item, planned: true, id: this.newDishId, ingredients: ingredients });
+        this.cookBook.push({
+          name: item,
+          planned: true,
+          id: this.newDishId,
+          ingredients: ingredients,
+        });
       } else {
         this.cookBook[index].planned = true;
       }
@@ -295,8 +311,8 @@ export default {
       }
     },
     deleteSingleItem: function (payload) {
-      const array = payload.array
-      const element = payload.element
+      const array = payload.array;
+      const element = payload.element;
       const index = array
         .map(function (element) {
           return element.name;
@@ -329,14 +345,14 @@ export default {
       localStorage.setItem("grocerylist", JSON.stringify(this.groceryList));
     },
     showDetailpage(meal) {
-      this.detailedMeal = meal
-      this.hiddenDetailpage = false
+      this.detailedMeal = meal;
+      this.hiddenDetailpage = false;
       document.documentElement.style.overflow = "hidden";
     },
     hideDetailpage() {
-      this.hiddenDetailpage = true
+      this.hiddenDetailpage = true;
       document.documentElement.style.overflow = "auto";
-    }
+    },
   },
 };
 </script>
@@ -351,8 +367,7 @@ export default {
 h1 {
   font-family: niceFont;
   font-weight: bolder;
-  background-image: 
-    url("./assets/header.jpg");
+  background-image: url("./assets/header.jpg");
   padding: 2rem;
   box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
 }
@@ -385,7 +400,7 @@ h3 {
   position: absolute;
   right: 12px;
   top: 50%;
-  transform: translateY(-50%)
+  transform: translateY(-50%);
 }
 
 .toggle-btn {
@@ -541,7 +556,7 @@ svg {
 }
 
 .dish-image {
-  width: 90%; 
+  width: 90%;
   margin-left: 0;
 }
 
@@ -550,13 +565,13 @@ svg {
 }
 
 .backdrop {
-    position: fixed;
-    width: 100vw;
-    height: 100vh;
-    background: rgba(0,0,0,0.4);
-    top: 0;
-    left: 0;
-    z-index: 1;
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.4);
+  top: 0;
+  left: 0;
+  z-index: 1;
 }
 
 .modal-detailpage {
@@ -566,7 +581,7 @@ svg {
   top: 50%;
   left: 50%;
   z-index: 2;
-  transform: translateX(-50%) translateY(-50%)
+  transform: translateX(-50%) translateY(-50%);
 }
 
 .card-footer {
@@ -579,13 +594,30 @@ svg {
 }
 
 .spinner-3 {
-  width:50px;
-  height:50px;
-  border-radius:50%;
-  background:conic-gradient(#0000 10%,#25b09b);
-  -webkit-mask:radial-gradient(farthest-side,#0000 calc(100% - 8px),#000 0);
-  animation:s3 1s infinite linear;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: conic-gradient(#0000 10%, #25b09b);
+  -webkit-mask: radial-gradient(farthest-side, #0000 calc(100% - 8px), #000 0);
+  animation: s3 1s infinite linear;
 }
-@keyframes s3 {to{transform: rotate(1turn)}}
+@keyframes s3 {
+  to {
+    transform: rotate(1turn);
+  }
+}
 
+@media (max-width: 500px) {
+  .no-br-top-mobile,
+  .no-br-mobile {
+    border-top-left-radius: 0!important;
+    border-top-right-radius: 0!important;
+  }
+
+  .no-br-bottom-mobile,
+  .no-br-mobile {
+    border-bottom-left-radius: 0!important;
+    border-bottom-right-radius: 0!important;
+  }
+}
 </style>

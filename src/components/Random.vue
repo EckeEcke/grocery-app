@@ -1,7 +1,7 @@
 <template>
-  <div class="col-12 col-md-10 col-lg-5 px-0 rounded border-0 mx-auto mb-5">
+  <div class="col-12 col-md-10 col-lg-5 px-0 rounded no-br-mobile border-0 mx-auto mb-5">
     <div class="card bg-white border-0">
-      <div class="card-header bg-dark">
+      <div class="card-header bg-dark no-br-mobile">
         <h3 class="text-warning m-2 p-2">Random recipe</h3>
       </div>
       <div v-if="isLoading" class="card-body p-4">
@@ -95,7 +95,7 @@
         <hr />
 
       </div>
-              <div class="card-footer" style="text-align: right">
+              <div class="card-footer no-br-mobile" style="text-align: right">
                 <button class="btn btn-warning mx-2" @click="addRecipe">
             Add to cookbook
           </button>

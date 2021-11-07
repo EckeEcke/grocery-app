@@ -96,6 +96,9 @@
 
       </div>
               <div class="card-footer" style="text-align: right">
+                <button class="btn btn-warning mx-2" @click="addRecipe">
+            Add to cookbook
+          </button>
           <button class="btn btn-warning" @click="loadRecipe">
             Load new recipe
           </button>
@@ -147,6 +150,9 @@ export default {
         .then((response) => (this.randomMeal = response))
         .then((this.isLoading = false));
     },
+    addRecipe: function () {
+      this.$emit('submit', this.randomMeal.data.meals[0].strMeal, this.ingredients)
+    }
   },
 };
 </script>

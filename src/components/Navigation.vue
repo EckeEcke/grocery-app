@@ -12,7 +12,7 @@
       <li class="py-3"><a href="https://eckeecke.github.io/templelooter">Temple Looter</a></li>
     </ul>
     <button
-      id="toggle-nav-BTN"
+      id="sidebar-btn-close"
       class="btn text-white"
       style="font-size: 2.5em"
       @click="() => this.$emit('close')"
@@ -34,9 +34,15 @@ export default {
 
 <style scoped>
   #toggle-nav-BTN {
-  position: fixed;
+  position: absolute;
   right: 2px;
-  top: 2px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+#sidebar-btn-close {
+  position: fixed;
+  top: 12px;
+  right: 2px;
 }
     ul {
         width: 100vw;

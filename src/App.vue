@@ -1,16 +1,19 @@
 <template>
   <div id="app">
-    <button
+    
+    <div style="position: relative">
+      <h1 class="text-white mb-0 mb-sm-5">Meal Planner</h1>
+      <button
       v-if="!menuShown"
       id="toggle-nav-BTN"
       class="btn"
       style="font-size: 2em"
       @click="showMenu"
     >
-      🍔
+      <font-awesome-icon :icon="['fas', 'bars']" />
     </button>
-
-    <h1 class="text-white mb-0 mb-sm-5">Meal Planner</h1>
+    </div>
+    
 
     <div class="container pb-5">
       <div class="row justify-content-center">
@@ -80,7 +83,7 @@
             />
           </transition-group>
         </div>
-        <Random />
+        <Random @submit="addNewMeal" />
       </div>
     </div>
     <Detailpage v-if="!hiddenDetailpage" :meal="detailedMeal" :cookBook="cookBook" :groceryList="groceryList" @hide="hideDetailpage" @submit="addNewItem" @toggle="togglePlanned" @delete="deleteSingleItem" />
@@ -348,13 +351,10 @@ export default {
 h1 {
   font-family: niceFont;
   font-weight: bolder;
-  background-image: linear-gradient(
-      to bottom,
-      rgba(23, 23, 24, 0.52),
-      rgba(31, 21, 28, 0.73)
-    ),
-    url("./assets/food-header.jpg");
+  background-image: 
+    url("./assets/header.jpg");
   padding: 2rem;
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
 }
 
 @media (max-width: 500px) {
@@ -378,13 +378,14 @@ h3 {
   color: #2c3e50;
   height: 100%;
   min-height: 100vh;
-  background-image: linear-gradient(to right, #ff8008, #ffc837);
+  background-image: linear-gradient(to bottom, #ff8008, #ffc837);
 }
 
 #toggle-nav-BTN {
   position: absolute;
-  right: 2px;
-  top: 2px;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%)
 }
 
 .toggle-btn {

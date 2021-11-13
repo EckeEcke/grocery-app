@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <div style="position: relative">
-      <h1 class="text-white mb-0 mb-sm-5">Meal Planner</h1>
+      <h1 class="text-white mb-0 mb-sm-5">Vue Meal Planner</h1>
       <button
         v-if="!menuShown"
         id="toggle-nav-BTN"
@@ -15,15 +15,15 @@
 
     <div class="container pb-5">
       <div class="row justify-content-center">
+        <div class="col-sm-12 col-md-10 col-lg-5
+            px-0 mx-auto">
         <div
           class="
-            col-sm-12 col-md-10 col-lg-5
-            bg-white
-            pb-4
-            px-0
+            
+            
             rounded
             no-br-mobile
-            mx-auto
+             pb-4
             border-0
             card
             mb-0 mb-sm-5
@@ -64,11 +64,11 @@
               key="component"
               :cookBook="cookBook"
               :push="pushNewMealfromCookbook"
-              :function2="deleteCookbook"
               :deleteItem="deleteSingleItem"
               :checkItem="checkSingleMeal"
               @submit="addNewMeal"
               @show-details="showDetailpage"
+              @cb-deleted="emptyCookbook"
             />
             <Supplylist
               v-if="!cookbookShown"
@@ -82,7 +82,12 @@
             />
           </transition-group>
         </div>
-        <Random @submit="addNewMeal" />
+        </div>
+        <div class="col-12 col-md-10 col-lg-5 mx-auto">
+          <Random @submit="addNewMeal" />
+          <About />
+        </div>
+        
       </div>
     </div>
     <Detailpage
@@ -112,6 +117,7 @@
 
 <script>
 import Random from "./components/Random.vue";
+import About from "./components/About.vue";
 import Navbar from "./components/Navigation.vue";
 import Cookbook from "./components/Cookbook.vue";
 import Supplylist from "./components/Supplylist.vue";
@@ -126,6 +132,7 @@ export default {
     Cookbook,
     Supplylist,
     Random,
+    About,
     Detailpage,
   },
   data: function () {
@@ -192,9 +199,6 @@ export default {
     },
     scrollToTop: function () {
       window.scrollTo(0, 0);
-    },
-    showCookbook: function () {
-      this.cookbookShown = !this.cookbookShown;
     },
     pushNewMeal: function () {
       let index = this.cookBook.findIndex((item) => item.name === this.newMeal);
@@ -303,13 +307,6 @@ export default {
         localStorage.removeItem("grocerylist");
       }
     },
-    deleteCookbook: function () {
-      let confirmed = confirm("Do you really want to delete your list?");
-      if (confirmed) {
-        this.cookBook = [];
-        localStorage.removeItem("cookbook");
-      }
-    },
     deleteSingleItem: function (payload) {
       const array = payload.array;
       const element = payload.element;
@@ -353,6 +350,9 @@ export default {
       this.hiddenDetailpage = true;
       document.documentElement.style.overflow = "auto";
     },
+    emptyCookbook() {
+      this.cookBook = []
+    }
   },
 };
 </script>

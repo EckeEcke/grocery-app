@@ -224,21 +224,25 @@
     </div>
     <img class="illustration mb-5" src="../assets/cooking-illustration.svg" />
     <br />
-    <button class="btn btn-secondary mx-2 mb-1" @click="function2">
+    <button v-if="cookBook.length >= 1" class="btn btn-secondary mx-2 mb-1" @click="deleteCookbook">
       <font-awesome-icon :icon="['fas', 'trash-alt']" />Delete all
     </button>
+    <transition name="fade">
+      <Toast v-if="showToast" :message="message" @close="hideToast" />
+    </transition>
   </div>
 </template>
 
 <script>
+import Toast from "./Toast.vue";
 export default {
   name: "Cookbook",
+  components: {
+    Toast
+  },
   props: {
     cookBook: {
       type: Array,
-    },
-    function2: {
-      type: Function,
     },
     push: {
       type: Function,
@@ -257,6 +261,8 @@ export default {
       newMeal: "",
       newIngredient: "",
       ingredients: [],
+      showToast: false,
+      message: ''
     };
   },
   computed: {
@@ -292,6 +298,16 @@ export default {
         this.$refs.search.focus();
       }, 10);
     },
+    deleteCookbook: function () {
+      let confirmed = confirm("Do you really want to delete your list?");
+      if (confirmed) {
+        this.cookBook = [];
+        localStorage.removeItem("cookbook");
+        this.showToast = true;
+        this.message = "Cookbook was deleted";
+        this.$emit('cb-deleted');
+      }
+    },
     pushIngredient(event) {
       event.preventDefault();
       this.ingredients.push(this.newIngredient);
@@ -301,6 +317,10 @@ export default {
       let index = this.ingredients.indexOf(ingredient);
       this.ingredients.splice(index, 1);
     },
+    hideToast() {
+      this.showToast = false;
+      this.message = ''
+    }
   },
 };
 </script>

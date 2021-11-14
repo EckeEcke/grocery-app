@@ -5,7 +5,7 @@
       <h4 class="card-header bg-dark border-0 text-warning">{{ item.name }}</h4>
       <div class="card-body" style="text-align: left">
         <p>How many/much of {{ item.name }} do you need?</p>
-        <input type="text" class="form-control" v-model="quantity" />
+        <input ref="input" type="text" class="form-control" v-model="quantity" placeholder="Enter quantity (e.g. 5x, 1kg, 250ml)" />
       </div>
       <div class="card-footer">
         <button class="btn btn-outline-secondary mx-3" @click="$emit('hide')">
@@ -34,6 +34,9 @@ export default {
     return {
       quantity: "",
     };
+  },
+  mounted() {
+      this.$refs.input.focus()
   },
   methods: {
     submit: function (element) {

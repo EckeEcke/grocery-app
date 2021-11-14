@@ -144,7 +144,7 @@
     <transition name="fade">
       <Toast v-if="showToast" :message="message" />
     </transition>
-    <Quantityinput v-if="showInput" :item="quantityItem" @hide="showInput = false" :groceryList="groceryList" />
+    <Quantityinput v-if="showInput" :item="quantityItem" @hide="hideInput" :groceryList="groceryList" />
   </div>
 </template>
 
@@ -230,8 +230,13 @@ export default {
       setTimeout(() => this.showToast = false, 1500)
     },
     createModal: function (element) {
+      document.documentElement.style.overflow = "hidden";
       this.quantityItem = element;
       this.showInput = true
+    },
+    hideInput: function () {
+      this.showInput = false
+      document.documentElement.style.overflow = "auto";
     }
   },
 };

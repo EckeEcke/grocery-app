@@ -104,19 +104,29 @@
           </button>
         </div>
     </div>
+    <transition name="fade">
+      <Toast v-if="showToast" :message="message" />
+    </transition>
   </div>
 </template>
 
 <script>
+
 import axios from "axios";
+import Toast from "./Toast.vue";
 export default {
   name: "Random",
+  components: {
+    Toast
+  },
   data() {
     return {
       showInstructions: false,
       showIngredients: false,
       randomMeal: null,
       isLoading: true,
+      message: '',
+      showToast: false
     };
   },
   computed: {
@@ -152,6 +162,12 @@ export default {
     },
     addRecipe: function () {
       this.$emit('submit', this.randomMeal.data.meals[0].strMeal, this.ingredients)
+      this.createToast()
+    },
+    createToast: function () {
+      this.message = `${this.randomMeal.data.meals[0].strMeal} added to your cookbook`
+      this.showToast = true
+      setTimeout(() => this.showToast = false, 1500)
     }
   },
 };

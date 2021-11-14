@@ -228,7 +228,7 @@
       <font-awesome-icon :icon="['fas', 'trash-alt']" />Delete all
     </button>
     <transition name="fade">
-      <Toast v-if="showToast" :message="message" @close="hideToast" />
+      <Toast v-if="showToast" :message="message" />
     </transition>
   </div>
 </template>
@@ -303,8 +303,7 @@ export default {
       if (confirmed) {
         this.cookBook = [];
         localStorage.removeItem("cookbook");
-        this.showToast = true;
-        this.message = "Cookbook was deleted";
+        this.createToast()
         this.$emit('cb-deleted');
       }
     },
@@ -317,9 +316,10 @@ export default {
       let index = this.ingredients.indexOf(ingredient);
       this.ingredients.splice(index, 1);
     },
-    hideToast() {
-      this.showToast = false;
-      this.message = ''
+    createToast: function () {
+      this.message = "Cookbook was deleted"
+      this.showToast = true
+      setTimeout(() => this.showToast = false, 1500)
     }
   },
 };

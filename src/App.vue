@@ -75,10 +75,10 @@
               key="component"
               :groceryList="groceryList"
               :someFunction="pushNewItemfromList"
-              :function2="deleteGrocerylist"
               :deleteItem="deleteSingleItem"
               :checkItem="checkSingleItem"
               @submit="addNewItem"
+              @list-deleted="emptyItemlist"
             />
           </transition-group>
         </div>
@@ -338,6 +338,7 @@ export default {
         .indexOf(element);
       if (this.groceryList[indexGrocerylist]) {
         this.groceryList[indexGrocerylist].planned = false;
+        this.groceryList[indexGrocerylist].quantity = '';
       }
       localStorage.setItem("grocerylist", JSON.stringify(this.groceryList));
     },
@@ -352,6 +353,9 @@ export default {
     },
     emptyCookbook() {
       this.cookBook = []
+    },
+    emptyItemlist() {
+      this.groceryList = []
     }
   },
 };
@@ -393,7 +397,7 @@ h3 {
   color: #2c3e50;
   height: 100%;
   min-height: 100vh;
-  background-image: linear-gradient(to bottom, #ff8008, #ffc837);
+  background-image: linear-gradient(to bottom, #FEC47F, #ffc837);
 }
 
 #toggle-nav-BTN {

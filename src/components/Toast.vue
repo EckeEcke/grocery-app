@@ -33,5 +33,6 @@ export default {
   transform: translateX(-50%);
   width: 350px;
   max-width: 95vw;
+  z-index: 1;
 }
 </style>

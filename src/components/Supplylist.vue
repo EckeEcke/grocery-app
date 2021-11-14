@@ -50,15 +50,27 @@
             v-for="groceryItem in this.plannedItems"
             :key="groceryItem.id"
           >
-            <div class="col-11 col-md-11 px-0 mx-0 text-nowrap overflow-hidden">
+            <div class="col-10 px-0 mx-0 text-nowrap overflow-hidden">
               <button
                 v-if="groceryItem"
                 class="btn w-100 mx-0"
                 :key="groceryItem.name"
                 style="text-align: left"
                 @click="checkItem(groceryItem.name)"
-              >
+              > 
+                <span v-if="groceryItem.quantity !== ''">{{ groceryItem.quantity }}</span>
                 {{ groceryItem.name }}
+              </button>
+            </div>
+            <div class="col-1 px-0 mx-0">
+              <button
+                class="btn btn-outline-secondary align-bottom delete-item-btn"
+                @click="createModal(groceryItem)"
+              >
+                <font-awesome-icon
+                  :icon="['fas', 'sort']"
+                  class="trash-icon-item"
+                />
               </button>
             </div>
             <div class="col-1 px-0 mx-0">
@@ -126,15 +138,25 @@
       src="../assets/supplylist-illustration.svg"
     />
     <br />
-    <button class="btn btn-secondary mx-2 mb-1" @click="function2">
+    <button v-if="groceryList.length >= 1" class="btn btn-secondary mx-2 mb-1" @click="deleteGrocerylist">
       <font-awesome-icon :icon="['fas', 'trash-alt']" />Delete all
     </button>
+    <transition name="fade">
+      <Toast v-if="showToast" :message="message" />
+    </transition>
+    <Quantityinput v-if="showInput" :item="quantityItem" @hide="showInput = false" :groceryList="groceryList" />
   </div>
 </template>
 
 <script>
+import Toast from "./Toast.vue";
+import Quantityinput from "./Quantityinput.vue";
 export default {
   name: "Supplylist",
+  components: {
+    Toast,
+    Quantityinput
+  },
   props: {
     groceryList: {
       type: Array,
@@ -153,13 +175,17 @@ export default {
     },
     checkItem: {
       type: Function,
-    },
+    }
   },
   data() {
     return {
       listData: this.groceryList,
       search: "",
       newGroceryItem: "",
+      message: '',
+      showToast: false,
+      showInput: false,
+      quantityItem: null
     };
   },
   computed: {
@@ -189,6 +215,24 @@ export default {
         this.newGroceryItem = "";
       }
     },
+    deleteGrocerylist: function () {
+      let confirmed = confirm("Do you really want to delete your list?");
+      if (confirmed) {
+        this.groceryList = [];
+        localStorage.removeItem("grocerylist");
+        this.$emit('list-deleted')
+        this.createToast()
+      }
+    },
+    createToast: function () {
+      this.message = "Item list was deleted"
+      this.showToast = true
+      setTimeout(() => this.showToast = false, 1500)
+    },
+    createModal: function (element) {
+      this.quantityItem = element;
+      this.showInput = true
+    }
   },
 };
 </script>

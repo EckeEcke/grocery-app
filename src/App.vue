@@ -595,6 +595,7 @@ svg {
 .input-group-append button {
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
+  z-index: 0;
 }
 
 .spinner-3 {

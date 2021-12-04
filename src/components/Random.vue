@@ -1,8 +1,8 @@
 <template>
-  <div class="px-0 rounded no-br-mobile border-0 mx-auto mb-5">
+  <div class="no-br-mobile border-0 mx-auto my-5 container">
     <div class="card bg-white border-0">
-      <div class="card-header bg-dark no-br-mobile">
-        <h3 class="text-warning m-2 p-2">Random recipe</h3>
+      <div class="card-header bg-warning rounded no-br-mobile py-1 px-4 mb-4">
+        <h3 class="text-white m-2 p-2">Random recipe</h3>
       </div>
       <div v-if="isLoading" class="card-body p-4">
         <div class="spinner-3 mx-auto my-5"></div>
@@ -95,11 +95,11 @@
         <hr />
 
       </div>
-              <div class="card-footer no-br-mobile" style="text-align: right">
-                <button class="btn btn-warning mx-2" @click="addRecipe">
+              <div class="card-footer no-br-mobile border-0 bg-white" style="text-align: right">
+                <button class="btn btn-warning my-2" @click="addRecipe">
             Add to cookbook
           </button>
-          <button class="btn btn-warning" @click="loadRecipe">
+          <button class="btn btn-outline-secondary" @click="loadRecipe">
             Load new recipe
           </button>
         </div>
@@ -172,3 +172,9 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+  .card-footer:last-child {
+    margin-left: 1rem;
+  }
+</style>

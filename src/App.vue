@@ -15,7 +15,7 @@
 
     <div class="container pb-5">
       <div class="row justify-content-center">
-        <div class="col-sm-12 col-md-10 col-lg-5
+        <div class="col-sm-12 col-md-10 col-lg-6
             px-0 mx-auto">
         <div
           class="
@@ -70,6 +70,11 @@
               @show-details="showDetailpage"
               @cb-deleted="emptyCookbook"
             />
+            <Random 
+              v-if="cookbookShown"
+              key="random"
+              @submit="addNewMeal" 
+            />
             <Supplylist
               v-if="!cookbookShown"
               key="component"
@@ -83,8 +88,7 @@
           </transition-group>
         </div>
         </div>
-        <div class="col-12 col-md-10 col-lg-5 mx-auto">
-          <Random @submit="addNewMeal" />
+        <div class="col-12 col-md-10 col-lg-6 col-xl-5 mx-auto">
           <About />
         </div>
         

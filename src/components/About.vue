@@ -1,5 +1,5 @@
 <template>
-  <div class="px-0 rounded no-br-mobile border-0 mx-auto mb-5">
+  <div class="px-0 rounded no-br-mobile border-0 mx-auto mb-5 about-container">
     <div class="card bg-white border-0">
       <div class="card-header bg-dark no-br-mobile">
         <h3 class="text-warning m-2 p-2">About</h3>
@@ -8,7 +8,7 @@
           <div class="p-3">
               <p>This meal planner is a single page application I built in Vue.js. It combines the planning of upcoming meals and groceries.</p>
           <img src="../assets/logo.png" class="vue-logo mt-2 mb-4" />
-          <p>Features included:</p>
+          <p><b>Features included:</b></p>
           
           <ul class="list-about">
               <li>add/remove dishes from your own cookbook (saved in local storage) to your meal plan</li>
@@ -33,6 +33,10 @@ export default {
 };
 </script>
 <style scoped>
+    .about-container {
+      position: sticky;
+      top: 2rem;
+    }
     .list-about, p {
         text-align: left;
     }

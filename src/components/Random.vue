@@ -1,7 +1,7 @@
 <template>
   <div class="no-br-mobile border-0 mx-auto my-5 container">
     <div class="card bg-white border-0">
-      <div class="card-header bg-warning rounded no-br-mobile py-1 px-4 mb-4">
+      <div class="card-header bg-warning rounded py-1 px-4 mb-4">
         <h3 class="text-white m-2 p-2">Random recipe</h3>
       </div>
       <div v-if="isLoading" class="card-body p-4">

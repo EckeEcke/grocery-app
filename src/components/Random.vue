@@ -7,7 +7,10 @@
       <div v-if="isLoading" class="card-body p-4">
         <div class="spinner-3 mx-auto my-5"></div>
       </div>
-      <div v-if="!isLoading" class="card-body pb-5">
+      <div v-if="requestFailed" class="card-body p-4">
+        <p>Unfortunately your request failed. Please check your internet connection or try again later.</p>
+      </div>
+      <div v-if="!isLoading && !requestFailed" class="card-body pb-5">
         <div class="row bg-light p-1">
           <div class="col-4 rounded">
             <img
@@ -95,8 +98,8 @@
         <hr />
 
       </div>
-              <div class="card-footer no-br-mobile border-0 bg-white" style="text-align: right">
-                <button class="btn btn-warning my-2" @click="addRecipe">
+        <div class="card-footer no-br-mobile border-0 bg-white" style="text-align: right">
+          <button v-if="!requestFailed" class="btn btn-warning my-2" @click="addRecipe">
             Add to cookbook
           </button>
           <button class="btn btn-outline-secondary" @click="loadRecipe">
@@ -126,7 +129,8 @@ export default {
       randomMeal: null,
       isLoading: true,
       message: '',
-      showToast: false
+      showToast: false,
+      requestFailed: false,
     };
   },
   computed: {
@@ -155,10 +159,16 @@ export default {
   methods: {
     loadRecipe: function () {
       this.isLoading = true;
+      this.requestFailed = false
       axios
         .get("https://www.themealdb.com/api/json/v1/1/random.php")
-        .then((response) => (this.randomMeal = response))
-        .then((this.isLoading = false));
+        .then((response) => this.randomMeal = response)
+        .then((this.isLoading = false))
+        .catch(error=>{
+          console.log(error)
+          this.isLoading = false
+          this.requestFailed = true
+        });
     },
     addRecipe: function () {
       this.$emit('submit', this.randomMeal.data.meals[0].strMeal, this.ingredients)

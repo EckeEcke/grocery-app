@@ -1,4 +1,4 @@
-# grocery-app
+# Vue Mealplanner
 
 ## Project setup
 ```

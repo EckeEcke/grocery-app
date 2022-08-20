@@ -376,6 +376,7 @@ h1 {
   font-family: niceFont;
   font-weight: bolder;
   background-image: url("./assets/header.jpg");
+  background-size: cover;
   padding: 2rem;
   box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
 }

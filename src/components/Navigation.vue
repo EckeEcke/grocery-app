@@ -1,7 +1,7 @@
 <template>
 <div>
   <div class="backdrop" @click="() => this.$emit('close')"></div>
-    <nav class="navbar bg-dark" style="width: 100vw; max-width: 500px; height: 100vh; position: fixed; right: 0; top: 0">
+    <nav class="sidebar bg-dark" style="width: 100vw; max-width: 500px; height: 100vh; position: fixed; right: 0; top: 0">
     <div>
     <ul>
       <li class="py-2"><a href="https://eckeecke.github.io/">Home</a></li>
@@ -27,7 +27,7 @@
 </template>
 
 
-<script>
+<script scoped>
 export default {
   name: "Navbar",
 };
@@ -48,20 +48,14 @@ export default {
     ul {
         width: 100vw;
         max-width:450px;
-        margin-top: 50px;
-        margin-left: 2px;
+        margin: 50px auto;
     }
 
     li {
       width: 80%;
-      margin: 0 auto;
+      margin: 1rem auto;
       color: white;
-      border-bottom: 1px solid orange;
-      font-size: 3vh;
-    }
-
-    li:first-child {
-      border-top: 1px solid orange;
+      font-size: 1.5rem;
     }
 
     a {
@@ -77,7 +71,19 @@ export default {
       transition: 500ms;
       background-color: orange;
     }
-.navbar {
+.sidebar {
   z-index: 10;
+  padding-top: 2rem;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+@media (min-width: 576px){
+  .sidebar {
+    padding-top: 4rem;
+  }
+  li {
+    font-size: 2rem;
+  }
 }
 </style>

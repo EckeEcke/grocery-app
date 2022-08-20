@@ -3,7 +3,7 @@
     <div style="position: relative">
       <h1 class="text-white mb-0 mb-sm-5">Vue Meal Planner</h1>
       <button
-        v-if="!menuShown"
+        v-if="!menuShown && !isStandAlone"
         id="toggle-nav-BTN"
         class="btn"
         style="font-size: 2em"
@@ -178,6 +178,9 @@ export default {
         );
       } else return 0;
     },
+    isStandAlone() {
+      return window.matchMedia('(display-mode: standalone)').matches
+    }
   },
   created() {
     window.addEventListener("scroll", this.toggleScrollbutton);
@@ -379,6 +382,7 @@ h1 {
   background-size: cover;
   padding: 2rem;
   box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+  text-shadow: 1px 1px 1px black;
 }
 
 @media (max-width: 500px) {

@@ -162,13 +162,13 @@ export default {
       this.requestFailed = false
       axios
         .get("https://www.themealdb.com/api/json/v1/1/random.php")
-        .then((response) => this.randomMeal = response)
-        .then((this.isLoading = false))
         .catch(error=>{
           console.log(error)
           this.isLoading = false
           this.requestFailed = true
-        });
+        })
+        .then((response) => this.randomMeal = response)
+        .then((this.isLoading = false))
     },
     addRecipe: function () {
       this.$emit('submit', this.randomMeal.data.meals[0].strMeal, this.ingredients)

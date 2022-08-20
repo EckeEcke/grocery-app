@@ -160,15 +160,21 @@ export default {
     loadRecipe: function () {
       this.isLoading = true;
       this.requestFailed = false
+      const controller = new AbortController();
       axios
-        .get("https://www.themealdb.com/api/json/v1/1/random.php")
+        .get("https://www.themealdb.com/api/json/v1/1/random.php", {
+          signal: controller.signal
+        })
         .catch(error=>{
           console.log(error)
           this.isLoading = false
           this.requestFailed = true
         })
         .then((response) => this.randomMeal = response)
-        .then((this.isLoading = false))
+        .then(this.isLoading = false)
+        setTimeout(()=>{
+          controller.abort()
+        } ,3000)
     },
     addRecipe: function () {
       this.$emit('submit', this.randomMeal.data.meals[0].strMeal, this.ingredients)

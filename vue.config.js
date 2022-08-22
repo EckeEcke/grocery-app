@@ -1,3 +1,9 @@
+// vue.config.js
+
+/**
+ * @type {import('@vue/cli-service').ProjectOptions}
+ */
+
 module.exports = {
     pwa: {
         manifestOptions: {
@@ -19,7 +25,7 @@ module.exports = {
         themeColor: "#FEC474",
         msTileColor: "#000",
         appleMobileWebAppCapable: "yes",
-        appleMobileWebAppStatusBarStyle: "black",
+        appleMobileWebAppStatusBarStyle: "white",
         iconPaths: {
           maskicon: null,
           favicon32: "./favicon32.png",

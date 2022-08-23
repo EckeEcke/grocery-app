@@ -14,7 +14,7 @@ module.exports = {
           theme_color: "#FEC474",
           icons: [
             {
-              src: "./favicon.ico",
+              src: "./favicon.svg",
               sizes: "512x512",
               type: "image/svg+xml",
               purpose: "any maskable",
@@ -23,7 +23,7 @@ module.exports = {
         },
     
         themeColor: "#FEC474",
-        msTileColor: "#FEC474",
+        msTileColor: "#000",
         appleMobileWebAppCapable: "yes",
         appleMobileWebAppStatusBarStyle: "white",
         iconPaths: {

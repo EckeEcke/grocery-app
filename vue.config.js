@@ -1,12 +1,15 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 // vue.config.js
 
 /**
  * @type {import('@vue/cli-service').ProjectOptions}
  */
 
+=======
+>>>>>>> parent of fe86c6c (minor additions to config)
 module.exports = {
     pwa: {
         manifestOptions: {
@@ -28,7 +31,7 @@ module.exports = {
         themeColor: "#FEC474",
         msTileColor: "#000",
         appleMobileWebAppCapable: "yes",
-        appleMobileWebAppStatusBarStyle: "white",
+        appleMobileWebAppStatusBarStyle: "black",
         iconPaths: {
           maskicon: null,
           favicon32: "./favicon32.png",

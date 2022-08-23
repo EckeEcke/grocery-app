@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 // vue.config.js
 
 /**
@@ -37,3 +38,5 @@ module.exports = {
         workboxPluginMode: "GenerateSW",
       },
 }
+=======
+>>>>>>> parent of c5eec34 (adding config)

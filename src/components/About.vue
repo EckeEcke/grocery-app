@@ -19,6 +19,7 @@
               <li>push ingredients from your meal plan directly into your grocery list</li>
               <li>add items from your item list</li>
               <li>add random recipes (received via API) including ingredients directly to your cookbook</li>
+              <li>konami code 😉</li>
           </ul>
           </div>
           

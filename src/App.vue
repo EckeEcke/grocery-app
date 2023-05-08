@@ -128,6 +128,8 @@ import Supplylist from "./components/Supplylist.vue";
 import Detailpage from "./components/Detailpage.vue";
 import supplylist from "./static/supplylist.json";
 import cookbook from "./static/cookbook.json";
+import runMario from "running-mario";
+import Konami from "konami";
 
 export default {
   name: "App",
@@ -365,7 +367,13 @@ export default {
       this.groceryList = []
     }
   },
+  mounted() {
+    new Konami(() => {
+      runMario() ;
+  })
+  },
 };
+
 </script>
 
 <style>

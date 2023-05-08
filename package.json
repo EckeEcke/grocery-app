@@ -13,7 +13,9 @@
     "@fortawesome/vue-fontawesome": "^2.0.2",
     "axios": "^0.24.0",
     "core-js": "^3.6.5",
+    "konami": "^1.6.3",
     "register-service-worker": "^1.7.1",
+    "running-mario": "^1.0.6",
     "vue": "^2.6.11"
   },
   "devDependencies": {

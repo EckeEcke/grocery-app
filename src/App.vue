@@ -43,17 +43,17 @@
             <div class="btn-group" role="group">
               <button
                 class="btn btn-warning toggle-btn"
-                :class="{ inactive: !cookbookShown }"
-                @click="cookbookShown = true"
-              >
-                <span>Meal Plan</span>
-              </button>
-              <button
-                class="btn btn-warning toggle-btn"
                 :class="{ inactive: cookbookShown }"
                 @click="cookbookShown = false"
               >
                 <span>Grocery List</span>
+              </button>
+              <button
+                class="btn btn-warning toggle-btn"
+                :class="{ inactive: !cookbookShown }"
+                @click="cookbookShown = true"
+              >
+                <span>Meal Plan</span>
               </button>
             </div>
           </div>
@@ -146,7 +146,7 @@ export default {
       groceryList:
         JSON.parse(localStorage.getItem("grocerylist")) || supplyListData,
       menuShown: false,
-      cookbookShown: true,
+      cookbookShown: false,
       showScrollBtn: false,
       newMeal: "",
       newGroceryItem: "",

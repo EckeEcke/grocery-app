@@ -154,8 +154,8 @@
 </template>
 
 <script>
-import Toast from "./ToastComponent";
-import QuantityInput from "./QuantityInput";
+import Toast from "./ToastComponent.vue";
+import QuantityInput from "./QuantityInput.vue";
 export default {
   name: "SupplyList",
   components: {

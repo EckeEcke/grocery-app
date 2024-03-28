@@ -21,11 +21,11 @@
               </button>
             </div>
           </div>
-          <div v-if="newGroceryItem.length > 0" class="text-start bg-light mt-3 p-2 rounded">
-        <div v-for="item in suggestedItems" :key="item.id" @click="setInput(item.name)" class="cursor-pointer px-1 py-2 btn-outline-secondary">
-          {{  item.name }}
-        </div>
-      </div>
+          <div v-if="newGroceryItem.length > 0 && filteredItemsForSuggestions.length > 0" class="text-start bg-light mt-3 p-2 rounded">
+            <div v-for="item in suggestedItems" :key="item.id" @click="setInput(item.name)" class="cursor-pointer px-1 py-2 btn-outline-secondary">
+              {{  item.name }}
+            </div>
+          </div>
         </div>
       </div>
       <div v-if="this.plannedItems.length == 0">
@@ -255,6 +255,8 @@ export default {
     },
     setInput: function (newValue) {
       this.newGroceryItem = newValue
+      this.$emit("submit", this.newGroceryItem)
+      this.newGroceryItem = ""
     },
   },
 };

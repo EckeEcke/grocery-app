@@ -10,7 +10,7 @@
       <div v-if="requestFailed" class="card-body p-4">
         <p>Unfortunately your request failed. Please check your internet connection or try again later.</p>
       </div>
-      <div v-if="!isLoading && !requestFailed" class="card-body pb-5">
+      <div v-if="!isLoading && !requestFailed && randomMeal" class="card-body pb-5">
         <div class="row bg-light p-1">
           <div class="col-4 rounded">
             <img
@@ -116,9 +116,9 @@
 <script>
 
 import axios from "axios";
-import Toast from "./Toast.vue";
+import Toast from "./ToastComponent.vue";
 export default {
-  name: "Random",
+  name: "RandomRecipe",
   components: {
     Toast
   },

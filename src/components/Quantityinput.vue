@@ -21,7 +21,7 @@
 
 <script>
 export default {
-  name: "Quantityinput",
+  name: "QuantityInput",
   props: {
     item: {
       type: Object,
@@ -41,11 +41,11 @@ export default {
   methods: {
     submit: function (element) {
       const indexGrocerylist = this.groceryList.findIndex(listitem => listitem.name === element)
-        this.groceryList[indexGrocerylist].quantity = this.quantity;
-        console.log(this.groceryList[indexGrocerylist])
-        localStorage.setItem("grocerylist", JSON.stringify(this.groceryList));
-        this.$emit("hide");
+        let clonedGroceryList = [...this.groceryList]
+        clonedGroceryList[indexGrocerylist].quantity = this.quantity
+        localStorage.setItem("grocerylist", JSON.stringify(clonedGroceryList))
+        this.$emit("hide")
     },
   },
-};
+}
 </script>

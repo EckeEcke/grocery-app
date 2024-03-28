@@ -101,7 +101,7 @@
       <div v-if="this.plannedItems.length >= 1" class="pb-5">
         <transition-group name="slide-fade">
           <div
-            class="row px-3"
+            class="row px-3 hover-zoom"
             v-for="meal in this.plannedItems"
             :key="meal.id"
           >
@@ -165,7 +165,7 @@
         <div>
           <transition-group name="slide-fade">
             <div
-              class="row px-3"
+              class="row px-3 hover-zoom"
               v-for="meal in this.filteredItems"
               :key="meal.id"
             >
@@ -234,9 +234,9 @@
 </template>
 
 <script>
-import Toast from "./Toast.vue";
+import Toast from "./ToastComponent.vue";
 export default {
-  name: "Cookbook",
+  name: "CookBook",
   components: {
     Toast
   },
@@ -301,7 +301,7 @@ export default {
     deleteCookbook: function () {
       let confirmed = confirm("Do you really want to delete your list?");
       if (confirmed) {
-        this.cookBook = [];
+        // this.cookBook = [];
         localStorage.removeItem("cookbook");
         this.createToast()
         this.$emit('cb-deleted');
@@ -324,3 +324,12 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.hover-zoom {
+  transition: all 0.3s;
+}
+.hover-zoom:hover {
+  transform: translate(0.5%, -1%);
+}
+</style>

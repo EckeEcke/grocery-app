@@ -21,6 +21,11 @@
               </button>
             </div>
           </div>
+          <div v-if="newGroceryItem.length > 0" class="text-start bg-light mt-3 p-2 rounded">
+        <div v-for="item in suggestedItems" :key="item.id" @click="setInput(item.name)" class="cursor-pointer px-1 py-2 btn-outline-secondary">
+          {{  item.name }}
+        </div>
+      </div>
         </div>
       </div>
       <div v-if="this.plannedItems.length == 0">
@@ -46,11 +51,11 @@
       <div v-if="plannedItems.length >= 1" class="pb-5">
         <transition-group name="slide-fade">
           <div
-            class="row px-3"
+            class="row px-3 hover-zoom"
             v-for="groceryItem in this.plannedItems"
             :key="groceryItem.id"
           >
-            <div class="col-10 px-0 mx-0 text-nowrap overflow-hidden">
+            <div class="col-10 px-0 mx-0 text-nowrap overflow-hidden hover-zoom">
               <button
                 v-if="groceryItem"
                 class="btn w-100 mx-0"
@@ -58,8 +63,8 @@
                 style="text-align: left"
                 @click="checkItem(groceryItem.name)"
               > 
-                <span v-if="groceryItem.quantity !== ''">{{ groceryItem.quantity }}</span>
                 {{ groceryItem.name }}
+                <span v-if="groceryItem.quantity !== ''">{{ groceryItem.quantity }}</span>
               </button>
             </div>
             <div class="col-1 px-0 mx-0">
@@ -102,7 +107,7 @@
       <div>
         <transition-group name="slide-fade">
           <div
-            class="row px-3"
+            class="row px-3 hover-zoom"
             v-for="item in this.filteredItems"
             :key="item.id"
           >
@@ -144,18 +149,18 @@
     <transition name="fade">
       <Toast v-if="showToast" :message="message" />
     </transition>
-    <Quantityinput v-if="showInput" :item="quantityItem" @hide="hideInput" :groceryList="groceryList" />
+    <QuantityInput v-if="showInput" :item="quantityItem" @hide="hideInput" @updated="updateQuantityInLocalStorage" :groceryList="groceryList" />
   </div>
 </template>
 
 <script>
-import Toast from "./Toast.vue";
-import Quantityinput from "./Quantityinput.vue";
+import Toast from "./ToastComponent";
+import QuantityInput from "./QuantityInput";
 export default {
-  name: "Supplylist",
+  name: "SupplyList",
   components: {
     Toast,
-    Quantityinput
+    QuantityInput
   },
   props: {
     groceryList: {
@@ -198,6 +203,17 @@ export default {
         return item.name.toLowerCase().includes(this.search.toLowerCase());
       });
     },
+    filteredItemsForSuggestions: function () {
+      const entriesIdenticalFirstLetter = this.sortedItems.filter(item => item.name.charAt(0).toLowerCase() === this.newGroceryItem.charAt(0).toLowerCase())
+      const entriesNoIdenticalFirstLetter = this.sortedItems.filter(item => item.name.charAt(0).toLowerCase() !== this.newGroceryItem.charAt(0).toLowerCase())
+      const sortedByFirstLetter = [...entriesIdenticalFirstLetter, ...entriesNoIdenticalFirstLetter]
+      return sortedByFirstLetter.filter((item) => {
+        return item.name.toLowerCase().includes(this.newGroceryItem.toLowerCase());
+      });
+    },
+    suggestedItems: function () {
+      return this.filteredItemsForSuggestions.length > 5 ? this.filteredItemsForSuggestions.slice(0,10) : this.filteredItemsForSuggestions
+    },
     plannedItems: function () {
       return this.groceryList.filter((item) => item.planned == true);
     },
@@ -218,7 +234,6 @@ export default {
     deleteGrocerylist: function () {
       let confirmed = confirm("Do you really want to delete your list?");
       if (confirmed) {
-        this.groceryList = [];
         localStorage.removeItem("grocerylist");
         this.$emit('list-deleted')
         this.createToast()
@@ -237,7 +252,23 @@ export default {
     hideInput: function () {
       this.showInput = false
       document.documentElement.style.overflow = "auto";
-    }
+    },
+    setInput: function (newValue) {
+      this.newGroceryItem = newValue
+    },
   },
 };
 </script>
+
+<style scoped>
+.hover-zoom {
+  transition: all 0.3s;
+}
+.hover-zoom:hover {
+  transform: translate(0.5%, -1%);
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+</style>

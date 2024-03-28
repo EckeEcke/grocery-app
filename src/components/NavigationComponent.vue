@@ -29,7 +29,7 @@
 
 <script scoped>
 export default {
-  name: "Navbar",
+  name: "NavbarComponent",
 };
 </script>
 

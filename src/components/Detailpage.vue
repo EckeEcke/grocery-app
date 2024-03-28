@@ -19,7 +19,7 @@
 
 <script>
 export default {
-  name: "Detailpage",
+  name: "DetailPage",
   props: {
       meal: {
           type: Object

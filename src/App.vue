@@ -59,7 +59,7 @@
           </div>
 
           <transition-group name="fade">
-            <Cookbook
+            <CookBook
               v-if="cookbookShown"
               key="component"
               :cookBook="cookBook"
@@ -70,12 +70,12 @@
               @show-details="showDetailpage"
               @cb-deleted="emptyCookbook"
             />
-            <Random 
+            <RandomRecipe
               v-if="cookbookShown"
               key="random"
               @submit="addNewMeal" 
             />
-            <Supplylist
+            <SupplyList
               v-if="!cookbookShown"
               key="component"
               :groceryList="groceryList"
@@ -89,12 +89,12 @@
         </div>
         </div>
         <div class="col-12 col-md-10 col-lg-6 col-xl-5 mx-auto">
-          <About />
+          <AboutContent />
         </div>
         
       </div>
     </div>
-    <Detailpage
+    <DetailPage
       v-if="!hiddenDetailpage"
       :meal="detailedMeal"
       :cookBook="cookBook"
@@ -105,7 +105,7 @@
       @delete="deleteSingleItem"
     />
     <transition name="fade">
-      <Navbar v-if="menuShown" :menuShown="menuShown" @close="hideMenu" />
+      <NavbarComponent v-if="menuShown" :menuShown="menuShown" @close="hideMenu" />
     </transition>
     <transition name="fade">
       <button
@@ -120,37 +120,37 @@
 </template>
 
 <script>
-import Random from "./components/Random.vue";
-import About from "./components/About.vue";
-import Navbar from "./components/Navigation.vue";
-import Cookbook from "./components/Cookbook.vue";
-import Supplylist from "./components/Supplylist.vue";
-import Detailpage from "./components/Detailpage.vue";
-import supplylist from "./static/supplylist.json";
-import cookbook from "./static/cookbook.json";
+import RandomRecipe from "./components/RandomRecipe.vue";
+import AboutContent from "./components/AboutContent.vue";
+import NavbarComponent from "./components/NavigationComponent.vue";
+import CookBook from "./components/CookBook";
+import SupplyList from "./components/SupplyList";
+import DetailPage from "./components/DetailPage";
+import supplyListData from "./static/supplyListData.json";
+import cookBookData from "./static/cookBookData.json";
 import runMario from "running-mario";
 import Konami from "konami";
 
 export default {
   name: "App",
   components: {
-    Navbar,
-    Cookbook,
-    Supplylist,
-    Random,
-    About,
-    Detailpage,
+    NavbarComponent,
+    CookBook,
+    SupplyList,
+    RandomRecipe,
+    AboutContent,
+    DetailPage,
   },
   data: function () {
     return {
       groceryList:
-        JSON.parse(localStorage.getItem("grocerylist")) || supplylist,
+        JSON.parse(localStorage.getItem("grocerylist")) || supplyListData,
       menuShown: false,
       cookbookShown: true,
       showScrollBtn: false,
       newMeal: "",
       newGroceryItem: "",
-      cookBook: JSON.parse(localStorage.getItem("cookbook")) || cookbook,
+      cookBook: JSON.parse(localStorage.getItem("cookbook")) || cookBookData,
       hiddenDetailpage: true,
       detailedMeal: null,
     };

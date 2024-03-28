@@ -30,7 +30,7 @@
 
 <script>
 export default {
-  name: "About",
+  name: "AboutContent",
 };
 </script>
 <style scoped>

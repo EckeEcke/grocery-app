@@ -84,6 +84,7 @@
               :checkItem="checkSingleItem"
               @submit="addNewItem"
               @list-deleted="emptyItemlist"
+              @added-manual-list="addNewItems"
             />
           </transition-group>
         </div>
@@ -282,6 +283,7 @@ export default {
       let index = this.groceryList.findIndex(
         (listItem) => listItem.name === item
       );
+      if (item.length === 0) return
       if (index == -1) {
         this.groceryList.push({
           name: item,
@@ -293,6 +295,9 @@ export default {
       }
 
       localStorage.setItem("grocerylist", JSON.stringify(this.groceryList));
+    },
+    addNewItems: function (items) {
+      items.forEach(item => this.addNewItem(item))
     },
     addNewMeal: function (item, ingredients) {
       let index = this.cookBook.findIndex((listItem) => listItem.name === item);

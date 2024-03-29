@@ -4,23 +4,53 @@
       <div class="bg-warning rounded">
         <div class="container pt-1 pb-4">
           <h3 class="text-white">Grocery List</h3>
-          <div class="input-group">
-            <input
-              class="form-control"
-              type="text"
-              v-model="newGroceryItem"
-              placeholder="Add new grocery item"
-              maxlength="30"
-            />
-            <div class="input-group-append">
-              <button class="btn btn-primary search-btn" @click="formSubmit">
+          <div class="btn-group mb-4" role="group">
+              <button
+                class="btn btn-dark toggle-btn"
+                :class="{ inactive: !singleItemShown }"
+                @click="singleItemShown = true"
+              >
+                <span>Single</span>
+              </button>
+              <button
+                class="btn btn-dark toggle-btn"
+                :class="{ inactive: singleItemShown }"
+                @click="singleItemShown = false"
+              >
+                <span>Multiple</span>
+              </button>
+          </div>
+          <template v-if="singleItemShown">
+            <div class="input-group">
+              <input
+                class="form-control"
+                type="text"
+                v-model="newGroceryItem"
+                placeholder="Add a single new item"
+                maxlength="30"
+              />
+              <div class="input-group-append">
+                <button class="btn btn-primary search-btn" @click="formSubmit">
+                  <font-awesome-icon
+                    :icon="['fas', 'plus']"
+                    class="search-icon"
+                  />
+                </button>
+              </div>
+            </div>
+          </template> 
+          <template v-if="!singleItemShown">
+            <div class="input-group">
+              <textarea ref="textarea" v-model="manualList" class="form-control" placeholder="Add multiple items at once - paste a list in here" @input="resizeTextArea()">
+              </textarea>
+              <button @click="emitManualList" class="btn btn-primary">
                 <font-awesome-icon
-                  :icon="['fas', 'plus']"
-                  class="search-icon"
-                />
+                      :icon="['fas', 'plus']"
+                      class="search-icon"
+                    />
               </button>
             </div>
-          </div>
+          </template>
           <div v-if="newGroceryItem.length > 0 && filteredItemsForSuggestions.length > 0" class="text-start bg-light mt-3 p-2 rounded">
             <div v-for="item in suggestedItems" :key="item.id" @click="setInput(item.name)" class="cursor-pointer px-1 py-2 btn-outline-secondary">
               {{  item.name }}
@@ -138,7 +168,7 @@
         </transition-group>
       </div>
     </div>
-    <img
+<img
       class="illustration mb-5"
       src="../assets/supplylist-illustration.svg"
     />
@@ -190,7 +220,9 @@ export default {
       message: '',
       showToast: false,
       showInput: false,
-      quantityItem: null
+      quantityItem: null,
+      manualList: "",
+      singleItemShown: true,
     };
   },
   computed: {
@@ -258,6 +290,17 @@ export default {
       this.$emit("submit", this.newGroceryItem)
       this.newGroceryItem = ""
     },
+    emitManualList: function () {
+      const convertedToArray = this.manualList.split(/\r?\n|\r|\n/g)
+      this.$emit("added-manual-list", convertedToArray)
+      this.manualList = ""
+    },
+    resizeTextArea() {
+      let element = this.$refs["textarea"];
+
+      element.style.height = "18px";
+      element.style.height = element.scrollHeight + "px";
+    },
   },
 };
 </script>
@@ -272,5 +315,19 @@ export default {
 
 .cursor-pointer {
   cursor: pointer;
+}
+
+textarea {
+  resize: none;
+  overflow: hidden;
+
+}
+
+.toggle-btn.inactive {
+  background: black;
+}
+
+.toggle-btn {
+  max-width: 110px;
 }
 </style>

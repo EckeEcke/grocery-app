@@ -3,7 +3,7 @@
         "name": "Pizza",
         "planned":false,
         "id": 0,
-        "ingredients": ["passierte Tomaten", "Käse (gerieben)", "Piizabelag", "Knoblauch", "Zwiebeln", "Mehl", "Hefe"]
+        "ingredients": ["passierte Tomaten", "Käse (gerieben)", "Pizzabelag", "Knoblauch", "Zwiebeln", "Mehl", "Hefe"]
     },
     {
         "name":"Flammkuchen",
@@ -15,7 +15,7 @@
         "name":"Curry",
         "planned":false,
         "id": 2,
-        "ingredients": ["Curry", "Kokosmilch", "Gemüsebrühe", "Gemüse"]
+        "ingredients": ["Curry", "Kokosmilch", "Gemüsebrühe", "Gemüse", "Reis"]
     },
     {
         "name":"Ofengemüse",
@@ -88,5 +88,17 @@
         "planned":false,
         "id": 14,
         "ingredients": ["Gemüse", "Milch", "Sahne", "Gemüsebrühe", "Speck", "Zwiebeln", "Petersilie"]
+    },
+    {
+        "name":"Bagels Ziegenfrischkäse Feigen",
+        "planned":false,
+        "id": 15,
+        "ingredients": ["Bagels", "Ziegenfrischkäse", "Kantenschinken", "Feigen"]
+    },
+    {
+        "name":"Couscous Salat",
+        "planned":false,
+        "id": 15,
+        "ingredients": ["Couscous", "Frühlingszwiebeln", "Zitrone", "Tomaten", "Tomatenmark", "Mais", "Gurke"]
     }
 ]

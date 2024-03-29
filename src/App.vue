@@ -538,7 +538,7 @@ button:hover .trash-icon-item {
 }
 
 .search-btn {
-  padding: 6px;
+  padding: 6px 12px;
   font-size: 1em !important;
 }
 .search-icon {

@@ -58,7 +58,7 @@
             <div class="col-10 px-0 mx-0 text-nowrap overflow-hidden hover-zoom">
               <button
                 v-if="groceryItem"
-                class="btn w-100 mx-0"
+                class="btn btn-outline-secondary w-100 mx-0"
                 :key="groceryItem.name"
                 style="text-align: left"
                 @click="checkItem(groceryItem.name)"

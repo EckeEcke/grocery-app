@@ -108,7 +108,7 @@
             <div class="col-10 px-0 mx-0 text-nowrap overflow-hidden">
               <button
                 v-if="meal"
-                class="btn w-100 mx-0"
+                class="btn btn-outline-secondary w-100 mx-0"
                 style="text-align: left"
                 :key="meal.id"
                 @click="checkItem(meal.name)"

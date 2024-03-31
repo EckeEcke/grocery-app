@@ -87,7 +87,7 @@
         <p class="mb-3">Add new meals or choose from your cookbook</p>
       </div>
 
-      <div class="row">
+      <div class="row container px-0">
         <p v-if="this.plannedItems.length >= 1" class="px-2 my-4 font-small">
           <transition name="fade" mode="out-in"
             ><span :key="plannedItems.length">{{

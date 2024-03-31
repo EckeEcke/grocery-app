@@ -37,6 +37,8 @@
               rounded-top
               no-br-mobile
               overflow-hidden
+              sticky-mobile
+              bg-white
             "
           >
             <div class="btn-group w-100" role="group">
@@ -376,6 +378,11 @@ export default {
       runMario() ;
   })
   },
+  watch: {
+    cookbookShown() {
+      window.scrollTo({ top: 0, behavior: 'smooth' })
+    }
+  },
 };
 
 </script>
@@ -665,6 +672,12 @@ svg {
   .no-br-mobile {
     border-bottom-left-radius: 0!important;
     border-bottom-right-radius: 0!important;
+  }
+
+  .sticky-mobile {
+    position: sticky;
+    top: 0;
+    z-index: 10;
   }
 }
 

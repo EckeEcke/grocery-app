@@ -1,16 +1,16 @@
 <template>
-  <div class="no-br-mobile border-0 mx-auto my-5 container">
+  <div class="border-0 mx-auto my-5">
     <div class="card bg-white border-0">
-      <div class="card-header bg-warning rounded py-1 px-4 mb-4">
+      <div class="card-header bg-warning rounded-0 py-1 px-4 mb-4">
         <h3 class="text-white m-2 p-2">Random recipe</h3>
       </div>
-      <div v-if="isLoading" class="card-body p-4">
+      <div v-if="isLoading" class="card-body container">
         <div class="spinner-3 mx-auto my-5"></div>
       </div>
-      <div v-if="requestFailed" class="card-body p-4">
+      <div v-if="requestFailed" class="card-body container">
         <p>Unfortunately your request failed. Please check your internet connection or try again later.</p>
       </div>
-      <div v-if="!isLoading && !requestFailed && randomMeal" class="card-body pb-5">
+      <div v-if="!isLoading && !requestFailed && randomMeal" class="py-3 container">
         <div class="row bg-light p-1">
           <div class="col-4 rounded">
             <img

@@ -1,9 +1,8 @@
 <template>
   <div>
-    <div class="container mt-3 mb-5">
-      <div class="bg-warning rounded">
-        <div class="container pt-1 pb-4">
-          <h3 class="text-white">Meal Plan</h3>
+    <div class="mb-5">
+      <div class="bg-warning">
+        <div class="container py-4">
           <div>
             <div class="row">
 
@@ -150,7 +149,7 @@
       </div>
 
       <div class="my-5">
-        <div class="bg-warning rounded pt-1 pb-4 px-4">
+        <div class="bg-warning pt-1 pb-4 px-4">
           <h3 class="text-white">Cook Book</h3>
           <input
             v-model="search"
@@ -162,7 +161,7 @@
         </div>
       </div>
       <transition name="slide-fade">
-        <div>
+        <div class="container">
           <transition-group name="slide-fade">
             <div
               class="row px-3 hover-zoom"

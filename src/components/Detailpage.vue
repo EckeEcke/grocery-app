@@ -2,7 +2,7 @@
     <div>
         <div class="backdrop" @click="$emit('hide')"></div>
     <div class="modal-detailpage card border-0">
-        <h4 class="card-header bg-dark border-0 text-warning">{{ meal.name }}</h4>
+        <h4 class="card-header bg-warning border-0 text-white">{{ meal.name }}</h4>
         <div class="card-body" style="text-align: left">
              <button class="btn mx-1 mb-1" :class="isItemPlanned(ingredient) ? 'btn-success' : 'btn-secondary'" v-for="ingredient in meal.ingredients" :key="ingredient" @click="checkIngredients(ingredient)">
                 {{ ingredient }}
@@ -10,7 +10,7 @@
         </div>
         <div class="card-footer">
             <button class="btn btn-outline-secondary mx-3" @click="deleteItem({array: listData, element: meal.name})">Delete</button>
-            <button class="btn btn-warning" @click="$emit('hide')">Close</button>
+            <button class="btn btn-secondary" @click="$emit('hide')">Close</button>
         </div>
        
     </div>

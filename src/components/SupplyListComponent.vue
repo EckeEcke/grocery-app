@@ -1,19 +1,18 @@
 <template>
-  <div>
-    <div class="container mt-3 mb-5">
-      <div class="bg-warning rounded">
-        <div class="container pt-1 pb-4">
-          <h3 class="text-white">Grocery List</h3>
-          <div class="btn-group mb-4" role="group">
+  <div class="pb-5">
+    <div class="mb-5">
+      <div class="bg-warning">
+        <div class="container py-4">
+          <div class="btn-group mb-4 w-100" role="group">
               <button
-                class="btn btn-dark toggle-btn"
+                class="btn btn-primary toggle-btn"
                 :class="{ inactive: !singleItemShown }"
                 @click="singleItemShown = true"
               >
                 <span>Single</span>
               </button>
               <button
-                class="btn btn-dark toggle-btn"
+                class="btn btn-primary toggle-btn"
                 :class="{ inactive: singleItemShown }"
                 @click="singleItemShown = false"
               >
@@ -63,12 +62,12 @@
         class="illustration mt-5 mb-3"
         src="../assets/grocery-illustration.svg"
       />
-      <p class="mb-3">
+      <p class="mb-0 p-3">
         Add new items or choose from your item list
       </p>
       </div>
       
-      <div class="row">
+      <div class="row container">
         <p v-if="this.plannedItems.length >= 1" class="px-2 my-4 font-small">
           <transition name="fade" mode="out-in">
             <span :key="plannedItems.length">{{
@@ -123,22 +122,14 @@
           </div>
         </transition-group>
       </div>
-      <div class="container my-5 pt-1 pb-4 bg-warning rounded">
+      <div class="container my-5 p-1 bg-warning">
         <h3 class="text-white">Item List</h3>
-        <div>
-          <input
-            v-model="search"
-            type="search"
-            class="form-control"
-            placeholder="Search item"
-          />
-        </div>
       </div>
-      <div>
+      <div class="container">
         <transition-group name="slide-fade">
           <div
             class="row px-3 hover-zoom"
-            v-for="item in this.filteredItems"
+            v-for="item in this.sortedItems"
             :key="item.id"
           >
             <div class="col-11 text-nowrap overflow-hidden px-0 mx-0">
@@ -215,7 +206,6 @@ export default {
   data() {
     return {
       listData: this.groceryList,
-      search: "",
       newGroceryItem: "",
       message: '',
       showToast: false,
@@ -229,11 +219,6 @@ export default {
     sortedItems: function () {
       let sortedArray = this.listData;
       return sortedArray.sort((a, b) => a.name.localeCompare(b.name));
-    },
-    filteredItems: function () {
-      return this.sortedItems.filter((item) => {
-        return item.name.toLowerCase().includes(this.search.toLowerCase());
-      });
     },
     filteredItemsForSuggestions: function () {
       const entriesIdenticalFirstLetter = this.sortedItems.filter(item => item.name.charAt(0).toLowerCase() === this.newGroceryItem.charAt(0).toLowerCase())
@@ -321,13 +306,5 @@ textarea {
   resize: none;
   overflow: hidden;
 
-}
-
-.toggle-btn.inactive {
-  background: black;
-}
-
-.toggle-btn {
-  max-width: 110px;
 }
 </style>

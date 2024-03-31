@@ -33,27 +33,26 @@
             class="
               btn-toolbar
               no-br-top-mobile
-              mb-3
-              p-4
               justify-content-center
-              card-header
-              bg-dark
+              rounded-top
+              no-br-mobile
+              overflow-hidden
             "
           >
-            <div class="btn-group" role="group">
+            <div class="btn-group w-100" role="group">
               <button
-                class="btn btn-warning toggle-btn"
+                class="btn btn-warning toggle-btn big py-4 rounded-0 rounded-top no-br-mobile"
                 :class="{ inactive: cookbookShown }"
                 @click="cookbookShown = false"
               >
-                <span>Grocery List</span>
+                <h4 class="text-white mb-0">Grocery List</h4>
               </button>
               <button
-                class="btn btn-warning toggle-btn"
+                class="btn btn-warning toggle-btn big py-4 rounded-0 rounded-top no-br-mobile"
                 :class="{ inactive: !cookbookShown }"
                 @click="cookbookShown = true"
               >
-                <span>Meal Plan</span>
+                <h4 class="text-white mb-0">Meal Plan</h4>
               </button>
             </div>
           </div>
@@ -420,6 +419,7 @@ h3 {
   height: 100%;
   min-height: 100vh;
   background-image: linear-gradient(to bottom, #FEC47F, #ffc837);
+  background: #F7F4EF;
 }
 
 #toggle-nav-BTN {
@@ -436,12 +436,29 @@ h3 {
 
 .toggle-btn.inactive {
   opacity: 0.4;
-  background: orange;
-  border-color: orange;
 }
 
-.toggle-btn:hover {
+.toggle-btn.big:focus {
+  background: #ffc107;
+  border-color: #ffc107;
+}
+
+.toggle-btn.inactive.big {
+  background: white;
+  border: none;
+}
+
+.toggle-btn.inactive h4 {
+  color: black!important;
+}
+
+.toggle-btn.inactive.big:hover h4 {
+  color: white!important;
+}
+
+.toggle-btn.big:hover {
   opacity: 1;
+  background: #ffca2c;
 }
 
 li {
@@ -650,4 +667,12 @@ svg {
     border-bottom-right-radius: 0!important;
   }
 }
+
+.rounded-top-left {
+  border-top-left-radius: .25rem;
+}
+.rounded-top-right {
+  border-top-right-radius: .25rem;
+}
+
 </style>

@@ -2,7 +2,7 @@
   <div>
     <div class="backdrop" @click="$emit('hide')"></div>
     <div class="modal-detailpage card border-0">
-      <h4 class="card-header bg-dark border-0 text-warning">{{ item.name }}</h4>
+      <h4 class="card-header bg-warning border-0 text-white">{{ item.name }}</h4>
       <div class="card-body" style="text-align: left">
         <p>How many/much of {{ item.name }} do you need?</p>
         <input ref="input" type="text" class="form-control" v-model="quantity" placeholder="Enter quantity (e.g. 5x, 1kg, 250ml)" />
@@ -11,7 +11,7 @@
         <button class="btn btn-outline-secondary mx-3" @click="$emit('hide')">
           Cancel
         </button>
-        <button class="btn btn-warning" @click="submit(item.name)">
+        <button class="btn btn-primary" @click="submit(item.name)">
           Submit and close
         </button>
       </div>

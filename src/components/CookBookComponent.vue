@@ -148,7 +148,7 @@
         </transition-group>
       </div>
 
-      <div class="my-5">
+      <div class="my-4">
         <div class="bg-warning pt-1 pb-4 px-4">
           <h3 class="text-white">Cook Book</h3>
           <input

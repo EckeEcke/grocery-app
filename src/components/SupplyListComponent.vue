@@ -122,7 +122,7 @@
           </div>
         </transition-group>
       </div>
-      <div class="container my-5 p-1 bg-warning">
+      <div class="container my-4 p-1 bg-warning">
         <h3 class="text-white">Item List</h3>
       </div>
       <div class="container">

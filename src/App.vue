@@ -43,18 +43,18 @@
           >
             <div class="btn-group w-100" role="group">
               <button
-                class="btn btn-warning toggle-btn big py-4 rounded-0 rounded-top no-br-mobile fw-bolder"
+                class="btn btn-warning toggle-btn big py-2 rounded-0 rounded-top no-br-mobile fw-bolder"
                 :class="{ inactive: cookbookShown }"
                 @click="cookbookShown = false"
               >
-                <h4 class="text-white mb-0">Grocery List</h4>
+                <h3 class="text-white mb-0 px-0">Grocery List</h3>
               </button>
               <button
-                class="btn btn-warning toggle-btn big py-4 rounded-0 rounded-top no-br-mobile fw-bolder"
+                class="btn btn-warning toggle-btn big py-2 rounded-0 rounded-top no-br-mobile fw-bolder"
                 :class="{ inactive: !cookbookShown }"
                 @click="cookbookShown = true"
               >
-                <h4 class="text-white mb-0">Meal Plan</h4>
+                <h3 class="text-white mb-0 px-0">Meal Plan</h3>
               </button>
             </div>
           </div>
@@ -455,11 +455,11 @@ h3 {
   border: none;
 }
 
-.toggle-btn.inactive h4 {
+.toggle-btn.inactive h3 {
   color: black!important;
 }
 
-.toggle-btn.inactive.big:hover h4 {
+.toggle-btn.inactive.big:hover h3 {
   color: white!important;
 }
 

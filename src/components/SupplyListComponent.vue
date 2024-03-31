@@ -3,16 +3,16 @@
     <div class="mb-5">
       <div class="bg-warning">
         <div class="container py-4">
-          <div class="btn-group mb-4 w-100" role="group">
+          <div class="btn-group mb-4 w-100 bg-white rounded-pill" role="group">
               <button
-                class="btn btn-primary toggle-btn"
+                class="btn btn-primary toggle-btn p-2 fw-bolder"
                 :class="{ inactive: !singleItemShown }"
                 @click="singleItemShown = true"
               >
                 <span>Single</span>
               </button>
               <button
-                class="btn btn-primary toggle-btn"
+                class="btn btn-primary toggle-btn p-2 fw-bolder"
                 :class="{ inactive: singleItemShown }"
                 @click="singleItemShown = false"
               >
@@ -123,7 +123,7 @@
         </transition-group>
       </div>
       <div class="container my-4 p-1 bg-warning">
-        <h3 class="text-white">Item List</h3>
+        <h3 class="text-white m-2">Item List</h3>
       </div>
       <div class="container">
         <transition-group name="slide-fade">
@@ -306,5 +306,9 @@ textarea {
   resize: none;
   overflow: hidden;
 
+}
+
+.toggle-btn {
+  border-radius: 50rem;
 }
 </style>

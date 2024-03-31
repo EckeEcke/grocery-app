@@ -97,7 +97,7 @@
           meal(s) planned
         </p>
       </div>
-      <div v-if="this.plannedItems.length >= 1" class="pb-5">
+      <div v-if="this.plannedItems.length >= 1" class="pb-5 container">
         <transition-group name="slide-fade">
           <div
             class="row px-3 hover-zoom"

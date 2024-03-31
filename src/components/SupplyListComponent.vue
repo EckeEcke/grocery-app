@@ -77,7 +77,7 @@
           item(s) left
         </p>
       </div>
-      <div v-if="plannedItems.length >= 1" class="pb-5">
+      <div v-if="plannedItems.length >= 1" class="pb-5 container">
         <transition-group name="slide-fade">
           <div
             class="row px-3 hover-zoom"

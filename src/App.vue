@@ -1,6 +1,5 @@
 <template>
   <div id="app" ref="app">
-    {{ cookbookShown }}
     <div style="position: relative">
       <h1 class="text-white mb-0 mb-sm-5">Vue Meal Planner</h1>
       <button
@@ -379,10 +378,10 @@ export default {
     },
     handleTouchEnd(event) {
       const touchendX = event.changedTouches[0].screenX
-      if (touchendX + 40 < this.touchstartX) {
+      if (touchendX + 50 < this.touchstartX) {
         this.cookbookShown = false
       } 
-      if (touchendX - 40 > this.touchstartX) {
+      if (touchendX - 50 > this.touchstartX) {
         this.cookbookShown = true
       }
     }

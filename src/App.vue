@@ -1,5 +1,6 @@
 <template>
-  <div id="app">
+  <div id="app" ref="app">
+    {{ cookbookShown }}
     <div style="position: relative">
       <h1 class="text-white mb-0 mb-sm-5">Vue Meal Planner</h1>
       <button
@@ -155,6 +156,7 @@ export default {
       cookBook: JSON.parse(localStorage.getItem("cookbook")) || cookBookData,
       hiddenDetailpage: true,
       detailedMeal: null,
+      touchstartX: 0,
     };
   },
   computed: {
@@ -371,12 +373,26 @@ export default {
     },
     emptyItemlist() {
       this.groceryList = []
+    },
+    handleTouchStart(event) {
+      this.touchstartX = event.changedTouches[0].screenX
+    },
+    handleTouchEnd(event) {
+      const touchendX = event.changedTouches[0].screenX
+      if (touchendX < this.touchstartX) {
+        this.cookbookShown = false
+      } 
+      if (touchendX > this.touchstartX) {
+        this.cookbookShown = true
+      }
     }
   },
   mounted() {
     new Konami(() => {
-      runMario() ;
-  })
+      runMario() 
+    })
+    this.$refs.app.addEventListener('touchstart', this.handleTouchStart, false)
+    this.$refs.app.addEventListener('touchend', this.handleTouchEnd, false)
   },
   watch: {
     cookbookShown() {

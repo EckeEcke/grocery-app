@@ -379,10 +379,10 @@ export default {
     },
     handleTouchEnd(event) {
       const touchendX = event.changedTouches[0].screenX
-      if (touchendX < this.touchstartX) {
+      if (touchendX + 40 < this.touchstartX) {
         this.cookbookShown = false
       } 
-      if (touchendX > this.touchstartX) {
+      if (touchendX - 40 > this.touchstartX) {
         this.cookbookShown = true
       }
     }

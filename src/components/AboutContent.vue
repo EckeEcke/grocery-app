@@ -1,6 +1,6 @@
 <template>
   <div class="px-0 rounded no-br-mobile border-0 mx-auto mb-5 about-container">
-    <div class="card bg-white border-0">
+    <div class="card border-0">
       <div class="mt-2">
         <h3 class="m-2 p-2">About</h3>
       </div>

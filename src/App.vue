@@ -16,7 +16,7 @@
     <div class="container pb-5">
       <div class="row justify-content-center">
         <div class="col-sm-12 col-md-10 col-lg-6
-            px-0 mx-auto">
+            px-0 mx-auto bg-white">
         <div
           class="
             
@@ -41,14 +41,14 @@
           >
             <div class="btn-group w-100" role="group">
               <button
-                class="btn btn-warning toggle-btn big py-4 rounded-0 rounded-top no-br-mobile"
+                class="btn btn-warning toggle-btn big py-4 rounded-0 rounded-top no-br-mobile fw-bolder"
                 :class="{ inactive: cookbookShown }"
                 @click="cookbookShown = false"
               >
                 <h4 class="text-white mb-0">Grocery List</h4>
               </button>
               <button
-                class="btn btn-warning toggle-btn big py-4 rounded-0 rounded-top no-br-mobile"
+                class="btn btn-warning toggle-btn big py-4 rounded-0 rounded-top no-br-mobile fw-bolder"
                 :class="{ inactive: !cookbookShown }"
                 @click="cookbookShown = true"
               >
@@ -88,7 +88,7 @@
           </transition-group>
         </div>
         </div>
-        <div class="col-12 col-md-10 col-lg-6 col-xl-5 mx-auto">
+        <div class="col-12 col-md-10 col-lg-6 col-xl-5 mx-auto bg-white">
           <AboutContent />
         </div>
         

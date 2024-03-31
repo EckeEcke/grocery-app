@@ -444,7 +444,7 @@ h3 {
 }
 
 .toggle-btn.inactive.big {
-  background: white;
+  background: rgba(255, 193, 7, 0.5);
   border: none;
 }
 

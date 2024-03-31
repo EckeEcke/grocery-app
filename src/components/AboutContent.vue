@@ -4,7 +4,7 @@
       <div class="mt-2">
         <h3 class="m-2 p-2">About</h3>
       </div>
-      <div class="card-body p-4 pt-0">
+      <div class="card-body p-2 pt-0">
           <div class="p-3 pt-0">
               <p>This meal planner is a single page application I built in Vue.js. It combines the planning of upcoming meals and groceries.</p>
           <img src="../assets/logo.png" class="vue-logo mt-2 mb-4" />

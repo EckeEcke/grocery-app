@@ -1,6 +1,5 @@
 <template>
   <div class="pb-5">
-    {{ currentInput }}
     <div class="mb-5">
       <div class="bg-warning">
         <div class="container py-4">

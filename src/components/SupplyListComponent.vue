@@ -230,8 +230,9 @@ export default {
       document.documentElement.style.overflow = "auto";
     },
     setInput: function (newValue) {
-      const stringToReplace = this.manualList.split(/,\s+|,|\n/).slice(-1)
-      this.manualList = this.manualList.replace(stringToReplace, newValue + ", ")
+      const newManualList = this.manualList.split(/,\s+|,|\n/)
+      newManualList[newManualList.length - 1] = newValue + ","
+      this.manualList = newManualList.toString()
       this.$refs.textarea.focus()
     },
     emitManualList: function () {

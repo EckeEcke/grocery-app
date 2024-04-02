@@ -1,46 +1,11 @@
 <template>
   <div class="pb-5">
+    {{ currentInput }}
     <div class="mb-5">
       <div class="bg-warning">
         <div class="container py-4">
-          <div class="btn-group mb-4 w-100 bg-white rounded-pill" role="group">
-              <button
-                class="btn btn-primary toggle-btn p-2 fw-bolder"
-                :class="{ inactive: !singleItemShown }"
-                @click="singleItemShown = true"
-              >
-                <span>Single</span>
-              </button>
-              <button
-                class="btn btn-primary toggle-btn p-2 fw-bolder"
-                :class="{ inactive: singleItemShown }"
-                @click="singleItemShown = false"
-              >
-                <span>Multiple</span>
-              </button>
-          </div>
-          <template v-if="singleItemShown">
             <div class="input-group">
-              <input
-                class="form-control"
-                type="text"
-                v-model="newGroceryItem"
-                placeholder="Add a single new item"
-                maxlength="30"
-              />
-              <div class="input-group-append">
-                <button class="btn btn-primary search-btn" @click="formSubmit">
-                  <font-awesome-icon
-                    :icon="['fas', 'plus']"
-                    class="search-icon"
-                  />
-                </button>
-              </div>
-            </div>
-          </template> 
-          <template v-if="!singleItemShown">
-            <div class="input-group">
-              <textarea ref="textarea" v-model="manualList" class="form-control" placeholder="Add multiple items at once - paste a list in here" @input="resizeTextArea()">
+              <textarea ref="textarea" v-model="manualList" class="form-control" placeholder="Add item(s) - seperate by comma or line break" @input="resizeTextArea()">
               </textarea>
               <button @click="emitManualList" class="btn btn-primary">
                 <font-awesome-icon
@@ -49,8 +14,7 @@
                     />
               </button>
             </div>
-          </template>
-          <div v-if="newGroceryItem.length > 0 && filteredItemsForSuggestions.length > 0" class="text-start bg-light mt-3 p-2 rounded">
+          <div v-if="currentInput.length > 0 && filteredItemsForSuggestions.length > 0" class="text-start bg-light mt-3 p-2 rounded">
             <div v-for="item in suggestedItems" :key="item.id" @click="setInput(item.name)" class="cursor-pointer px-1 py-2 btn-outline-secondary">
               {{  item.name }}
             </div>
@@ -206,13 +170,11 @@ export default {
   data() {
     return {
       listData: this.groceryList,
-      newGroceryItem: "",
       message: '',
       showToast: false,
       showInput: false,
       quantityItem: null,
       manualList: "",
-      singleItemShown: true,
     };
   },
   computed: {
@@ -221,11 +183,12 @@ export default {
       return sortedArray.sort((a, b) => a.name.localeCompare(b.name));
     },
     filteredItemsForSuggestions: function () {
-      const entriesIdenticalFirstLetter = this.sortedItems.filter(item => item.name.charAt(0).toLowerCase() === this.newGroceryItem.charAt(0).toLowerCase())
-      const entriesNoIdenticalFirstLetter = this.sortedItems.filter(item => item.name.charAt(0).toLowerCase() !== this.newGroceryItem.charAt(0).toLowerCase())
+      if (this.currentInput === "") return this.sortedItems
+      const entriesIdenticalFirstLetter = this.sortedItems.filter(item => item.name.charAt(0).toLowerCase() === this.currentInput.charAt(0).toLowerCase())
+      const entriesNoIdenticalFirstLetter = this.sortedItems.filter(item => item.name.charAt(0).toLowerCase() !== this.currentInput.charAt(0).toLowerCase())
       const sortedByFirstLetter = [...entriesIdenticalFirstLetter, ...entriesNoIdenticalFirstLetter]
       return sortedByFirstLetter.filter((item) => {
-        return item.name.toLowerCase().includes(this.newGroceryItem.toLowerCase());
+        return item.name.toLowerCase().includes(this.currentInput.toLowerCase());
       });
     },
     suggestedItems: function () {
@@ -234,6 +197,9 @@ export default {
     plannedItems: function () {
       return this.groceryList.filter((item) => item.planned == true);
     },
+    currentInput: function () {
+      return this.manualList.split(/,\s+|,|\n/).slice(-1).toString()
+    }
   },
   watch: {
     groceryList() {
@@ -241,13 +207,6 @@ export default {
     },
   },
   methods: {
-    formSubmit(event) {
-      event.preventDefault();
-      if (this.newGroceryItem.length > 0) {
-        this.$emit("submit", this.newGroceryItem);
-        this.newGroceryItem = "";
-      }
-    },
     deleteGrocerylist: function () {
       let confirmed = confirm("Do you really want to delete your list?");
       if (confirmed) {
@@ -271,12 +230,12 @@ export default {
       document.documentElement.style.overflow = "auto";
     },
     setInput: function (newValue) {
-      this.newGroceryItem = newValue
-      this.$emit("submit", this.newGroceryItem)
-      this.newGroceryItem = ""
+      const stringToReplace = this.manualList.split(/,\s+|,|\n/).slice(-1)
+      this.manualList = this.manualList.replace(stringToReplace, newValue + ", ")
+      this.$refs.textarea.focus()
     },
     emitManualList: function () {
-      const convertedToArray = this.manualList.split(/\r?\n|\r|\n/g)
+      const convertedToArray = this.manualList.split(/,\s+|,|\n/).map(entry => entry.replace(/, |,/g, ""))
       this.$emit("added-manual-list", convertedToArray)
       this.manualList = ""
     },
@@ -305,7 +264,6 @@ export default {
 textarea {
   resize: none;
   overflow: hidden;
-
 }
 
 .toggle-btn {

@@ -105,9 +105,7 @@
       @toggle="togglePlanned"
       @delete="deleteSingleItem"
     />
-    <transition name="fade">
-      <NavbarComponent v-if="menuShown" :menuShown="menuShown" @close="hideMenu" />
-    </transition>
+    <NavbarComponent v-if="menuShown" :menuShown="menuShown" @close="hideMenu" class="container" />
     <transition name="fade">
       <button
         v-if="showScrollBtn"

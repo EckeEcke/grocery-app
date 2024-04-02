@@ -1,7 +1,7 @@
 <template>
 <div>
   <div class="backdrop" @click="() => this.$emit('close')"></div>
-    <nav class="sidebar bg-dark" style="width: 100vw; max-width: 500px; height: 100vh; position: fixed; right: 0; top: 0">
+    <nav class="sidebar bg-dark">
     <div>
     <ul>
       <li class="py-2"><a href="https://eckeecke.github.io/">Home</a></li>
@@ -76,6 +76,15 @@ export default {
   padding-top: 2rem;
   overflow-y: auto;
   overflow-x: hidden;
+  width: 100vw; 
+  max-width: 500px; 
+  height: 100vh; 
+  position: fixed; 
+  right: -100%; 
+  top: 0;
+  transition: right 0.3s ease;
+  animation: slide-in 0.3s linear;
+  animation-fill-mode: forwards;
 }
 
 @media (min-width: 576px){
@@ -84,6 +93,14 @@ export default {
   }
   li {
     font-size: 2rem;
+  }
+}
+
+@keyframes slide-in {
+  from {
+    right: -100%;
+  } to {
+    right: 0;
   }
 }
 </style>

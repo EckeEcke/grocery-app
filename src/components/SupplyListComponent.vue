@@ -233,6 +233,7 @@ export default {
       newManualList[newManualList.length - 1] = newValue + ","
       this.manualList = newManualList.toString()
       this.$refs.textarea.focus()
+      this.resizeTextArea()
     },
     emitManualList: function () {
       const convertedToArray = this.manualList.split(/,\s+|,|\n/).map(entry => entry.replace(/, |,/g, ""))

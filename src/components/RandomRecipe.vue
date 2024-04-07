@@ -99,37 +99,28 @@
 
       </div>
         <div class="card-footer no-br-mobile border-0 bg-white" style="text-align: right">
-          <button v-if="!requestFailed" class="btn btn-warning my-2" @click="addRecipe">
-            Add to cookbook
+          <button v-if="!requestFailed" class="btn btn-primary my-2" @click="addRecipe">
+            <font-awesome-icon :icon="['fas', 'plus']"/>Add to cookbook
           </button>
           <button class="btn btn-outline-secondary" @click="loadRecipe">
             Load new recipe
           </button>
         </div>
     </div>
-    <transition name="fade">
-      <Toast v-if="showToast" :message="message" />
-    </transition>
   </div>
 </template>
 
 <script>
 
 import axios from "axios";
-import Toast from "./ToastComponent.vue";
 export default {
   name: "RandomRecipe",
-  components: {
-    Toast
-  },
   data() {
     return {
       showInstructions: false,
       showIngredients: false,
       randomMeal: null,
       isLoading: true,
-      message: '',
-      showToast: false,
       requestFailed: false,
     };
   },
@@ -178,13 +169,8 @@ export default {
     },
     addRecipe: function () {
       this.$emit('submit', this.randomMeal.data.meals[0].strMeal, this.ingredients)
-      this.createToast()
+      this.$toast(`${this.randomMeal.data.meals[0].strMeal} was added to your cookbook`)
     },
-    createToast: function () {
-      this.message = `${this.randomMeal.data.meals[0].strMeal} added to your cookbook`
-      this.showToast = true
-      setTimeout(() => this.showToast = false, 1500)
-    }
   },
 };
 </script>

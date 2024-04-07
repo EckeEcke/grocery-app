@@ -97,7 +97,7 @@
           meal(s) planned
         </p>
       </div>
-      <div v-if="this.plannedItems.length >= 1" class="pb-5 container">
+      <div v-if="this.plannedItems.length >= 1" class="pb-1 container">
         <transition-group name="slide-fade">
           <div
             class="row px-3 hover-zoom"
@@ -146,6 +146,9 @@
             <hr />
           </div>
         </transition-group>
+        <button class="btn btn-primary mt-5 mb-4" @click="copyList">
+          <font-awesome-icon :icon="['fas', 'copy']" />Copy list
+        </button>
       </div>
 
       <div class="my-4">
@@ -226,19 +229,12 @@
     <button v-if="cookBook.length >= 1" class="btn btn-secondary mx-2 mb-1" @click="deleteCookbook">
       <font-awesome-icon :icon="['fas', 'trash-alt']" />Delete all
     </button>
-    <transition name="fade">
-      <Toast v-if="showToast" :message="message" />
-    </transition>
   </div>
 </template>
 
 <script>
-import Toast from "./ToastComponent.vue";
 export default {
   name: "CookBook",
-  components: {
-    Toast
-  },
   props: {
     cookBook: {
       type: Array,
@@ -260,14 +256,12 @@ export default {
       newMeal: "",
       newIngredient: "",
       ingredients: [],
-      showToast: false,
-      message: ''
-    };
+    }
   },
   computed: {
     sortedItems: function () {
-      let sortedArray = this.listData;
-      return sortedArray.sort((a, b) => a.name.localeCompare(b.name));
+      let sortedArray = this.listData
+      return sortedArray.sort((a, b) => a.name.localeCompare(b.name))
     },
     filteredItems: function () {
       return this.sortedItems.filter((item) => {
@@ -284,6 +278,11 @@ export default {
     },
   },
   methods: {
+    copyList: function () {
+      navigator.clipboard.writeText(this.plannedItems.map(item => item.name).join("\n"))
+      console.log(this.plannedItems.map(item => item.name).join("\n"))
+      this.$toast("Copied list to clipboard")
+    },
     formSubmit(event) {
       event.preventDefault();
       if (this.newMeal.length > 0) {
@@ -298,12 +297,12 @@ export default {
       }, 10);
     },
     deleteCookbook: function () {
-      let confirmed = confirm("Do you really want to delete your list?");
+      let confirmed = confirm("Do you really want to delete your list?")
       if (confirmed) {
-        // this.cookBook = [];
-        localStorage.removeItem("cookbook");
-        this.createToast()
-        this.$emit('cb-deleted');
+        // this.cookBook = []
+        localStorage.removeItem("cookbook")
+        this.$toast("Cookbook was deleted")
+        this.$emit('cb-deleted')
       }
     },
     pushIngredient(event) {

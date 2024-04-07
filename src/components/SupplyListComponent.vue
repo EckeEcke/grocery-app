@@ -40,7 +40,7 @@
           item(s) left
         </p>
       </div>
-      <div v-if="plannedItems.length >= 1" class="pb-5 container">
+      <div v-if="plannedItems.length >= 1" class="pb-1 container">
         <transition-group name="slide-fade">
           <div
             class="row px-3 hover-zoom"
@@ -84,6 +84,9 @@
             <hr />
           </div>
         </transition-group>
+        <button class="btn btn-primary mt-5 mb-4" @click="copyList">
+          <font-awesome-icon :icon="['fas', 'copy']" />Copy list
+        </button>
       </div>
       <div class="container my-4 p-1 bg-warning">
         <h3 class="text-white m-2">Item List</h3>
@@ -130,20 +133,15 @@
     <button v-if="groceryList.length >= 1" class="btn btn-secondary mx-2 mb-1" @click="deleteGrocerylist">
       <font-awesome-icon :icon="['fas', 'trash-alt']" />Delete all
     </button>
-    <transition name="fade">
-      <Toast v-if="showToast" :message="message" />
-    </transition>
     <QuantityInput v-if="showInput" :item="quantityItem" @hide="hideInput" @updated="updateQuantityInLocalStorage" :groceryList="groceryList" />
   </div>
 </template>
 
 <script>
-import Toast from "./ToastComponent.vue";
 import QuantityInput from "./QuantityInputComponent.vue";
 export default {
   name: "SupplyList",
   components: {
-    Toast,
     QuantityInput
   },
   props: {
@@ -169,8 +167,6 @@ export default {
   data() {
     return {
       listData: this.groceryList,
-      message: '',
-      showToast: false,
       showInput: false,
       quantityItem: null,
       manualList: "",
@@ -206,18 +202,18 @@ export default {
     },
   },
   methods: {
+    copyList: function () {
+      navigator.clipboard.writeText(this.plannedItems.map(item => item.name).join("\n"))
+      console.log(this.plannedItems.map(item => item.name).join("\n"))
+      this.$toast("Copied list to clipboard")
+    },
     deleteGrocerylist: function () {
       let confirmed = confirm("Do you really want to delete your list?");
       if (confirmed) {
         localStorage.removeItem("grocerylist");
         this.$emit('list-deleted')
-        this.createToast()
+        this.$toast("Item list was deleted")
       }
-    },
-    createToast: function () {
-      this.message = "Item list was deleted"
-      this.showToast = true
-      setTimeout(() => this.showToast = false, 1500)
     },
     createModal: function (element) {
       document.documentElement.style.overflow = "hidden";

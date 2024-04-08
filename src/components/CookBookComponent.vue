@@ -167,10 +167,12 @@
       </div>
       <transition name="slide-fade">
         <div class="container">
-          <transition-group name="slide-fade">
+          <div v-for="(entry, index) in filteredItemsByFirstLetter" :key="index">
+            <div class="mt-5 mb-3"><strong>{{ entry[0] }}</strong></div>
+            <transition-group name="slide-fade">
             <div
               class="row px-3 hover-zoom"
-              v-for="meal in this.filteredItems"
+              v-for="meal in entry.filter(item => item.name)"
               :key="meal.id"
             >
               <div class="col-10 text-nowrap overflow-hidden px-0 mx-0">
@@ -223,6 +225,7 @@
               <hr />
             </div>
           </transition-group>
+        </div>
           <div class="d-flex justify-content-end my-4">
             <button v-if="cookBook.length >= 1" class="btn btn-outline-secondary mx-2 mb-1" @click="deleteCookbook">
               <font-awesome-icon :icon="['fas', 'trash-alt']" class="trash-icon-item" /> Delete all
@@ -259,6 +262,7 @@ export default {
       newMeal: "",
       newIngredient: "",
       ingredients: [],
+      entriesByFirstLetter: [],
     }
   },
   computed: {
@@ -274,6 +278,9 @@ export default {
     plannedItems: function () {
       return this.cookBook.filter((item) => item.planned == true);
     },
+    filteredItemsByFirstLetter: function () {
+      return this.splitUpAndSortByFirstLetter(this.sortedItems)
+    }
   },
   watch: {
     cookBook() {
@@ -317,11 +324,19 @@ export default {
       let index = this.ingredients.indexOf(ingredient);
       this.ingredients.splice(index, 1);
     },
-    createToast: function () {
-      this.message = "Cookbook was deleted"
-      this.showToast = true
-      setTimeout(() => this.showToast = false, 1500)
-    }
+    splitUpAndSortByFirstLetter(itemList) {
+      itemList.map(item => {
+        const firstLetter = item.name.charAt(0).toUpperCase()
+        const index = this.entriesByFirstLetter.findIndex((arr) => arr[0] === firstLetter)
+
+        if (index === -1) {
+          this.entriesByFirstLetter.push([firstLetter, item])
+        } else {
+          this.entriesByFirstLetter[index].push(item)
+        }
+      })
+      return this.entriesByFirstLetter
+    },
   },
 };
 </script>

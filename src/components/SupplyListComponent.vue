@@ -94,11 +94,13 @@
         <h3 class="text-white m-2">Item List</h3>
       </div>
       <div class="container">
-        <transition-group name="slide-fade">
+        <div v-for="(entry, index) in filteredItemsByFirstLetter" :key="index">
+          <div class="mt-5 mb-3"><strong>{{ entry[0] }}</strong></div>
+          <transition-group name="slide-fade">
           <div
             class="row px-3 hover-zoom"
-            v-for="item in this.sortedItems"
-            :key="item.id"
+            v-for="(item, index) in entry.filter(item => item.name)"
+            :key="index"
           >
             <div class="col-11 text-nowrap overflow-hidden px-0 mx-0">
               <button
@@ -125,6 +127,7 @@
             <hr />
           </div>
         </transition-group>
+        </div>
         <div class="d-flex justify-content-end my-4">
           <button v-if="groceryList.length >= 1" class="btn btn-outline-secondary mx-2 mb-1" @click="deleteGrocerylist">
             <font-awesome-icon :icon="['fas', 'trash-alt']" class="trash-icon-item" /> Delete all
@@ -132,7 +135,7 @@
         </div>
       </div>
     </div>
-<img
+    <img
       class="illustration mb-5"
       src="../assets/supplylist-illustration.svg"
     />
@@ -173,6 +176,7 @@ export default {
       showInput: false,
       quantityItem: null,
       manualList: "",
+      entriesByFirstLetter: [],
     };
   },
   computed: {
@@ -197,6 +201,9 @@ export default {
     },
     currentInput: function () {
       return this.manualList.split(/,\s+|,|\n/).slice(-1).toString()
+    },
+    filteredItemsByFirstLetter: function () {
+      return this.splitUpAndSortByFirstLetter(this.sortedItems)
     }
   },
   watch: {
@@ -244,6 +251,19 @@ export default {
 
       element.style.height = "18px";
       element.style.height = element.scrollHeight + "px";
+    },
+    splitUpAndSortByFirstLetter(itemList) {
+      itemList.map(item => {
+        const firstLetter = item.name.charAt(0).toUpperCase()
+        const index = this.entriesByFirstLetter.findIndex((arr) => arr[0] === firstLetter)
+
+        if (index === -1) {
+          this.entriesByFirstLetter.push([firstLetter, item])
+        } else {
+          this.entriesByFirstLetter[index].push(item)
+        }
+      })
+      return this.entriesByFirstLetter
     },
   },
 };

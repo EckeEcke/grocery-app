@@ -377,7 +377,7 @@ export default {
     handleTouchEnd(event) {
       const touchendX = event.changedTouches[0].screenX
       const touchendY = event.changedTouches[0].screenY
-      if (!(touchendY <= this.touchstartY + 30 && touchendY >= this.touchstartY - 30)) return
+      if (!(touchendY <= this.touchstartY + 40 && touchendY >= this.touchstartY - 40)) return
       if (touchendX + 60 < this.touchstartX) {
         this.cookbookShown = true
       } 

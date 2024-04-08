@@ -25,7 +25,7 @@
         class="illustration mt-5 mb-3"
         src="../assets/grocery-illustration.svg"
       />
-      <p class="mb-0 p-3">
+      <p class="mb-4 p-3">
         Add new items or choose from your item list
       </p>
       </div>
@@ -84,11 +84,13 @@
             <hr />
           </div>
         </transition-group>
-        <button class="btn btn-primary mt-5 mb-4" @click="copyList">
-          <font-awesome-icon :icon="['fas', 'copy']" />Copy list
+        <div class="d-flex justify-content-end">
+          <button class="btn btn-outline-secondary my-4" @click="copyList">
+          <font-awesome-icon :icon="['fas', 'copy']" class="trash-icon-item" /> Copy list
         </button>
+        </div>
       </div>
-      <div class="container my-4 p-1 bg-warning">
+      <div class="container mb-4 p-1 bg-warning">
         <h3 class="text-white m-2">Item List</h3>
       </div>
       <div class="container">
@@ -123,16 +125,17 @@
             <hr />
           </div>
         </transition-group>
+        <div class="d-flex justify-content-end my-4">
+          <button v-if="groceryList.length >= 1" class="btn btn-outline-secondary mx-2 mb-1" @click="deleteGrocerylist">
+            <font-awesome-icon :icon="['fas', 'trash-alt']" class="trash-icon-item" /> Delete all
+          </button>
+        </div>
       </div>
     </div>
 <img
       class="illustration mb-5"
       src="../assets/supplylist-illustration.svg"
     />
-    <br />
-    <button v-if="groceryList.length >= 1" class="btn btn-secondary mx-2 mb-1" @click="deleteGrocerylist">
-      <font-awesome-icon :icon="['fas', 'trash-alt']" />Delete all
-    </button>
     <QuantityInput v-if="showInput" :item="quantityItem" @hide="hideInput" @updated="updateQuantityInLocalStorage" :groceryList="groceryList" />
   </div>
 </template>

@@ -84,7 +84,7 @@
           class="illustration mt-5 mb-3"
           src="../assets/meal-illustration.svg"
         />
-        <p class="mb-3">Add new meals or choose from your cookbook</p>
+        <p class="mb-5">Add new meals or choose from your cookbook</p>
       </div>
 
       <div class="row container px-0">
@@ -146,12 +146,14 @@
             <hr />
           </div>
         </transition-group>
-        <button class="btn btn-primary mt-5 mb-4" @click="copyList">
-          <font-awesome-icon :icon="['fas', 'copy']" />Copy list
-        </button>
+        <div class="d-flex justify-content-end">
+          <button class="btn btn-outline-secondary my-4" @click="copyList">
+            <font-awesome-icon :icon="['fas', 'copy']" class="trash-icon-item" /> Copy plan
+          </button>
+        </div>
       </div>
 
-      <div class="my-4">
+      <div class="mb-4">
         <div class="bg-warning pt-1 pb-4 px-4">
           <h3 class="text-white">Cook Book</h3>
           <input
@@ -221,14 +223,15 @@
               <hr />
             </div>
           </transition-group>
+          <div class="d-flex justify-content-end my-4">
+            <button v-if="cookBook.length >= 1" class="btn btn-outline-secondary mx-2 mb-1" @click="deleteCookbook">
+              <font-awesome-icon :icon="['fas', 'trash-alt']" class="trash-icon-item" /> Delete all
+            </button>
+          </div>
         </div>
       </transition>
     </div>
     <img class="illustration mb-5" src="../assets/cooking-illustration.svg" />
-    <br />
-    <button v-if="cookBook.length >= 1" class="btn btn-secondary mx-2 mb-1" @click="deleteCookbook">
-      <font-awesome-icon :icon="['fas', 'trash-alt']" />Delete all
-    </button>
   </div>
 </template>
 

@@ -1,8 +1,10 @@
 <template>
 <div>
   <div class="backdrop" @click="() => this.$emit('close')"></div>
-    <nav class="sidebar bg-dark">
+    <nav class="sidebar bg-white">
+    <div class="bg-warning py-5" />
     <div>
+      <h2 class="pt-5 pb-2 m-0">Vue Meal Planner</h2>
     <ul>
       <li class="py-2"><a href="https://eckeecke.github.io/">Home</a></li>
       <li class="py-2"><a href="https://nifty-hopper-c1da01.netlify.app/">React Travel Blog</a></li>
@@ -41,39 +43,37 @@ export default {
   transform: translateY(-50%);
 }
 #sidebar-btn-close {
-  position: fixed;
+  position: absolute;
   top: 12px;
   right: 2px;
+}
+
+#sidebar-btn-close svg {
+  margin-right: 0;
+  color: white;
 }
     ul {
         width: 100vw;
         max-width:450px;
-        margin: 50px auto;
+        margin: 0px auto 50px;
     }
 
     li {
       width: 80%;
       margin: 1rem auto;
-      color: white;
       font-size: 1.5rem;
     }
 
     a {
       text-decoration: none;
-      color: white;
+      color: #2c3e50;
     }
 
     a:hover {
       font-weight: bolder;
     }
-
-    li:hover {
-      transition: 500ms;
-      background-color: orange;
-    }
 .sidebar {
   z-index: 10;
-  padding-top: 2rem;
   overflow-y: auto;
   overflow-x: hidden;
   width: 100vw; 
@@ -85,12 +85,10 @@ export default {
   transition: right 0.3s ease;
   animation: slide-in 0.3s linear;
   animation-fill-mode: forwards;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
 }
 
 @media (min-width: 576px){
-  .sidebar {
-    padding-top: 4rem;
-  }
   li {
     font-size: 2rem;
   }

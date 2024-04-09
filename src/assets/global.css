@@ -18,6 +18,12 @@ h1 {
   margin: 0;
 }
 
+h2 {
+  font-family: niceFont;
+  font-weight: bolder;
+  font-size: 36px;
+}
+
 @media (max-width: 500px) {
   h1 {
     padding: 1rem 0.5rem;
@@ -237,6 +243,7 @@ svg {
   top: 0;
   left: 0;
   z-index: 10;
+  backdrop-filter: blur(4px);
 }
 
 .modal-detailpage {

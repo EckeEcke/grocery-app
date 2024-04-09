@@ -102,14 +102,14 @@
           <div
             class="row px-3 hover-zoom"
             v-for="meal in this.plannedItems"
-            :key="meal.id"
+            :key="meal.id + meal.name"
           >
             <div class="col-10 px-0 mx-0 text-nowrap overflow-hidden">
               <button
                 v-if="meal"
                 class="btn btn-outline-secondary w-100 mx-0"
                 style="text-align: left"
-                :key="meal.id"
+                :key="meal.id + meal.name"
                 @click="checkItem(meal.name)"
               >
                 {{ meal.name }}
@@ -173,7 +173,7 @@
             <div
               class="row px-3 hover-zoom"
               v-for="meal in entry.filter(item => item.name)"
-              :key="meal.id"
+              :key="meal.id + meal.name"
             >
               <div class="col-10 text-nowrap overflow-hidden px-0 mx-0">
                 <button
@@ -182,7 +182,7 @@
                   :class="
                     meal.planned ? 'btn-success' : 'btn-outline-secondary'
                   "
-                  :key="meal.id"
+                  :key="meal.id + meal.name"
                   @click="push(meal.name)"
                 >
                   {{ meal.name }}

@@ -139,7 +139,7 @@
       class="illustration mb-5"
       src="../assets/supplylist-illustration.svg"
     />
-    <QuantityInput v-if="showInput" :item="quantityItem" @hide="hideInput" @updated="updateQuantityInLocalStorage" :groceryList="groceryList" />
+    <QuantityInput v-if="showInput" :item="quantityItem" @hide="hideInput" :groceryList="groceryList" />
   </div>
 </template>
 

@@ -250,7 +250,6 @@ export default {
     },
     emitManualList: function () {
       const convertedToArray = this.manualList.split(/,\s+|,|\n/).map(entry => entry.replace(/, |,/g, ""))
-      console.log(convertedToArray)
       this.addNewItems(convertedToArray)
       this.manualList = ""
     },
@@ -259,19 +258,6 @@ export default {
 
       element.style.height = "18px";
       element.style.height = element.scrollHeight + "px";
-    },
-    splitUpAndSortByFirstLetter(itemList) {
-      itemList.map(item => {
-        const firstLetter = item.name.charAt(0).toUpperCase()
-        const index = this.entriesByFirstLetter.findIndex((arr) => arr[0] === firstLetter)
-
-        if (index === -1) {
-          this.entriesByFirstLetter.push([firstLetter, item])
-        } else {
-          this.entriesByFirstLetter[index].push(item)
-        }
-      })
-      return this.entriesByFirstLetter
     },
     deleteSingleItem: function (element) {
       this.$store.commit('deleteSingleItem', element)

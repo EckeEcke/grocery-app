@@ -154,16 +154,9 @@
       </div>
 
       <div class="mb-4">
-        <div class="bg-warning pt-1 pb-4 px-4">
-          <h3 class="text-white">Cook Book</h3>
-          <input
-            v-model="search"
-            type="search"
-            ref="search"
-            class="form-control"
-            placeholder="Search dish"
-          />
-        </div>
+        <div class="container mb-4 p-1 bg-warning">
+        <h3 class="text-white m-2">Cook Book</h3>
+      </div>
       </div>
       <transition name="slide-fade">
         <div class="container">
@@ -243,21 +236,14 @@ export default {
   name: "CookBook",
   data() {
     return {
-      search: "",
       newMeal: "",
       newIngredient: "",
       ingredients: [],
-      entriesByFirstLetter: [],
     }
   },
   computed: {
     sortedItems: function () {
       return this.$store.getters.getMealPlan
-    },
-    filteredItems: function () {
-      return this.sortedItems.filter((item) => {
-        return item.name.toLowerCase().includes(this.search.toLowerCase());
-      });
     },
     plannedItems: function () {
       return this.sortedItems.filter((item) => item.planned == true);
@@ -271,9 +257,9 @@ export default {
       const clonedGroceryList = [...this.sortedItems]
       const index = clonedGroceryList
         .map(function (element) {
-          return element.name;
+          return element.name
         })
-        .indexOf(element.name);
+        .indexOf(element.name)
       this.$store.commit("setMealPlanned", index)
     },
     copyList: function () {
@@ -284,38 +270,31 @@ export default {
       event.preventDefault();
       if (this.newMeal.length > 0) {
         this.$store.commit("addNewMeal", { mealName: this.newMeal, ingredients: this.ingredients})
-        this.newMeal = "";
-        this.ingredients = [];
+        this.newMeal = ""
+        this.ingredients = []
       }
-    },
-    focusInput() {
-      setTimeout(() => {
-        this.$refs.search.focus();
-      }, 10);
     },
     deleteMeal: function (meal) {
       this.$store.commit("deleteSingleMeal", meal)
     },
     deleteCookbook: function () {
-      let confirmed = confirm("Do you really want to delete your list?")
+      const confirmed = confirm("Do you really want to delete your list?")
       if (confirmed) {
-        // this.cookBook = []
         localStorage.removeItem("mealPlan")
         this.$toast("Cookbook was deleted")
-        this.$emit('cb-deleted')
       }
     },
     pushIngredient(event) {
-      event.preventDefault();
-      this.ingredients.push(this.newIngredient);
-      this.newIngredient = "";
+      event.preventDefault()
+      this.ingredients.push(this.newIngredient)
+      this.newIngredient = ""
     },
     deleteIngredient(ingredient) {
-      let index = this.ingredients.indexOf(ingredient);
-      this.ingredients.splice(index, 1);
+      const index = this.ingredients.indexOf(ingredient)
+      this.ingredients.splice(index, 1)
     },
   },
-};
+}
 </script>
 
 <style scoped>

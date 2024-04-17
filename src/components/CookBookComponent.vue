@@ -110,7 +110,7 @@
                 class="btn btn-outline-secondary w-100 mx-0"
                 style="text-align: left"
                 :key="meal.id + meal.name"
-                @click="checkItem(meal.name)"
+                @click="setMealPlanned(meal)"
               >
                 {{ meal.name }}
               </button>

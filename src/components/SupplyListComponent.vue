@@ -20,7 +20,7 @@
           </div>
         </div>
       </div>
-      <div v-if="this.plannedItems.length == 0">
+      <div v-if="plannedItems && plannedItems.length == 0">
         <img
         class="illustration mt-5 mb-3"
         src="../assets/grocery-illustration.svg"
@@ -31,7 +31,7 @@
       </div>
       
       <div class="row container px-0">
-        <p v-if="this.plannedItems.length >= 1" class="px-2 my-4 font-small">
+        <p v-if="plannedItems && plannedItems.length >= 1" class="px-2 my-4 font-small">
           <transition name="fade" mode="out-in">
             <span :key="plannedItems.length">{{
               plannedItems.length
@@ -40,7 +40,7 @@
           item(s) left
         </p>
       </div>
-      <div v-if="plannedItems.length >= 1" class="pb-1 container">
+      <div v-if="plannedItems && plannedItems.length >= 1" class="pb-1 container">
         <transition-group name="slide-fade">
           <div
             class="row px-3 hover-zoom"
@@ -53,7 +53,7 @@
                 class="btn btn-outline-secondary w-100 mx-0"
                 :key="groceryItem.name"
                 style="text-align: left"
-                @click="checkItem(groceryItem.name)"
+                @click="checkSingleItem(groceryItem.name)"
               > 
                 {{ groceryItem.name }}
                 <span v-if="groceryItem.quantity !== ''">{{ groceryItem.quantity }}</span>
@@ -73,7 +73,7 @@
             <div class="col-1 px-0 mx-0">
               <button
                 class="btn btn-outline-secondary align-bottom delete-item-btn"
-                @click="checkItem(groceryItem.name)"
+                @click="checkItem(groceryItem)"
               >
                 <font-awesome-icon
                   :icon="['fas', 'check']"
@@ -93,7 +93,7 @@
       <div class="container mb-4 p-1 bg-warning">
         <h3 class="text-white m-2">Item List</h3>
       </div>
-      <div class="container">
+      <div class="container" v-if="filteredItemsByFirstLetter">
         <div v-for="(entry, index) in filteredItemsByFirstLetter" :key="index">
           <div class="mt-5 mb-3"><strong>{{ entry[0] }}</strong></div>
           <transition-group name="slide-fade">
@@ -106,9 +106,9 @@
               <button
                 class="btn w-100 mx-0 list-btn"
                 :class="item.planned ? 'btn-success' : 'btn-outline-secondary'"
-                :key="item.id"
+                :key="item.name"
                 style="text-align: left"
-                @click="someFunction(item.name)"
+                @click="pushNewItemfromList(item.name)"
               >
                 {{ item.name }}
               </button>
@@ -116,7 +116,7 @@
             <div class="col-1 px-0 mx-0">
               <button
                 class="btn btn-outline-secondary align-bottom delete-item-btn"
-                @click="deleteItem({ array: listData, element: item.name })"
+                @click="deleteSingleItem(item)"
               >
                 <font-awesome-icon
                   :icon="['fas', 'trash-alt']"
@@ -150,29 +150,8 @@ export default {
   components: {
     QuantityInput
   },
-  props: {
-    groceryList: {
-      type: Array,
-    },
-    function: {
-      type: Function,
-    },
-    function2: {
-      type: Function,
-    },
-    deleteItem: {
-      type: Function,
-    },
-    someFunction: {
-      type: Function,
-    },
-    checkItem: {
-      type: Function,
-    }
-  },
   data() {
     return {
-      listData: this.groceryList,
       showInput: false,
       quantityItem: null,
       manualList: "",
@@ -180,48 +159,75 @@ export default {
     };
   },
   computed: {
-    sortedItems: function () {
-      let sortedArray = this.listData;
-      return sortedArray.sort((a, b) => a.name.localeCompare(b.name));
+    groceryList: function() {
+      return this.$store.getters.getGroceryList
     },
     filteredItemsForSuggestions: function () {
-      if (this.currentInput === "") return this.sortedItems
-      const entriesIdenticalFirstLetter = this.sortedItems.filter(item => item.name.charAt(0).toLowerCase() === this.currentInput.charAt(0).toLowerCase())
-      const entriesNoIdenticalFirstLetter = this.sortedItems.filter(item => item.name.charAt(0).toLowerCase() !== this.currentInput.charAt(0).toLowerCase())
+      if (this.currentInput === "") return this.groceryList
+      const entriesIdenticalFirstLetter = this.groceryList.filter(item => item.name.charAt(0).toLowerCase() === this.currentInput.charAt(0).toLowerCase())
+      const entriesNoIdenticalFirstLetter = this.groceryList.filter(item => item.name.charAt(0).toLowerCase() !== this.currentInput.charAt(0).toLowerCase())
       const sortedByFirstLetter = [...entriesIdenticalFirstLetter, ...entriesNoIdenticalFirstLetter]
       return sortedByFirstLetter.filter((item) => {
         return item.name.toLowerCase().includes(this.currentInput.toLowerCase());
       });
     },
     suggestedItems: function () {
-      return this.filteredItemsForSuggestions.length > 5 ? this.filteredItemsForSuggestions.slice(0,10) : this.filteredItemsForSuggestions
+        if (!this.filteredItemsForSuggestions) return []
+        return this.filteredItemsForSuggestions.length > 5 ? this.filteredItemsForSuggestions.slice(0,10) : this.filteredItemsForSuggestions
     },
     plannedItems: function () {
-      return this.groceryList.filter((item) => item.planned == true);
+      return this.groceryList.filter(function (item) { return item.planned == true})
     },
     currentInput: function () {
       return this.manualList.split(/,\s+|,|\n/).slice(-1).toString()
     },
     filteredItemsByFirstLetter: function () {
-      return this.splitUpAndSortByFirstLetter(this.sortedItems)
+      return this.$store.getters.getSplitItemsByFirstLetter
     }
   },
-  watch: {
-    groceryList() {
-      this.listData = this.groceryList;
-    },
-  },
   methods: {
+    addNewItem: function (item) {
+      this.$store.commit('addNewItem', item)
+    },
+    addNewItems: function (items) {
+      items.forEach(item => this.addNewItem(item))
+    },
+    pushNewItemfromList: function (element) {
+      const clonedGroceryList = [...this.groceryList]
+      const index = clonedGroceryList
+        .map(function (element) {
+          return element.name;
+        })
+        .indexOf(element);
+        this.$store.commit('setItemPlanned', index)
+    },
+    checkItem: function (element) {
+      this.$store.commit('checkSingleItem', element)
+    },
+    checkSingleItem: function (element) {
+      const clonedGroceryList = [...this.groceryList]
+      console.log(clonedGroceryList)
+      const indexGrocerylist = clonedGroceryList
+        .map(function (element) {
+          return element.name;
+        })
+        .indexOf(element);
+      if (clonedGroceryList[indexGrocerylist]) {
+        clonedGroceryList[indexGrocerylist].planned = false;
+        clonedGroceryList[indexGrocerylist].quantity = '';
+      }
+      this.$store.commit('setGroceryList', clonedGroceryList)
+      localStorage.setItem("grocerylist", JSON.stringify(clonedGroceryList));
+    },
     copyList: function () {
       navigator.clipboard.writeText(this.plannedItems.map(item => item.name).join("\n"))
-      console.log(this.plannedItems.map(item => item.name).join("\n"))
       this.$toast("Copied list to clipboard")
     },
     deleteGrocerylist: function () {
       let confirmed = confirm("Do you really want to delete your list?");
       if (confirmed) {
         localStorage.removeItem("grocerylist");
-        this.$emit('list-deleted')
+        this.$store.commit('setGroceryList', [])
         this.$toast("Item list was deleted")
       }
     },
@@ -236,6 +242,7 @@ export default {
     },
     setInput: function (newValue) {
       const newManualList = this.manualList.split(/,\s+|,|\n/)
+      console.log(newManualList)
       newManualList[newManualList.length - 1] = newValue + ","
       this.manualList = newManualList.toString()
       this.$refs.textarea.focus()
@@ -243,7 +250,8 @@ export default {
     },
     emitManualList: function () {
       const convertedToArray = this.manualList.split(/,\s+|,|\n/).map(entry => entry.replace(/, |,/g, ""))
-      this.$emit("added-manual-list", convertedToArray)
+      console.log(convertedToArray)
+      this.addNewItems(convertedToArray)
       this.manualList = ""
     },
     resizeTextArea() {
@@ -264,6 +272,9 @@ export default {
         }
       })
       return this.entriesByFirstLetter
+    },
+    deleteSingleItem: function (element) {
+      this.$store.commit('deleteSingleItem', element)
     },
   },
 };

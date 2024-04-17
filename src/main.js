@@ -7,7 +7,7 @@ import './registerServiceWorker'
 import '@/assets/global.css'
 import Toast from 'vue-toastification'
 import 'vue-toastification/dist/index.css'
-
+import store from './store'
 
 library.add(fas)
 Vue.use(Toast)
@@ -17,4 +17,5 @@ Vue.config.productionTip = false
 
 new Vue({
   render: h => h(App),
+  store
 }).$mount('#app')

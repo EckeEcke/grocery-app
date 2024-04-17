@@ -168,7 +168,7 @@ export default {
         } ,3000)
     },
     addRecipe: function () {
-      this.$emit('submit', this.randomMeal.data.meals[0].strMeal, this.ingredients)
+      this.$store.commit("addNewMeal", {mealName: this.randomMeal.data.meals[0].strMeal,ingredients: this.ingredients})
       this.$toast(`${this.randomMeal.data.meals[0].strMeal} was added to your cookbook`)
     },
   },

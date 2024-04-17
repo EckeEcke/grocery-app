@@ -62,29 +62,15 @@
             <CookBook
               v-if="cookbookShown"
               key="component"
-              :cookBook="cookBook"
-              :push="pushNewMealfromCookbook"
-              :deleteItem="deleteSingleItem"
-              :checkItem="checkSingleMeal"
-              @submit="addNewMeal"
               @show-details="showDetailpage"
-              @cb-deleted="emptyCookbook"
             />
             <RandomRecipe
               v-if="cookbookShown"
               key="random"
-              @submit="addNewMeal" 
             />
             <SupplyList
               v-if="!cookbookShown"
               key="component"
-              :groceryList="groceryList"
-              :someFunction="pushNewItemfromList"
-              :deleteItem="deleteSingleItem"
-              :checkItem="checkSingleItem"
-              @submit="addNewItem"
-              @list-deleted="emptyItemlist"
-              @added-manual-list="addNewItems"
             />
           </transition-group>
         </div>
@@ -98,12 +84,7 @@
     <DetailPage
       v-if="!hiddenDetailpage"
       :meal="detailedMeal"
-      :cookBook="cookBook"
-      :groceryList="groceryList"
       @hide="hideDetailpage"
-      @submit="addNewItem"
-      @toggle="togglePlanned"
-      @delete="deleteSingleItem"
     />
     <NavbarComponent v-if="menuShown" :menuShown="menuShown" @close="hideMenu" class="container" />
     <transition name="fade">
@@ -142,44 +123,22 @@ export default {
   },
   data: function () {
     return {
-      groceryList:
-        JSON.parse(localStorage.getItem("grocerylist")) || supplyListData,
       menuShown: false,
       cookbookShown: false,
       showScrollBtn: false,
-      newMeal: "",
-      newGroceryItem: "",
-      cookBook: JSON.parse(localStorage.getItem("cookbook")) || cookBookData,
       hiddenDetailpage: true,
       detailedMeal: null,
       touchstartX: 0,
     };
   },
   computed: {
-    newGroceryItemId() {
-      if (this.groceryList.length) {
-        return (
-          Math.max.apply(
-            Math,
-            this.groceryList.map(function (item) {
-              return item.id;
-            })
-          ) + 1
-        );
-      } else return 0;
+    groceryList() {
+      return this.$store.getters.getGroceryList
     },
-    newDishId() {
-      if (this.cookBook.length) {
-        return (
-          Math.max.apply(
-            Math,
-            this.cookBook.map(function (item) {
-              return item.id;
-            })
-          ) + 1
-        );
-      } else return 0;
+    cookBook() {
+      return this.$store.getters.getMealPlan
     },
+    
     isStandAlone() {
       return window.matchMedia('(display-mode: standalone)').matches
     }
@@ -189,6 +148,29 @@ export default {
   },
   destroyed() {
     window.removeEventListener("scroll", this.toggleScrollbutton);
+  },
+  mounted() {
+    const hasFaultyLocalStorageEntryItemList = localStorage.getItem("grocerylist") === "undefined" || 
+                                       localStorage.getItem("grocerylist") === undefined ||
+                                       localStorage.getItem("grocerylist") === "null"
+    if (hasFaultyLocalStorageEntryItemList) {
+      localStorage.removeItem("grocerylist")
+    }
+    const groceryListToPush = hasFaultyLocalStorageEntryItemList ? supplyListData : JSON.parse(localStorage.getItem("grocerylist"))
+    this.$store.commit('setGroceryList', groceryListToPush)
+    const hasFaultyLocalStorageEntryMealPlan = localStorage.getItem("mealPlan") === "undefined" || 
+                                       localStorage.getItem("mealPlan") === undefined ||
+                                       localStorage.getItem("mealPlan") === "null"
+    if (hasFaultyLocalStorageEntryMealPlan) {
+      localStorage.removeItem("mealPlan")
+    }
+    const mealPlanToPush = hasFaultyLocalStorageEntryMealPlan ? cookBookData : JSON.parse(localStorage.getItem("mealPlan"))
+    this.$store.commit('setMealPlan', mealPlanToPush)
+    new Konami(() => {
+      runMario() 
+    })
+    this.$refs.app.addEventListener('touchstart', this.handleTouchStart, false)
+    this.$refs.app.addEventListener('touchend', this.handleTouchEnd, false)
   },
   methods: {
     showMenu: function () {
@@ -209,152 +191,13 @@ export default {
     scrollToTop: function () {
       window.scrollTo(0, 0);
     },
-    pushNewMeal: function () {
-      let index = this.cookBook.findIndex((item) => item.name === this.newMeal);
-      if (index == -1) {
-        this.cookBook.push({ name: this.newMeal, planned: true });
-      } else {
-        this.cookBook[index].planned = true;
-      }
-
-      localStorage.setItem("cookbook", JSON.stringify(this.cookBook));
-      this.newMeal = "";
-    },
-    pushNewGroceryItem: function () {
-      let index = this.groceryList.findIndex(
-        (item) => item.name === this.newGroceryItem
-      );
-      if (index == -1) {
-        this.groceryList.push({
-          name: this.newGroceryItem,
-          planned: true,
-          id: this.newGroceryItemId,
-        });
-      } else {
-        this.groceryList[index].planned = true;
-      }
-
-      localStorage.setItem("grocerylist", JSON.stringify(this.groceryList));
-      this.newGroceryItem = "";
-    },
-    togglePlanned: function (item) {
-      let index = this.groceryList.findIndex(
-        (listItem) => listItem.name === item
-      );
-      if (index >= 0) {
-        this.groceryList[index].planned = !this.groceryList[index].planned;
-      }
-    },
-    pushNewMealfromCookbook: function (element) {
-      const index = this.cookBook
-        .map(function (element) {
-          return element.name;
-        })
-        .indexOf(element);
-      if (this.cookBook[index].planned == false) {
-        this.cookBook[index].planned = true;
-      } else {
-        this.cookBook[index].planned = false;
-      }
-    },
-    pushNewItemfromList: function (element) {
-      const index = this.groceryList
-        .map(function (element) {
-          return element.name;
-        })
-        .indexOf(element);
-      if (this.groceryList[index].planned == false) {
-        this.groceryList[index].planned = true;
-      } else {
-        this.groceryList[index].planned = false;
-      }
-    },
-    formSubmit: function (event) {
-      event.preventDefault();
-      if (this.newGroceryItem.length > 0) {
-        this.pushNewGroceryItem();
-      }
-      if (this.newMeal.length > 0) {
-        this.pushNewMeal();
-      }
-    },
-    addNewItem: function (item) {
-      let index = this.groceryList.findIndex(
-        (listItem) => listItem.name === item
-      );
-      if (item.length === 0) return
-      if (index == -1) {
-        this.groceryList.push({
-          name: item,
-          planned: true,
-          id: this.newGroceryItemId,
-        });
-      } else {
-        this.groceryList[index].planned = true;
-      }
-
-      localStorage.setItem("grocerylist", JSON.stringify(this.groceryList));
-    },
-    addNewItems: function (items) {
-      items.forEach(item => this.addNewItem(item))
-    },
-    addNewMeal: function (item, ingredients) {
-      let index = this.cookBook.findIndex((listItem) => listItem.name === item);
-      if (index == -1) {
-        this.cookBook.push({
-          name: item,
-          planned: true,
-          id: this.newDishId,
-          ingredients: ingredients,
-        });
-      } else {
-        this.cookBook[index].planned = true;
-      }
-
-      localStorage.setItem("cookbook", JSON.stringify(this.cookBook));
-    },
     deleteGrocerylist: function () {
       let confirmed = confirm("Do you really want to delete your list?");
       if (confirmed) {
-        this.groceryList = [];
-        localStorage.removeItem("grocerylist");
+        this.$store.commit('setGroceryList', [])
+        localStorage.removeItem("grocerylist")
       }
-    },
-    deleteSingleItem: function (payload) {
-      const array = payload.array;
-      const element = payload.element;
-      const index = array
-        .map(function (element) {
-          return element.name;
-        })
-        .indexOf(element);
-      array.splice(index, 1);
-      localStorage.setItem("grocerylist", JSON.stringify(this.groceryList));
-    },
-    checkSingleMeal: function (element) {
-      const indexCookbook = this.cookBook
-        .map(function (element) {
-          return element.name;
-        })
-        .indexOf(element);
-      if (this.cookBook[indexCookbook]) {
-        this.cookBook[indexCookbook].planned = false;
-      }
-      localStorage.setItem("cookbook", JSON.stringify(this.cookBook));
-    },
-
-    checkSingleItem: function (element) {
-      const indexGrocerylist = this.groceryList
-        .map(function (element) {
-          return element.name;
-        })
-        .indexOf(element);
-      if (this.groceryList[indexGrocerylist]) {
-        this.groceryList[indexGrocerylist].planned = false;
-        this.groceryList[indexGrocerylist].quantity = '';
-      }
-      localStorage.setItem("grocerylist", JSON.stringify(this.groceryList));
-    },
+    },    
     showDetailpage(meal) {
       this.detailedMeal = meal;
       this.hiddenDetailpage = false;
@@ -363,12 +206,6 @@ export default {
     hideDetailpage() {
       this.hiddenDetailpage = true;
       document.documentElement.style.overflow = "auto";
-    },
-    emptyCookbook() {
-      this.cookBook = []
-    },
-    emptyItemlist() {
-      this.groceryList = []
     },
     handleTouchStart(event) {
       this.touchstartX = event.changedTouches[0].screenX
@@ -385,13 +222,6 @@ export default {
         this.cookbookShown = false
       }
     }
-  },
-  mounted() {
-    new Konami(() => {
-      runMario() 
-    })
-    this.$refs.app.addEventListener('touchstart', this.handleTouchStart, false)
-    this.$refs.app.addEventListener('touchend', this.handleTouchEnd, false)
   },
   watch: {
     cookbookShown() {

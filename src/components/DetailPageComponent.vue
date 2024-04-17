@@ -9,7 +9,7 @@
             </button>
         </div>
         <div class="card-footer">
-            <button class="btn btn-outline-secondary mx-3" @click="deleteItem({array: listData, element: meal.name})">Delete</button>
+            <button class="btn btn-outline-secondary mx-3" @click="deleteItem()">Delete</button>
             <button class="btn btn-primary" @click="$emit('hide')">Close</button>
         </div>
        
@@ -24,39 +24,31 @@ export default {
       meal: {
           type: Object
       },
-      groceryList: {
-      type: Array,
-    },
-    cookBook: {
-        type: Array
-    }
-  },
-  data() {
-      return {
-          listData: this.cookBook
-      }
   },
   computed: {
+      groceryList: function () {
+        return this.$store.getters.getGroceryList
+      },
       plannedItems: function () {
-        return this.groceryList.filter((item) => item.planned == true);
+        return this.$store.getters.getPlannedItems
     },
   },
   methods: {
       isItemPlanned: function(ingredient) {
         let index = this.groceryList.findIndex(
             (item) => item.name === ingredient
-        );
+        )
             if (index >= 0) {
                 return this.groceryList[index].planned
             } else return false
         },
         checkIngredients(ingredient) {
             if (this.isItemPlanned(ingredient)) {
-                this.$emit('toggle', ingredient)
-            } else this.$emit('submit', ingredient)
+                this.$store.commit("setItemPlanned", ingredient)
+            } else this.$store.commit("addNewItem", ingredient)
         },
-        deleteItem(payload) {
-            this.$emit('delete', payload)
+        deleteItem() {
+            this.$store.commit("deleteSingleMeal", this.meal)
             this.$emit('hide')
         }
   }

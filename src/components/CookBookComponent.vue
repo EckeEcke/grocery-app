@@ -102,7 +102,7 @@
           <div
             class="row px-3 hover-zoom"
             v-for="meal in this.plannedItems"
-            :key="meal.id + meal.name"
+            :key="meal.name"
           >
             <div class="col-10 px-0 mx-0 text-nowrap overflow-hidden">
               <button
@@ -135,7 +135,7 @@
             <div class="col-1 px-0 mx-0">
               <button
                 class="btn btn-outline-secondary align-bottom delete-item-btn"
-                @click="checkItem(meal.name)"
+                @click="setMealPlanned(meal)"
               >
                 <font-awesome-icon
                   :icon="['fas', 'check']"
@@ -167,13 +167,13 @@
       </div>
       <transition name="slide-fade">
         <div class="container">
-          <div v-for="(entry, index) in filteredItemsByFirstLetter" :key="index">
+          <div v-for="(entry) in filteredItemsByFirstLetter" :key="entry.name">
             <div class="mt-5 mb-3"><strong>{{ entry[0] }}</strong></div>
             <transition-group name="slide-fade">
             <div
               class="row px-3 hover-zoom"
               v-for="meal in entry.filter(item => item.name)"
-              :key="meal.id + meal.name"
+              :key="meal.id"
             >
               <div class="col-10 text-nowrap overflow-hidden px-0 mx-0">
                 <button
@@ -182,8 +182,8 @@
                   :class="
                     meal.planned ? 'btn-success' : 'btn-outline-secondary'
                   "
-                  :key="meal.id + meal.name"
-                  @click="push(meal.name)"
+                  :key="meal.id"
+                  @click="setMealPlanned(meal)"
                 >
                   {{ meal.name }}
                 </button>
@@ -214,7 +214,7 @@
                     align-bottom
                     delete-item-btn
                   "
-                  @click="deleteItem({ array: listData, element: meal.name })"
+                  @click="deleteMeal(meal)"
                 >
                   <font-awesome-icon
                     :icon="['fas', 'trash-alt']"
@@ -227,7 +227,7 @@
           </transition-group>
         </div>
           <div class="d-flex justify-content-end my-4">
-            <button v-if="cookBook.length >= 1" class="btn btn-outline-secondary mx-2 mb-1" @click="deleteCookbook">
+            <button v-if="sortedItems.length >= 1" class="btn btn-outline-secondary mx-2 mb-1" @click="deleteCookbook">
               <font-awesome-icon :icon="['fas', 'trash-alt']" class="trash-icon-item" /> Delete all
             </button>
           </div>
@@ -241,23 +241,8 @@
 <script>
 export default {
   name: "CookBook",
-  props: {
-    cookBook: {
-      type: Array,
-    },
-    push: {
-      type: Function,
-    },
-    checkItem: {
-      type: Function,
-    },
-    deleteItem: {
-      type: Function,
-    },
-  },
   data() {
     return {
-      listData: this.cookBook,
       search: "",
       newMeal: "",
       newIngredient: "",
@@ -267,8 +252,7 @@ export default {
   },
   computed: {
     sortedItems: function () {
-      let sortedArray = this.listData
-      return sortedArray.sort((a, b) => a.name.localeCompare(b.name))
+      return this.$store.getters.getMealPlan
     },
     filteredItems: function () {
       return this.sortedItems.filter((item) => {
@@ -276,27 +260,30 @@ export default {
       });
     },
     plannedItems: function () {
-      return this.cookBook.filter((item) => item.planned == true);
+      return this.sortedItems.filter((item) => item.planned == true);
     },
     filteredItemsByFirstLetter: function () {
-      return this.splitUpAndSortByFirstLetter(this.sortedItems)
+      return this.$store.getters.getSplitMealsByFirstLetter
     }
   },
-  watch: {
-    cookBook() {
-      this.listData = this.cookBook;
-    },
-  },
   methods: {
+    setMealPlanned: function (element) {
+      const clonedGroceryList = [...this.sortedItems]
+      const index = clonedGroceryList
+        .map(function (element) {
+          return element.name;
+        })
+        .indexOf(element.name);
+      this.$store.commit("setMealPlanned", index)
+    },
     copyList: function () {
       navigator.clipboard.writeText(this.plannedItems.map(item => item.name).join("\n"))
-      console.log(this.plannedItems.map(item => item.name).join("\n"))
       this.$toast("Copied list to clipboard")
     },
     formSubmit(event) {
       event.preventDefault();
       if (this.newMeal.length > 0) {
-        this.$emit("submit", this.newMeal, this.ingredients);
+        this.$store.commit("addNewMeal", { mealName: this.newMeal, ingredients: this.ingredients})
         this.newMeal = "";
         this.ingredients = [];
       }
@@ -306,11 +293,14 @@ export default {
         this.$refs.search.focus();
       }, 10);
     },
+    deleteMeal: function (meal) {
+      this.$store.commit("deleteSingleMeal", meal)
+    },
     deleteCookbook: function () {
       let confirmed = confirm("Do you really want to delete your list?")
       if (confirmed) {
         // this.cookBook = []
-        localStorage.removeItem("cookbook")
+        localStorage.removeItem("mealPlan")
         this.$toast("Cookbook was deleted")
         this.$emit('cb-deleted')
       }
@@ -323,19 +313,6 @@ export default {
     deleteIngredient(ingredient) {
       let index = this.ingredients.indexOf(ingredient);
       this.ingredients.splice(index, 1);
-    },
-    splitUpAndSortByFirstLetter(itemList) {
-      itemList.map(item => {
-        const firstLetter = item.name.charAt(0).toUpperCase()
-        const index = this.entriesByFirstLetter.findIndex((arr) => arr[0] === firstLetter)
-
-        if (index === -1) {
-          this.entriesByFirstLetter.push([firstLetter, item])
-        } else {
-          this.entriesByFirstLetter[index].push(item)
-        }
-      })
-      return this.entriesByFirstLetter
     },
   },
 };

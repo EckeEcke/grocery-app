@@ -51,12 +51,12 @@ export default new Vuex.Store({
     },
     mutations: {
       setGroceryList(state, newList){
-        if (newList === undefined) return
+        if (!newList) return
         state.groceryList = newList
         localStorage.setItem("grocerylist", JSON.stringify(state.groceryList))
       },
       setMealPlan(state, newPlan){
-        if (newPlan === undefined) return
+        if (!newPlan) return
         state.mealPlan = newPlan
         localStorage.setItem("mealPlan", JSON.stringify(state.mealPlan))
       },

@@ -171,6 +171,8 @@ export default {
     })
     this.$refs.app.addEventListener('touchstart', this.handleTouchStart, false)
     this.$refs.app.addEventListener('touchend', this.handleTouchEnd, false)
+    const urlParams = new URLSearchParams(window.location.search)
+    if(urlParams.get('view') === 'mealplan') this.cookbookShown = true
   },
   methods: {
     showMenu: function () {
@@ -224,8 +226,12 @@ export default {
     }
   },
   watch: {
-    cookbookShown() {
+    cookbookShown(val) {
       window.scrollTo({ top: 0, behavior: 'instant' })
+      const url = new URL(window.location.href)
+      if (val === true) url.searchParams.set('view', 'mealplan') 
+      if (val === false) url.searchParams.set('view', 'grocerylist')
+      window.history.replaceState(null, null, url)
     }
   },
 };
